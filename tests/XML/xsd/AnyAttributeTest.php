@@ -15,6 +15,7 @@ use SimpleSAML\XML\TestUtils\SerializableElementTestTrait;
 use SimpleSAML\XML\XsNamespace as NS;
 use SimpleSAML\XML\XsProcess;
 use SimpleSAML\XSD\XML\xsd\AbstractAnnotated;
+use SimpleSAML\XSD\XML\xsd\AbstractOpenAttrs;
 use SimpleSAML\XSD\XML\xsd\AbstractWildcard;
 use SimpleSAML\XSD\XML\xsd\AbstractXsdElement;
 use SimpleSAML\XSD\XML\xsd\Annotation;
