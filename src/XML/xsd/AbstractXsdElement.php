@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace SimpleSAML\XSD\XML\xsd;
 
-use SimpleSAML\XML\Constants as C;
 use SimpleSAML\XML\AbstractElement;
+use SimpleSAML\XML\Constants as C;
 
 /**
  * Abstract class to be implemented by all the classes in this namespace

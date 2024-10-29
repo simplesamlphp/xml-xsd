@@ -7,7 +7,7 @@ namespace SimpleSAML\XSD\XML\xsd;
 use DOMElement;
 use DOMNodeList;
 use SimpleSAML\Assert\Assert;
-use SimpleSAML\XML\Exception\SchemaViolationException;
+use SimpleSAML\XML\Exception\InvalidDOMElementException;
 use SimpleSAML\XML\ExtendableAttributesTrait;
 use SimpleSAML\XML\XsNamespace as NS;
 
@@ -73,7 +73,7 @@ final class Appinfo extends AbstractXsdElement
      */
     public function isEmptyElement(): bool
     {
-        return empty($this->getContent())
+        return $this->getContent()->count() === 0
             && empty($this->getSource())
             && empty($this->getAttributesNS());
     }

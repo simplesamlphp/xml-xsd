@@ -8,12 +8,12 @@ use DOMText;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
-use SimpleSAML\XSD\XML\xsd\AbstractXsdElement;
-use SimpleSAML\XSD\XML\xsd\Documentation;
 use SimpleSAML\XML\Attribute as XMLAttribute;
 use SimpleSAML\XML\DOMDocumentFactory;
 use SimpleSAML\XML\TestUtils\SchemaValidationTestTrait;
 use SimpleSAML\XML\TestUtils\SerializableElementTestTrait;
+use SimpleSAML\XSD\XML\xsd\AbstractXsdElement;
+use SimpleSAML\XSD\XML\xsd\Documentation;
 
 use function dirname;
 use function strval;

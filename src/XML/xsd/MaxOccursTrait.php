@@ -7,8 +7,6 @@ namespace SimpleSAML\XSD\XML\xsd;
 use SimpleSAML\Assert\Assert;
 use SimpleSAML\XML\Exception\SchemaViolationException;
 
-use is_int;
-
 /**
  * Trait grouping common functionality for elements that can hold a maxOccurs attribute.
  *

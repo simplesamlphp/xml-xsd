@@ -6,7 +6,6 @@ namespace SimpleSAML\XSD\XML\xsd;
 
 use DOMElement;
 use SimpleSAML\Assert\Assert;
-use SimpleSAML\XML\Exception\InvalidDOMElementException;
 use SimpleSAML\XML\Exception\SchemaViolationException;
 
 /**
@@ -65,7 +64,7 @@ abstract class AbstractAnnotated extends AbstractOpenAttrs
     {
         return parent::isEmptyElement() &&
             empty($this->getAnnotation()) &&
-            empty($this->id());
+            empty($this->getId());
     }
 
 

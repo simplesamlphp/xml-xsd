@@ -11,10 +11,12 @@ use SimpleSAML\XML\Exception\SchemaViolationException;
 use SimpleSAML\XML\XsNamespace as NS;
 use SimpleSAML\XML\XsProcess;
 
+use function array_column;
 use function array_diff;
-use function array_php;
+use function array_pop;
 use function explode;
 use function in_array;
+use function is_string;
 
 /**
  * Abstract class representing the wildcard-type.
@@ -82,7 +84,7 @@ abstract class AbstractWildcard extends AbstractAnnotated
     {
         return parent::isEmptyElement() &&
             empty($this->getNamespace()) &&
-            empty($this->processContents());
+            empty($this->getProcessContents());
     }
 
 
@@ -101,7 +103,7 @@ abstract class AbstractWildcard extends AbstractAnnotated
         Assert::same($xml->namespaceURI, static::NS, InvalidDOMElementException::class);
 
         $namespace = self::getOptionalAttribute($xml, 'namespace', null);
-        if (in_array($namespace, NS::cases(), true)) {
+        if (in_array($namespace, array_column(NS::cases(), 'value'), true)) {
             $namespace = NS::from($namespace);
         }
 
@@ -133,7 +135,10 @@ abstract class AbstractWildcard extends AbstractAnnotated
         $e = parent::toXML($parent);
 
         if ($this->getNamespace() !== null) {
-            $e->setAttribute('namespace', is_string($this->getNamespace()) ? $this->getNamespace() : $this->getNamespace()->value);
+            $e->setAttribute(
+                'namespace',
+                is_string($this->getNamespace()) ? $this->getNamespace() : $this->getNamespace()->value,
+            );
         }
 
         if ($this->getProcessContents() !== null) {
