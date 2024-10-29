@@ -41,7 +41,7 @@ final class DocumentationTest extends TestCase
         self::$schemaFile = dirname(__FILE__, 4) . '/resources/schemas/XMLSchema.xsd';
 
         self::$xmlRepresentation = DOMDocumentFactory::fromFile(
-            dirname(__FILE__, 3) . '/resources/xml/xsd/documentation.xml',
+            dirname(__FILE__, 3) . '/resources/xml/documentation.xml',
         );
     }
 

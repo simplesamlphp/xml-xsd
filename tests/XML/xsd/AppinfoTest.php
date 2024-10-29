@@ -41,7 +41,7 @@ final class AppinfoTest extends TestCase
         self::$schemaFile = dirname(__FILE__, 4) . '/resources/schemas/XMLSchema.xsd';
 
         self::$xmlRepresentation = DOMDocumentFactory::fromFile(
-            dirname(__FILE__, 3) . '/resources/xml/xsd/appinfo.xml',
+            dirname(__FILE__, 3) . '/resources/xml/appinfo.xml',
         );
     }
 

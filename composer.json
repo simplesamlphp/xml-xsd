@@ -13,7 +13,7 @@
     ],
     "autoload": {
         "psr-4": {
-            "SimpleSAML\\XSD\\": "src/XML/xsd"
+            "SimpleSAML\\XSD\\": "src"
         }
     },
     "autoload-dev": {
