@@ -1,0 +1,52 @@
+{
+    "name": "simplesamlphp/xml-xsd",
+    "description": "A library with classes and utilities for handling XML schemas.",
+    "type": "simplesamlphp-xmlprovider",
+    "keywords": ["xml", "xsd", "schema"],
+    "homepage": "http://simplesamlphp.org",
+    "license": "LGPL-2.1-or-later",
+    "authors": [
+        {
+            "name": "Tim van Dijen",
+            "email": "tvdijen@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "SimpleSAML\\XSD\\": "src/XML/xsd"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "SimpleSAML\\XSD\\Test\\XML\\": ["tests/XML"]
+        }
+    },
+    "require": {
+        "php": "^8.1",
+        "ext-date": "*",
+        "ext-dom": "*",
+        "ext-libxml": "*",
+        "ext-pcre": "*",
+        "ext-spl": "*",
+        "ext-xmlreader": "*",
+
+        "simplesamlphp/assert": "^1.4",
+        "simplesamlphp/composer-xmlprovider-installer": "~1.0.0",
+        "simplesamlphp/xml-common": "^1.18"
+    },
+    "require-dev": {
+        "simplesamlphp/simplesamlphp-test-framework": "^1.7"
+    },
+    "support": {
+        "issues": "https://github.com/simplesamlphp/xml-xsd/issues",
+        "source": "https://github.com/simplesamlphp/xml-xsd"
+    },
+    "config": {
+        "allow-plugins": {
+            "composer/package-versions-deprecated": true,
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "phpstan/extension-installer": true,
+            "simplesamlphp/composer-xmlprovider-installer": true
+        }
+    }
+}
