@@ -17,17 +17,17 @@ trait MinOccursTrait
     /**
      * The minOccurs.
      *
-     * @var non-negative-int
+     * @var non-negative-int|null
      */
-    protected int $minOccurs;
+    protected ?int $minOccurs;
 
 
     /**
      * Collect the value of the minOccurs-property
      *
-     * @return non-negative-int
+     * @return non-negative-int|null
      */
-    public function getMinOccurs(): int
+    public function getMinOccurs(): ?int
     {
         return $this->minOccurs;
     }
@@ -36,12 +36,12 @@ trait MinOccursTrait
     /**
      * Set the value of the minOccurs-property
      *
-     * @param string|non-negative-int $minOccurs
+     * @param non-negative-int $minOccurs
      */
-    protected function setMinOccurs(string|int $MinOccurs): void
+    protected function setMinOccurs(?int $minOccurs): void
     {
-        Assert::positiveInteger($MinOccurs, SchemaViolationException::class);
+        Assert::nullOrPositiveInteger($minOccurs, SchemaViolationException::class);
 
-        $this->MinOccurs = $minOccurs;
+        $this->minOccurs = $minOccurs;
     }
 }
