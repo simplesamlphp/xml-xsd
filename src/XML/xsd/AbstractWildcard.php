@@ -6,16 +6,12 @@ namespace SimpleSAML\XSD\XML\xsd;
 
 use DOMElement;
 use SimpleSAML\Assert\Assert;
-use SimpleSAML\XML\Exception\InvalidDOMElementException;
 use SimpleSAML\XML\Exception\SchemaViolationException;
 use SimpleSAML\XML\XsNamespace as NS;
 use SimpleSAML\XML\XsProcess;
 
-use function array_column;
 use function array_diff;
-use function array_pop;
 use function explode;
-use function in_array;
 use function is_string;
 
 /**
@@ -34,7 +30,7 @@ abstract class AbstractWildcard extends AbstractAnnotated
      * @param string|null $id
      * @param array<\SimpleSAML\XML\Attribute> $namespacedAttributes
      */
-    final public function __construct(
+    public function __construct(
         protected NS|string|null $namespace = NS::ANY,
         protected ?XsProcess $processContents = XsProcess::STRICT,
         ?Annotation $annotation = null,
@@ -85,42 +81,6 @@ abstract class AbstractWildcard extends AbstractAnnotated
         return parent::isEmptyElement() &&
             empty($this->getNamespace()) &&
             empty($this->getProcessContents());
-    }
-
-
-    /**
-     * Create an instance of this object from its XML representation.
-     *
-     * @param \DOMElement $xml
-     * @return static
-     *
-     * @throws \SimpleSAML\XML\Exception\InvalidDOMElementException
-     *   if the qualified name of the supplied element is wrong
-     */
-    public static function fromXML(DOMElement $xml): static
-    {
-        Assert::same($xml->localName, static::getLocalName(), InvalidDOMElementException::class);
-        Assert::same($xml->namespaceURI, static::NS, InvalidDOMElementException::class);
-
-        $namespace = self::getOptionalAttribute($xml, 'namespace', null);
-        if (in_array($namespace, array_column(NS::cases(), 'value'), true)) {
-            $namespace = NS::from($namespace);
-        }
-
-        $processContents = self::getOptionalAttribute($xml, 'processContents', null);
-        if ($processContents !== null) {
-            $processContents = XsProcess::from($processContents);
-        }
-
-        $annotation = Annotation::getChildrenOfClass($xml);
-
-        return new static(
-            $namespace,
-            $processContents,
-            array_pop($annotation),
-            self::getOptionalAttribute($xml, 'id', null),
-            self::getAttributesNSFromXML($xml),
-        );
     }
 
 
