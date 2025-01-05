@@ -47,8 +47,6 @@ final class MaxExclusiveTest extends TestCase
     {
         self::$testedClass = MaxExclusive::class;
 
-        self::$schemaFile = dirname(__FILE__, 4) . '/resources/schemas/XMLSchema.xsd';
-
         self::$xmlRepresentation = DOMDocumentFactory::fromFile(
             dirname(__FILE__, 3) . '/resources/xml/maxExclusive.xml',
         );
@@ -103,11 +101,11 @@ final class MaxExclusiveTest extends TestCase
         $annotation = new Annotation(
             [$appinfo1, $appinfo2],
             [$documentation1, $documentation2],
-            'phpunit',
+            'phpunit_annotation',
             [$attr3],
         );
 
-        $maxExclusive = new MaxExclusive('dummy', true, $annotation, 'phpunit', [$attr4]);
+        $maxExclusive = new MaxExclusive('dummy', true, $annotation, 'phpunit_maxexclusive', [$attr4]);
 
         $this->assertEquals(
             self::$xmlRepresentation->saveXML(self::$xmlRepresentation->documentElement),

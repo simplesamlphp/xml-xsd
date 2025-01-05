@@ -47,8 +47,6 @@ final class EnumerationTest extends TestCase
     {
         self::$testedClass = Enumeration::class;
 
-        self::$schemaFile = dirname(__FILE__, 4) . '/resources/schemas/XMLSchema.xsd';
-
         self::$xmlRepresentation = DOMDocumentFactory::fromFile(
             dirname(__FILE__, 3) . '/resources/xml/enumeration.xml',
         );
@@ -103,11 +101,11 @@ final class EnumerationTest extends TestCase
         $annotation = new Annotation(
             [$appinfo1, $appinfo2],
             [$documentation1, $documentation2],
-            'phpunit',
+            'phpunit_annotation',
             [$attr3],
         );
 
-        $enumeration = new Enumeration('dummy', $annotation, 'phpunit', [$attr4]);
+        $enumeration = new Enumeration('dummy', $annotation, 'phpunit_enumeration', [$attr4]);
 
         $this->assertEquals(
             self::$xmlRepresentation->saveXML(self::$xmlRepresentation->documentElement),

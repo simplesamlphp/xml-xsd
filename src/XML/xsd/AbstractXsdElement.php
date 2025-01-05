@@ -19,4 +19,7 @@ abstract class AbstractXsdElement extends AbstractElement
 
     /** @var string */
     public const NS_PREFIX = 'xsd';
+
+    /** @var string */
+    public const SCHEMA = 'resources/schemas/XMLSchema.xsd';
 }

@@ -42,8 +42,6 @@ final class AnnotationTest extends TestCase
     {
         self::$testedClass = Annotation::class;
 
-        self::$schemaFile = dirname(__FILE__, 4) . '/resources/schemas/XMLSchema.xsd';
-
         self::$xmlRepresentation = DOMDocumentFactory::fromFile(
             dirname(__FILE__, 3) . '/resources/xml/annotation.xml',
         );

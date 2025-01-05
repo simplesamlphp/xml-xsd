@@ -7,6 +7,7 @@ namespace SimpleSAML\XSD\XML\xsd;
 use DOMElement;
 use SimpleSAML\Assert\Assert;
 use SimpleSAML\XML\Exception\InvalidDOMElementException;
+use SimpleSAML\XML\{SchemaValidatableElementInterface, SchemaValidatableElementTrait};
 
 use function array_pop;
 
@@ -15,8 +16,10 @@ use function array_pop;
  *
  * @package simplesamlphp/xml-xsd
  */
-final class MaxInclusive extends AbstractFacet
+final class MaxInclusive extends AbstractFacet implements SchemaValidatableElementInterface
 {
+    use SchemaValidatableElementTrait;
+
     /** @var string */
     public const LOCALNAME = 'maxInclusive';
 
