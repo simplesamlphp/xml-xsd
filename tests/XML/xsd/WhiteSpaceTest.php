@@ -47,8 +47,6 @@ final class WhiteSpaceTest extends TestCase
     {
         self::$testedClass = WhiteSpace::class;
 
-        self::$schemaFile = dirname(__FILE__, 4) . '/resources/schemas/XMLSchema.xsd';
-
         self::$xmlRepresentation = DOMDocumentFactory::fromFile(
             dirname(__FILE__, 3) . '/resources/xml/whiteSpace.xml',
         );
@@ -103,11 +101,11 @@ final class WhiteSpaceTest extends TestCase
         $annotation = new Annotation(
             [$appinfo1, $appinfo2],
             [$documentation1, $documentation2],
-            'phpunit',
+            'phpunit_annotation',
             [$attr3],
         );
 
-        $whiteSpace = new WhiteSpace('collapse', true, $annotation, 'phpunit', [$attr4]);
+        $whiteSpace = new WhiteSpace('collapse', true, $annotation, 'phpunit_whitespace', [$attr4]);
 
         $this->assertEquals(
             self::$xmlRepresentation->saveXML(self::$xmlRepresentation->documentElement),

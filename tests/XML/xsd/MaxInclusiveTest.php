@@ -47,8 +47,6 @@ final class MaxInclusiveTest extends TestCase
     {
         self::$testedClass = MaxInclusive::class;
 
-        self::$schemaFile = dirname(__FILE__, 4) . '/resources/schemas/XMLSchema.xsd';
-
         self::$xmlRepresentation = DOMDocumentFactory::fromFile(
             dirname(__FILE__, 3) . '/resources/xml/maxInclusive.xml',
         );
@@ -103,11 +101,11 @@ final class MaxInclusiveTest extends TestCase
         $annotation = new Annotation(
             [$appinfo1, $appinfo2],
             [$documentation1, $documentation2],
-            'phpunit',
+            'phpunit_annotation',
             [$attr3],
         );
 
-        $maxInclusive = new MaxInclusive('dummy', true, $annotation, 'phpunit', [$attr4]);
+        $maxInclusive = new MaxInclusive('dummy', true, $annotation, 'phpunit_maxinclusive', [$attr4]);
 
         $this->assertEquals(
             self::$xmlRepresentation->saveXML(self::$xmlRepresentation->documentElement),

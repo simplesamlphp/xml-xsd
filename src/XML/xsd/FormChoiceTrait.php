@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace SimpleSAML\XSD\XML\xsd;
 
-use SimpleSAML\Assert\Assert;
-use SimpleSAML\XML\Exception\SchemaViolationException;
-
 /**
  * Trait grouping common functionality for elements that can hold a formChoice attribute.
  *
@@ -40,7 +37,6 @@ trait FormChoiceTrait
      */
     protected function setFormChoice(FormChoiceEnum $formChoice): void
     {
-        Assert::regex($formChoice, '/\c+/', SchemaViolationException::class);
         $this->formChoice = $formChoice;
     }
 }

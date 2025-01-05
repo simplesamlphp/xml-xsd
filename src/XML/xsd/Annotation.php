@@ -8,14 +8,17 @@ use DOMElement;
 use SimpleSAML\Assert\Assert;
 use SimpleSAML\XML\Exception\InvalidDOMElementException;
 use SimpleSAML\XML\Exception\SchemaViolationException;
+use SimpleSAML\XML\{SchemaValidatableElementInterface, SchemaValidatableElementTrait};
 
 /**
  * Class representing the Annotation-element.
  *
  * @package simplesamlphp/xml-xsd
  */
-final class Annotation extends AbstractOpenAttrs
+final class Annotation extends AbstractOpenAttrs implements SchemaValidatableElementInterface
 {
+    use SchemaValidatableElementTrait;
+
     /** @var string */
     public const LOCALNAME = 'annotation';
 

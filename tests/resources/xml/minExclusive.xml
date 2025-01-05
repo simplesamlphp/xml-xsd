@@ -1,5 +1,5 @@
-<xsd:minExclusive xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ssp="urn:x-simplesamlphp:namespace" ssp:attr4="value4" id="phpunit" value="dummy" fixed="true">
-  <xsd:annotation ssp:attr3="value3" id="phpunit">
+<xsd:minExclusive xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ssp="urn:x-simplesamlphp:namespace" ssp:attr4="value4" id="phpunit_minexclusive" value="dummy" fixed="true">
+  <xsd:annotation ssp:attr3="value3" id="phpunit_annotation">
     <xsd:appinfo source="urn:x-simplesamlphp:source" ssp:attr1="value1">Application Information</xsd:appinfo>
     <xsd:appinfo source="urn:x-simplesamlphp:source" ssp:attr2="value2">Other Application Information</xsd:appinfo>
     <xsd:documentation xmlns:xml="http://www.w3.org/XML/1998/namespace" source="urn:x-simplesamlphp:source" xml:lang="nl" ssp:attr1="value1">Some Documentation</xsd:documentation>

@@ -8,6 +8,7 @@ use DOMElement;
 use SimpleSAML\Assert\Assert;
 use SimpleSAML\XML\Exception\InvalidDOMElementException;
 use SimpleSAML\XML\Exception\SchemaViolationException;
+use SimpleSAML\XML\{SchemaValidatableElementInterface, SchemaValidatableElementTrait};
 
 use function array_pop;
 
@@ -16,8 +17,10 @@ use function array_pop;
  *
  * @package simplesamlphp/xml-xsd
  */
-final class WhiteSpace extends AbstractFacet
+final class WhiteSpace extends AbstractFacet implements SchemaValidatableElementInterface
 {
+    use SchemaValidatableElementTrait;
+
     /** @var string */
     public const LOCALNAME = 'whiteSpace';
 

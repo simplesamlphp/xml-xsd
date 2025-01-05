@@ -7,6 +7,7 @@ namespace SimpleSAML\XSD\XML\xsd;
 use DOMElement;
 use SimpleSAML\Assert\Assert;
 use SimpleSAML\XML\Exception\InvalidDOMElementException;
+use SimpleSAML\XML\{SchemaValidatableElementInterface, SchemaValidatableElementTrait};
 use SimpleSAML\XML\XsNamespace as NS;
 use SimpleSAML\XML\XsProcess;
 
@@ -22,9 +23,10 @@ use function strval;
  *
  * @package simplesamlphp/xml-xsd
  */
-final class Any extends AbstractWildcard
+final class Any extends AbstractWildcard implements SchemaValidatableElementInterface
 {
     use OccursTrait;
+    use SchemaValidatableElementTrait;
 
     /** @var string */
     public const LOCALNAME = 'any';

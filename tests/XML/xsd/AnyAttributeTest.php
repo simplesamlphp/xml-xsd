@@ -49,8 +49,6 @@ final class AnyAttributeTest extends TestCase
     {
         self::$testedClass = AnyAttribute::class;
 
-        self::$schemaFile = dirname(__FILE__, 4) . '/resources/schemas/XMLSchema.xsd';
-
         self::$xmlRepresentation = DOMDocumentFactory::fromFile(
             dirname(__FILE__, 3) . '/resources/xml/anyAttribute.xml',
         );
@@ -105,11 +103,11 @@ final class AnyAttributeTest extends TestCase
         $annotation = new Annotation(
             [$appinfo1, $appinfo2],
             [$documentation1, $documentation2],
-            'phpunit',
+            'phpunit_annotation',
             [$attr3],
         );
 
-        $anyAttribute = new AnyAttribute(NS::ANY, XsProcess::STRICT, $annotation, 'phpunit', [$attr4]);
+        $anyAttribute = new AnyAttribute(NS::ANY, XsProcess::STRICT, $annotation, 'phpunit_anyattribute', [$attr4]);
 
         $this->assertEquals(
             self::$xmlRepresentation->saveXML(self::$xmlRepresentation->documentElement),
