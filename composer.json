@@ -28,14 +28,13 @@
         "ext-libxml": "*",
         "ext-pcre": "*",
         "ext-spl": "*",
-        "ext-xmlreader": "*",
 
-        "simplesamlphp/assert": "~1.6.0",
+        "simplesamlphp/assert": "~1.7.0",
         "simplesamlphp/composer-xmlprovider-installer": "~1.0.0",
         "simplesamlphp/xml-common": "~1.23.2"
     },
     "require-dev": {
-        "simplesamlphp/simplesamlphp-test-framework": "^1.7"
+        "simplesamlphp/simplesamlphp-test-framework": "~1.8.0"
     },
     "support": {
         "issues": "https://github.com/simplesamlphp/xml-xsd/issues",
