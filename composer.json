@@ -29,9 +29,9 @@
         "ext-pcre": "*",
         "ext-spl": "*",
 
-        "simplesamlphp/assert": "~1.7.0",
+        "simplesamlphp/assert": "~1.8.1",
         "simplesamlphp/composer-xmlprovider-installer": "~1.0.0",
-        "simplesamlphp/xml-common": "~1.23.2"
+        "simplesamlphp/xml-common": "~1.24.0"
     },
     "require-dev": {
         "simplesamlphp/simplesamlphp-test-framework": "~1.8.0"
