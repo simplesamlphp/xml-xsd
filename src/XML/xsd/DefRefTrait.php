@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace SimpleSAML\XSD\XML\xsd;
 
-use SimpleSAML\Assert\Assert;
+use SimpleSAML\XML\Assert\Assert;
 use SimpleSAML\XML\Exception\SchemaViolationException;
 
 /**
