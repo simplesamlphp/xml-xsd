@@ -71,10 +71,10 @@ abstract class AbstractAnnotated extends AbstractOpenAttrs
     /**
      * Add this Annotated to an XML element.
      *
-     * @param \DOMElement $parent The element we should append this Annotated to.
+     * @param \DOMElement|null $parent The element we should append this Annotated to.
      * @return \DOMElement
      */
-    public function toXML(DOMElement $parent = null): DOMElement
+    public function toXML(?DOMElement $parent = null): DOMElement
     {
         $e = parent::toXML($parent);
 

@@ -115,10 +115,10 @@ final class Annotation extends AbstractOpenAttrs implements SchemaValidatableEle
     /**
      * Add this Annotation to an XML element.
      *
-     * @param \DOMElement $parent The element we should append this Annotation to.
+     * @param \DOMElement|null $parent The element we should append this Annotation to.
      * @return \DOMElement
      */
-    public function toXML(DOMElement $parent = null): DOMElement
+    public function toXML(?DOMElement $parent = null): DOMElement
     {
         $e = parent::toXML($parent);
 
