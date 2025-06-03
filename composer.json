@@ -30,7 +30,6 @@
         "ext-spl": "*",
 
         "simplesamlphp/assert": "~1.8.0",
-        "simplesamlphp/composer-xmlprovider-installer": "~1.0.1",
         "simplesamlphp/xml-common": "~1.25.0"
     },
     "require-dev": {
