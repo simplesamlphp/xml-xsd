@@ -57,7 +57,7 @@ final class MinInclusiveTest extends TestCase
 
 
     /**
-     * Test creating an MinExclusive object from scratch.
+     * Test creating an MinInclusive object from scratch.
      */
     public function testMarshalling(): void
     {
