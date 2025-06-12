@@ -7,7 +7,7 @@ namespace SimpleSAML\XSD\XML\xsd;
 use DOMElement;
 use SimpleSAML\XML\Assert\Assert;
 use SimpleSAML\XML\Exception\{InvalidDOMElementException, SchemaViolationException};
-use SimpleSAML\XML\Type\{BooleanValue, IDValue, IntegerValue};
+use SimpleSAML\XML\Type\{BooleanValue, IDValue, NonNegativeIntegerValue};
 use SimpleSAML\XML\Type\ValueTypeInterface;
 
 use function strval;
@@ -35,6 +35,8 @@ abstract class AbstractNumFacet extends AbstractFacet
         ?IDValue $id = null,
         array $namespacedAttributes = [],
     ) {
+        Assert::isInstanceOf($value, NonNegativeIntegerValue::class);
+
         parent::__construct($value, $fixed, $annotation, $id, $namespacedAttributes);
     }
 
@@ -56,7 +58,7 @@ abstract class AbstractNumFacet extends AbstractFacet
         $annotation = Annotation::getChildrenOfClass($xml);
 
         return new static(
-            self::getAttribute($xml, 'value', IntegerValue::class),
+            self::getAttribute($xml, 'value', NonNegativeIntegerValue::class),
             self::getOptionalAttribute($xml, 'fixed', BooleanValue::class, null),
             array_pop($annotation),
             self::getOptionalAttribute($xml, 'id', IDValue::class, null),

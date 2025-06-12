@@ -12,7 +12,7 @@ use SimpleSAML\XML\Attribute as XMLAttribute;
 use SimpleSAML\XML\Constants as C;
 use SimpleSAML\XML\DOMDocumentFactory;
 use SimpleSAML\XML\TestUtils\{SchemaValidationTestTrait, SerializableElementTestTrait};
-use SimpleSAML\XML\Type\{AnyURIValue, BooleanValue, IDValue, IntegerValue, StringValue};
+use SimpleSAML\XML\Type\{AnyURIValue, BooleanValue, IDValue, NonNegativeIntegerValue, StringValue};
 use SimpleSAML\XSD\XML\xsd\AbstractAnnotated;
 use SimpleSAML\XSD\XML\xsd\AbstractFacet;
 use SimpleSAML\XSD\XML\xsd\AbstractOpenAttrs;
@@ -116,7 +116,7 @@ final class MinLengthTest extends TestCase
         );
 
         $minLength = new MinLength(
-            IntegerValue::fromInteger(128),
+            NonNegativeIntegerValue::fromInteger(128),
             BooleanValue::fromBoolean(true),
             $annotation,
             IDValue::fromString('phpunit_minlength'),
