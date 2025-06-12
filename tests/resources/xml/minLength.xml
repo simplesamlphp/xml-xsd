@@ -1,4 +1,4 @@
-<xsd:minLength xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ssp="urn:x-simplesamlphp:namespace" ssp:attr4="value4" id="phpunit_minlength" value="dummy" fixed="true">
+<xsd:minLength xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ssp="urn:x-simplesamlphp:namespace" ssp:attr4="value4" id="phpunit_minlength" value="128" fixed="true">
   <xsd:annotation ssp:attr3="value3" id="phpunit_annotation">
     <xsd:appinfo source="urn:x-simplesamlphp:source" ssp:attr1="value1">Application Information</xsd:appinfo>
     <xsd:appinfo source="urn:x-simplesamlphp:source" ssp:attr2="value2">Other Application Information</xsd:appinfo>

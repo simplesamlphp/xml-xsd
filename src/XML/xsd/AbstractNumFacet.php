@@ -6,8 +6,9 @@ namespace SimpleSAML\XSD\XML\xsd;
 
 use DOMElement;
 use SimpleSAML\XML\Assert\Assert;
-use SimpleSAML\XML\Exception\InvalidDOMElementException;
-use SimpleSAML\XML\Exception\SchemaViolationException;
+use SimpleSAML\XML\Exception\{InvalidDOMElementException, SchemaViolationException};
+use SimpleSAML\XML\Type\{BooleanValue, IDValue, IntegerValue};
+use SimpleSAML\XML\Type\ValueTypeInterface;
 
 use function strval;
 
@@ -21,22 +22,20 @@ abstract class AbstractNumFacet extends AbstractFacet
     /**
      * NumFacet constructor
      *
-     * @param int $value
-     * @param bool $fixed
+     * @param \SimpleSAML\XML\Type\ValueTypeInterface $value
+     * @param \SimpleSAML\XML\Type\BooleanValue|null $fixed
      * @param \SimpleSAML\XSD\XML\xsd\Annotation|null $annotation
-     * @param string|null $id
+     * @param \SimpleSAML\XML\Type\IDValue|null $id
      * @param array<\SimpleSAML\XML\Attribute> $namespacedAttributes
      */
     final public function __construct(
-        protected int $value,
-        ?bool $fixed = false,
+        protected ValueTypeInterface $value,
+        ?BooleanValue $fixed = null,
         ?Annotation $annotation = null,
-        ?string $id = null,
+        ?IDValue $id = null,
         array $namespacedAttributes = [],
     ) {
-        Assert::eq($value, strval($value), SchemaViolationException::class);
-        Assert::natural($value, SchemaViolationException::class);
-        parent::__construct(strval($value), $fixed, $annotation, $id, $namespacedAttributes);
+        parent::__construct($value, $fixed, $annotation, $id, $namespacedAttributes);
     }
 
 
@@ -57,10 +56,10 @@ abstract class AbstractNumFacet extends AbstractFacet
         $annotation = Annotation::getChildrenOfClass($xml);
 
         return new static(
-            self::getIntegerAttribute($xml, 'value'),
-            self::getOptionalBooleanAttribute($xml, 'fixed', null),
+            self::getAttribute($xml, 'value', IntegerValue::class),
+            self::getOptionalAttribute($xml, 'fixed', BooleanValue::class, null),
             array_pop($annotation),
-            self::getOptionalAttribute($xml, 'id', null),
+            self::getOptionalAttribute($xml, 'id', IDValue::class, null),
             self::getAttributesNSFromXML($xml),
         );
     }

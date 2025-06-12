@@ -6,8 +6,8 @@ namespace SimpleSAML\XSD\XML\xsd;
 
 use DOMElement;
 use SimpleSAML\XML\ExtendableAttributesTrait;
-use SimpleSAML\XML\XsNamespace;
 //use SimpleSAML\XSD\XML\xsd\NamespaceEnum;
+use SimpleSAML\XML\XsNamespace;
 
 /**
  * Abstract class to be implemented by all the classes that use the openAttrs complex type

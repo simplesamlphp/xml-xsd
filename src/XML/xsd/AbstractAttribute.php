@@ -7,6 +7,9 @@ namespace SimpleSAML\XSD\XML\xsd;
 use DOMElement;
 use SimpleSAML\XML\Assert\Assert;
 use SimpleSAML\XML\Exception\SchemaViolationException;
+use SimpleSAML\XML\Type\{IDValue, NCNameValue, QNameValue};
+
+use function strval;
 
 /**
  * Abstract class representing the attribute-type.
@@ -22,8 +25,8 @@ abstract class AbstractAttribute extends AbstractAnnotated
     /**
      * Attribute constructor
      *
-     * @param string $name
-     * @param string $reference
+     * @param \SimpleSAML\XML\Type\NCNameValue $name
+     * @param \SimpleSAML\XML\Type\QNameValue $reference
      * @param string $type
      * @param string|null $use
      * @param string|null $default
@@ -31,12 +34,12 @@ abstract class AbstractAttribute extends AbstractAnnotated
      * @param \SimpleSAML\XSD\XML\xsd\FormChoiceEnum|null $formChoice
      * @param array $simpleType
      * @param \SimpleSAML\XSD\XML\xsd\Annotation|null $annotation
-     * @param string|null $id
+     * @param \SimpleSAML\XML\Type\IDValue|null $id
      * @param array<\SimpleSAML\XML\Attribute> $namespacedAttributes
      */
     public function __construct(
-        string $name,
-        string $reference,
+        NCNameValue $name,
+        QNameValue $reference,
         protected string $type,
         protected ?string $use = null,
         protected ?string $default = null,
@@ -44,7 +47,7 @@ abstract class AbstractAttribute extends AbstractAnnotated
         protected ?FormChoiceEnum $formChoice = null,
         protected array $simpleType = [],
         ?Annotation $annotation = null,
-        ?string $id = null,
+        ?IDValue $id = null,
         array $namespacedAttributes = [],
     ) {
         Assert::validQName($type, SchemaViolationException::class);
@@ -123,8 +126,8 @@ abstract class AbstractAttribute extends AbstractAnnotated
     {
         $e = parent::toXML($parent);
 
-        $e->setAttribute('name', $this->getName());
-        $e->setAttribute('reference', $this->getReference());
+        $e->setAttribute('name', strval($this->getName()));
+        $e->setAttribute('reference', strval($this->getReference()));
         $e->setAttribute('type', $this->getType());
 
         if ($this->getUse() !== null) {

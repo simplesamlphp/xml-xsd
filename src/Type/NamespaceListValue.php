@@ -8,8 +8,8 @@ use SimpleSAML\XML\Assert\Assert;
 use SimpleSAML\XML\Constants as C;
 use SimpleSAML\XML\Exception\SchemaViolationException;
 use SimpleSAML\XML\Type\AbstractValueType;
-use SimpleSAML\XML\XsNamespace;
 //use SimpleSAML\XSD\XML\xsd\NamespaceEnum;
+use SimpleSAML\XML\XsNamespace;
 
 use function explode;
 
@@ -33,7 +33,7 @@ class NamespaceListValue extends AbstractValueType
     {
         $sanitized = $this->sanitizeValue($value);
 
-        if ($sanitized !== XsNamespace::ANY && $sanitized !== XsNamespace::OTHER) {
+        if ($sanitized !== XsNamespace::ANY->value && $sanitized !== XsNamespace::OTHER->value) {
 //        if ($sanitized !== NamespaceEnum::Any && $sanitized !== NamespaceEnum::Other) {
             $list = explode(' ', $sanitized, C::UNBOUNDED_LIMIT);
 
