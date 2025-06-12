@@ -4,11 +4,7 @@ declare(strict_types=1);
 
 namespace SimpleSAML\XSD\XML\xsd;
 
-use SimpleSAML\Assert\Assert;
-use SimpleSAML\XML\Exception\SchemaViolationException;
-
-use function is_int;
-use function is_string;
+use SimpleSAML\XSD\Type\MaxOccursValue;
 
 /**
  * Trait grouping common functionality for elements that can hold a maxOccurs attribute.
@@ -20,17 +16,17 @@ trait MaxOccursTrait
     /**
      * The maxOccurs.
      *
-     * @var string|non-negative-int|null
+     * @var \SimpleSAML\XSD\Type\MaxOccursValue|null
      */
-    protected string|int|null $maxOccurs;
+    protected ?MaxOccursValue $maxOccurs = null;
 
 
     /**
      * Collect the value of the maxOccurs-property
      *
-     * @return string|non-negative-int|null
+     * @return \SimpleSAML\XSD\Type\MaxOccursValue|null
      */
-    public function getMaxOccurs(): string|int|null
+    public function getMaxOccurs(): ?MaxOccursValue
     {
         return $this->maxOccurs;
     }
@@ -39,16 +35,10 @@ trait MaxOccursTrait
     /**
      * Set the value of the maxOccurs-property
      *
-     * @param string|non-negative-int|null $maxOccurs
+     * @param \SimpleSAML\XSD\Type\MaxOccursValue|null $maxOccurs
      */
-    protected function setMaxOccurs(string|int|null $maxOccurs): void
+    protected function setMaxOccurs(?MaxOccursValue $maxOccurs): void
     {
-        if (is_int($maxOccurs)) {
-            Assert::positiveInteger($maxOccurs, SchemaViolationException::class);
-        } elseif (is_string($maxOccurs)) {
-            Assert::same($maxOccurs, 'unbounded', SchemaViolationException::class);
-        }
-
         $this->maxOccurs = $maxOccurs;
     }
 }

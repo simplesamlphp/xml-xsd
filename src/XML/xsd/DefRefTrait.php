@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace SimpleSAML\XSD\XML\xsd;
 
-use SimpleSAML\XML\Assert\Assert;
-use SimpleSAML\XML\Exception\SchemaViolationException;
+use SimpleSAML\XML\Type\{NCNameValue, QNameValue};
 
 /**
  * Trait grouping common functionality for elements that use the defRef-attributeGroup.
@@ -17,25 +16,25 @@ trait DefRefTrait
     /**
      * The name.
      *
-     * @var string
+     * @var \SimpleSAML\XML\Type\NCNameValue
      */
-    protected string $name;
+    protected NCNameValue $name;
 
 
     /**
      * The reference.
      *
-     * @var string
+     * @var \SimpleSAML\XML\Type\QNameValue
      */
-    protected string $reference;
+    protected QNameValue $reference;
 
 
     /**
      * Collect the value of the name-property
      *
-     * @return string
+     * @return \SimpleSAML\XML\Type\NCNameValue
      */
-    public function getName(): string
+    public function getName(): NCNameValue
     {
         return $this->name;
     }
@@ -44,12 +43,10 @@ trait DefRefTrait
     /**
      * Set the value of the name-property
      *
-     * @param string $name
+     * @param \SimpleSAML\XML\Type\NCNameValue $name
      */
-    protected function setName(string $name): void
+    protected function setName(NCNameValue $name): void
     {
-        Assert::validNCName($name, SchemaViolationException::class);
-
         $this->name = $name;
     }
 
@@ -57,9 +54,9 @@ trait DefRefTrait
     /**
      * Collect the value of the reference-property
      *
-     * @return string
+     * @return \SimpleSAML\XML\Type\QNameValue
      */
-    public function getReference(): string
+    public function getReference(): QNameValue
     {
         return $this->reference;
     }
@@ -68,12 +65,10 @@ trait DefRefTrait
     /**
      * Set the value of the reference-property
      *
-     * @param string $reference
+     * @param \SimpleSAML\XML\Type\QNameValue $reference
      */
-    protected function setReference(string $reference): void
+    protected function setReference(QNameValue $reference): void
     {
-        Assert::validQName($reference, SchemaViolationException::class);
-
         $this->reference = $reference;
     }
 }

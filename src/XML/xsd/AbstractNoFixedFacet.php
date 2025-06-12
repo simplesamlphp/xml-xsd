@@ -7,6 +7,8 @@ namespace SimpleSAML\XSD\XML\xsd;
 use DOMElement;
 use SimpleSAML\Assert\Assert;
 use SimpleSAML\XML\Exception\InvalidDOMElementException;
+use SimpleSAML\XML\Type\{IDValue, StringValue};
+use SimpleSAML\XML\Type\ValueTypeInterface;
 
 use function array_pop;
 
@@ -20,15 +22,15 @@ abstract class AbstractNoFixedFacet extends AbstractFacet
     /**
      * NoFixedFacet constructor
      *
-     * @param string $value
+     * @param \SimpleSAML\XML\Type\ValueTypeInterface $value
      * @param \SimpleSAML\XSD\XML\xsd\Annotation|null $annotation
-     * @param string|null $id
+     * @param \SimpleSAML\XML\Type\IDValue|null $id
      * @param array<\SimpleSAML\XML\Attribute> $namespacedAttributes
      */
     final public function __construct(
-        string $value,
+        ValueTypeInterface $value,
         ?Annotation $annotation = null,
-        ?string $id = null,
+        ?IDValue $id = null,
         array $namespacedAttributes = [],
     ) {
         parent::__construct($value, null, $annotation, $id, $namespacedAttributes);
@@ -52,9 +54,9 @@ abstract class AbstractNoFixedFacet extends AbstractFacet
         $annotation = Annotation::getChildrenOfClass($xml);
 
         return new static(
-            self::getAttribute($xml, 'value'),
+            self::getAttribute($xml, 'value', StringValue::class),
             array_pop($annotation),
-            self::getOptionalAttribute($xml, 'id', null),
+            self::getOptionalAttribute($xml, 'id', IDValue::class, null),
             self::getAttributesNSFromXML($xml),
         );
     }

@@ -7,8 +7,9 @@ namespace SimpleSAML\XSD\XML\xsd;
 use DOMElement;
 use SimpleSAML\Assert\Assert;
 use SimpleSAML\XML\Exception\InvalidDOMElementException;
-use SimpleSAML\XML\Exception\SchemaViolationException;
 use SimpleSAML\XML\{SchemaValidatableElementInterface, SchemaValidatableElementTrait};
+use SimpleSAML\XML\Type\{BooleanValue, IDValue};
+use SimpleSAML\XSD\Type\WhiteSpaceValue;
 
 use function array_pop;
 
@@ -28,20 +29,19 @@ final class WhiteSpace extends AbstractFacet implements SchemaValidatableElement
     /**
      * WhiteSpace constructor
      *
-     * @param string $value
-     * @param bool $fixed
+     * @param \SimpleSAML\XSD\Type\WhiteSpaceValue $value
+     * @param \SimpleSAML\XML\Type\BooleanValue $fixed
      * @param \SimpleSAML\XSD\XML\xsd\Annotation|null $annotation
-     * @param string|null $id
+     * @param \SimpleSAML\XML\Type\IDValue|null $id
      * @param array<\SimpleSAML\XML\Attribute> $namespacedAttributes
      */
     final public function __construct(
-        string $value,
-        ?bool $fixed = false,
+        WhiteSpaceValue $value,
+        ?BooleanValue $fixed = null,
         ?Annotation $annotation = null,
-        ?string $id = null,
+        ?IDValue $id = null,
         array $namespacedAttributes = [],
     ) {
-        Assert::oneOf($value, ['preserve', 'replace', 'collapse'], SchemaViolationException::class);
         parent::__construct($value, $fixed, $annotation, $id, $namespacedAttributes);
     }
 
@@ -63,10 +63,10 @@ final class WhiteSpace extends AbstractFacet implements SchemaValidatableElement
         $annotation = Annotation::getChildrenOfClass($xml);
 
         return new static(
-            self::getAttribute($xml, 'value'),
-            self::getOptionalBooleanAttribute($xml, 'fixed', null),
+            self::getAttribute($xml, 'value', WhiteSpaceValue::class),
+            self::getOptionalAttribute($xml, 'fixed', BooleanValue::class, null),
             array_pop($annotation),
-            self::getOptionalAttribute($xml, 'id', null),
+            self::getOptionalAttribute($xml, 'id', IDValue::class, null),
             self::getAttributesNSFromXML($xml),
         );
     }

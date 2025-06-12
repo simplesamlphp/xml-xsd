@@ -7,11 +7,16 @@ namespace SimpleSAML\XSD\XML\xsd;
 use DOMElement;
 use DOMNodeList;
 use SimpleSAML\Assert\Assert;
+use SimpleSAML\XML\Attribute as XMLAttribute;
 use SimpleSAML\XML\Constants as C;
 use SimpleSAML\XML\Exception\InvalidDOMElementException;
 use SimpleSAML\XML\ExtendableAttributesTrait;
 use SimpleSAML\XML\{SchemaValidatableElementInterface, SchemaValidatableElementTrait};
-use SimpleSAML\XML\XsNamespace as NS;
+use SimpleSAML\XML\Type\{AnyURIValue, StringValue};
+use SimpleSAML\XML\XsNamespace;
+use SimpleSAML\XSD\XML\xsd\NamespaceEnum;
+
+use function strval;
 
 /**
  * Class representing the documentation element
@@ -27,7 +32,8 @@ final class Documentation extends AbstractXsdElement implements SchemaValidatabl
     public const LOCALNAME = 'documentation';
 
     /** The namespace-attribute for the xs:anyAttribute element */
-    public const XS_ANY_ATTR_NAMESPACE = NS::OTHER;
+    public const XS_ANY_ATTR_NAMESPACE = XsNamespace::OTHER;
+//    public const XS_ANY_ATTR_NAMESPACE = NamespaceEnum::Other;
 
     /** The exclusions for the xs:anyAttribute element */
     public const XS_ANY_ATTR_EXCLUSIONS = [
@@ -39,17 +45,16 @@ final class Documentation extends AbstractXsdElement implements SchemaValidatabl
      * Documentation constructor
      *
      * @param \DOMNodeList $content
-     * @param string|null $lang
-     * @param string|null $source
+     * @param \SimpleSAML\XML\Attribute|null $lang
+     * @param \SimpleSAML\XML\Type\AnyURIValue|null $source
      * @param array<\SimpleSAML\XML\Attribute> $namespacedAttributes
      */
     final public function __construct(
         protected DOMNodeList $content,
-        protected ?string $lang = null,
-        protected ?string $source = null,
+        protected ?XMLAttribute $lang = null,
+        protected ?AnyURIValue $source = null,
         array $namespacedAttributes = [],
     ) {
-        Assert::nullOrValidURI($source);
         $this->setAttributesNS($namespacedAttributes);
     }
 
@@ -68,9 +73,9 @@ final class Documentation extends AbstractXsdElement implements SchemaValidatabl
     /**
      * Get the lang property.
      *
-     * @return string|null
+     * @return \SimpleSAML\XML\Attribute|null
      */
-    public function getLang(): ?string
+    public function getLang(): ?XMLAttribute
     {
         return $this->lang;
     }
@@ -79,9 +84,9 @@ final class Documentation extends AbstractXsdElement implements SchemaValidatabl
     /**
      * Get the source property.
      *
-     * @return string|null
+     * @return \SimpleSAML\XML\Type\AnyURIValue|null
      */
-    public function getSource(): ?string
+    public function getSource(): ?AnyURIValue
     {
         return $this->source;
     }
@@ -117,13 +122,18 @@ final class Documentation extends AbstractXsdElement implements SchemaValidatabl
 
         $lang = null;
         if ($xml->hasAttributeNS(C::NS_XML, 'lang')) {
-            $lang = $xml->getAttributeNS(C::NS_XML, 'lang');
+            $lang = new XMLAttribute(
+                C::NS_XML,
+                'xml',
+                'lang',
+                StringValue::fromString($xml->getAttributeNS(C::NS_XML, 'lang')),
+            );
         }
 
         return new static(
             $xml->childNodes,
             $lang,
-            self::getOptionalAttribute($xml, 'source', null),
+            self::getOptionalAttribute($xml, 'source', AnyURIValue::class, null),
             self::getAttributesNSFromXML($xml),
         );
     }
@@ -140,11 +150,11 @@ final class Documentation extends AbstractXsdElement implements SchemaValidatabl
         $e = parent::instantiateParentElement($parent);
 
         if ($this->getSource() !== null) {
-            $e->setAttribute('source', $this->getSource());
+            $e->setAttribute('source', strval($this->getSource()));
         }
 
         if ($this->getLang() !== null) {
-            $e->setAttributeNS(C::NS_XML, 'xml:lang', $this->getLang());
+            $this->getLang()->toXML($e);
         }
 
         foreach ($this->getAttributesNS() as $attr) {

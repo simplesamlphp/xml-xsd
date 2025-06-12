@@ -5,13 +5,12 @@ declare(strict_types=1);
 namespace SimpleSAML\XSD\Test\XML\xsd;
 
 use DOMText;
-use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\{CoversClass, Group};
 use PHPUnit\Framework\TestCase;
 use SimpleSAML\XML\Attribute as XMLAttribute;
 use SimpleSAML\XML\DOMDocumentFactory;
-use SimpleSAML\XML\TestUtils\SchemaValidationTestTrait;
-use SimpleSAML\XML\TestUtils\SerializableElementTestTrait;
+use SimpleSAML\XML\TestUtils\{SchemaValidationTestTrait, SerializableElementTestTrait};
+use SimpleSAML\XML\Type\{AnyURIValue, StringValue};
 use SimpleSAML\XSD\XML\xsd\AbstractXsdElement;
 use SimpleSAML\XSD\XML\xsd\Appinfo;
 
@@ -56,8 +55,8 @@ final class AppinfoTest extends TestCase
         $text = new DOMText('Application Information');
         $document->appendChild($text);
 
-        $attr1 = new XMLAttribute('urn:x-simplesamlphp:namespace', 'ssp', 'attr1', 'value1');
-        $appinfo = new Appinfo($document->childNodes, 'urn:x-simplesamlphp:source', [$attr1]);
+        $attr1 = new XMLAttribute('urn:x-simplesamlphp:namespace', 'ssp', 'attr1', StringValue::fromString('value1'));
+        $appinfo = new Appinfo($document->childNodes, AnyURIValue::fromString('urn:x-simplesamlphp:source'), [$attr1]);
 
         $this->assertEquals(
             self::$xmlRepresentation->saveXML(self::$xmlRepresentation->documentElement),

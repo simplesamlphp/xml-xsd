@@ -10,7 +10,11 @@ use SimpleSAML\Assert\Assert;
 use SimpleSAML\XML\Exception\InvalidDOMElementException;
 use SimpleSAML\XML\ExtendableAttributesTrait;
 use SimpleSAML\XML\{SchemaValidatableElementInterface, SchemaValidatableElementTrait};
-use SimpleSAML\XML\XsNamespace as NS;
+use SimpleSAML\XML\Type\AnyURIValue;
+use SimpleSAML\XML\XsNamespace;
+//use SimpleSAML\XSD\XML\xsd\NamespaceEnum;
+
+use function strval;
 
 /**
  * Class representing the appinfo element
@@ -26,22 +30,22 @@ final class Appinfo extends AbstractXsdElement implements SchemaValidatableEleme
     public const LOCALNAME = 'appinfo';
 
     /** The namespace-attribute for the xs:anyAttribute element */
-    public const XS_ANY_ATTR_NAMESPACE = NS::OTHER;
+    public const XS_ANY_ATTR_NAMESPACE = XsNamespace::OTHER;
+//    public const XS_ANY_ATTR_NAMESPACE = NamespaceEnum::Other;
 
 
     /**
      * Appinfo constructor
      *
      * @param \DOMNodeList $content
-     * @param string|null $source
+     * @param \SimpleSAML\XML\Type\AnyURIValue|null $source
      * @param array<\SimpleSAML\XML\Attribute> $namespacedAttributes
      */
     final public function __construct(
         protected DOMNodeList $content,
-        protected ?string $source = null,
+        protected ?AnyURIValue $source = null,
         array $namespacedAttributes = [],
     ) {
-        Assert::nullOrValidURI($source);
         $this->setAttributesNS($namespacedAttributes);
     }
 
@@ -60,9 +64,9 @@ final class Appinfo extends AbstractXsdElement implements SchemaValidatableEleme
     /**
      * Get the source property.
      *
-     * @return string|null
+     * @return \SimpleSAML\XML\Type\AnyURIValue|null
      */
-    public function getSource(): ?string
+    public function getSource(): ?AnyURIValue
     {
         return $this->source;
     }
@@ -97,7 +101,7 @@ final class Appinfo extends AbstractXsdElement implements SchemaValidatableEleme
 
         return new static(
             $xml->childNodes,
-            self::getOptionalAttribute($xml, 'source', null),
+            self::getOptionalAttribute($xml, 'source', AnyURIValue::class, null),
             self::getAttributesNSFromXML($xml),
         );
     }
@@ -114,7 +118,7 @@ final class Appinfo extends AbstractXsdElement implements SchemaValidatableEleme
         $e = parent::instantiateParentElement($parent);
 
         if ($this->getSource() !== null) {
-            $e->setAttribute('source', $this->getSource());
+            $e->setAttribute('source', strval($this->getSource()));
         }
 
         foreach ($this->getAttributesNS() as $attr) {

@@ -8,6 +8,7 @@ use DOMElement;
 use SimpleSAML\Assert\Assert;
 use SimpleSAML\XML\Exception\InvalidDOMElementException;
 use SimpleSAML\XML\{SchemaValidatableElementInterface, SchemaValidatableElementTrait};
+use SimpleSAML\XML\Type\{BooleanValue, IDValue, StringValue};
 
 use function array_pop;
 
@@ -41,10 +42,10 @@ final class MinInclusive extends AbstractFacet implements SchemaValidatableEleme
         $annotation = Annotation::getChildrenOfClass($xml);
 
         return new static(
-            self::getAttribute($xml, 'value'),
-            self::getOptionalBooleanAttribute($xml, 'fixed', null),
+            self::getAttribute($xml, 'value', StringValue::class),
+            self::getOptionalAttribute($xml, 'fixed', BooleanValue::class, null),
             array_pop($annotation),
-            self::getOptionalAttribute($xml, 'id', null),
+            self::getOptionalAttribute($xml, 'id', IDValue::class, null),
             self::getAttributesNSFromXML($xml),
         );
     }

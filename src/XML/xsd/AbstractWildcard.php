@@ -5,14 +5,10 @@ declare(strict_types=1);
 namespace SimpleSAML\XSD\XML\xsd;
 
 use DOMElement;
-use SimpleSAML\Assert\Assert;
-use SimpleSAML\XML\Exception\SchemaViolationException;
-use SimpleSAML\XML\XsNamespace as NS;
-use SimpleSAML\XML\XsProcess;
+use SimpleSAML\XML\Type\{AnyURIValue, IDValue};
+use SimpleSAML\XSD\Type\{NamespaceListValue, ProcessContentsValue};
 
-use function array_diff;
-use function explode;
-use function is_string;
+use function strval;
 
 /**
  * Abstract class representing the wildcard-type.
@@ -24,27 +20,19 @@ abstract class AbstractWildcard extends AbstractAnnotated
     /**
      * Wildcard constructor
      *
-     * @param string|null $namespace
-     * @param \SimpleSAML\XML\XsProcess|null $processContents
+     * @param \SimpleSAML\XSD\Type\NamespaceListValue|null $namespace
+     * @param \SimpleSAML\XSD\Type\ProcessContentsValue|null $processContents
      * @param \SimpleSAML\XSD\XML\xsd\Annotation|null $annotation
-     * @param string|null $id
+     * @param \SimpleSAML\XML\Type\IDValue|null $id
      * @param array<\SimpleSAML\XML\Attribute> $namespacedAttributes
      */
     public function __construct(
-        protected NS|string|null $namespace = NS::ANY,
-        protected ?XsProcess $processContents = XsProcess::STRICT,
+        protected ?NamespaceListValue $namespace = null,
+        protected ?ProcessContentsValue $processContents = null,
         ?Annotation $annotation = null,
-        ?string $id = null,
+        ?IDValue $id = null,
         array $namespacedAttributes = [],
     ) {
-        if ($namespace instanceof NS) {
-            Assert::oneOf($namespace, [NS::ANY, NS::OTHER], SchemaViolationException::class);
-        } elseif (is_string($namespace)) {
-            $values = explode(' ', $namespace);
-            $values = array_diff($values, [NS::TARGET->value, NS::LOCAL->value]);
-            Assert::allValidURI($values, SchemaViolationException::class);
-        }
-
         parent::__construct($annotation, $id, $namespacedAttributes);
     }
 
@@ -52,9 +40,9 @@ abstract class AbstractWildcard extends AbstractAnnotated
     /**
      * Collect the value of the namespace-property
      *
-     * @return \SimpleSAML\XML\XsNamespace|string|null
+     * @return \SimpleSAML\XSD\Type\NamespaceListValue|null
      */
-    public function getNamespace(): NS|string|null
+    public function getNamespace(): ?NamespaceListValue
     {
         return $this->namespace;
     }
@@ -63,9 +51,9 @@ abstract class AbstractWildcard extends AbstractAnnotated
     /**
      * Collect the value of the processContents-property
      *
-     * @return \SimpleSAML\XML\XsProcess|null
+     * @return \SimpleSAML\XSD\Type\ProcessContentsValue|null
      */
-    public function getProcessContents(): ?XsProcess
+    public function getProcessContents(): ?ProcessContentsValue
     {
         return $this->processContents;
     }
@@ -95,14 +83,11 @@ abstract class AbstractWildcard extends AbstractAnnotated
         $e = parent::toXML($parent);
 
         if ($this->getNamespace() !== null) {
-            $e->setAttribute(
-                'namespace',
-                is_string($this->getNamespace()) ? $this->getNamespace() : $this->getNamespace()->value,
-            );
+            $e->setAttribute('namespace', strval($this->getNamespace()));
         }
 
         if ($this->getProcessContents() !== null) {
-            $e->setAttribute('processContents', $this->getProcessContents()->value);
+            $e->setAttribute('processContents', strval($this->getProcessContents()));
         }
 
         return $e;

@@ -6,7 +6,8 @@ namespace SimpleSAML\XSD\XML\xsd;
 
 use DOMElement;
 use SimpleSAML\XML\ExtendableAttributesTrait;
-use SimpleSAML\XML\XsNamespace as NS;
+use SimpleSAML\XML\XsNamespace;
+//use SimpleSAML\XSD\XML\xsd\NamespaceEnum;
 
 /**
  * Abstract class to be implemented by all the classes that use the openAttrs complex type
@@ -18,7 +19,8 @@ abstract class AbstractOpenAttrs extends AbstractXsdElement
     use ExtendableAttributesTrait;
 
     /** The namespace-attribute for the xs:anyAttribute element */
-    public const XS_ANY_ATTR_NAMESPACE = NS::OTHER;
+    public const XS_ANY_ATTR_NAMESPACE = XsNamespace::OTHER;
+//    public const XS_ANY_ATTR_NAMESPACE = NamespaceEnum::Other;
 
 
     /**

@@ -6,9 +6,11 @@ namespace SimpleSAML\XSD\XML\xsd;
 
 use DOMElement;
 use SimpleSAML\XML\Assert\Assert;
-use SimpleSAML\XML\Exception\InvalidDOMElementException;
-use SimpleSAML\XML\Exception\SchemaViolationException;
+use SimpleSAML\XML\Exception\{InvalidDOMElementException, SchemaViolationException};
 use SimpleSAML\XML\{SchemaValidatableElementInterface, SchemaValidatableElementTrait};
+use SimpleSAML\XML\Type\IDValue;
+
+use function strval;
 
 /**
  * Class representing the Annotation-element.
@@ -28,18 +30,17 @@ final class Annotation extends AbstractOpenAttrs implements SchemaValidatableEle
      *
      * @param array<\SimpleSAML\XSD\XML\xsd\Appinfo> $appinfo
      * @param array<\SimpleSAML\XSD\XML\xsd\Documentation> $documentation
-     * @param string|null $id
+     * @param \SimpleSAML\XML\Type\IDValue|null $id
      * @param array<\SimpleSAML\XML\Attribute> $namespacedAttributes
      */
     public function __construct(
         protected array $appinfo,
         protected array $documentation,
-        protected ?string $id,
+        protected ?IDValue $id,
         array $namespacedAttributes = [],
     ) {
         Assert::allIsInstanceOf($appinfo, Appinfo::class, SchemaViolationException::class);
         Assert::allIsInstanceOf($documentation, Documentation::class, SchemaViolationException::class);
-        Assert::nullOrValidNCName($id, SchemaViolationException::class);
 
         parent::__construct($namespacedAttributes);
     }
@@ -70,9 +71,9 @@ final class Annotation extends AbstractOpenAttrs implements SchemaValidatableEle
     /**
      * Collect the value of the id-property
      *
-     * @return string|null
+     * @return \SimpleSAML\XML\Type\IDValue|null
      */
-    public function getId(): ?string
+    public function getId(): ?IDValue
     {
         return $this->id;
     }
@@ -106,7 +107,7 @@ final class Annotation extends AbstractOpenAttrs implements SchemaValidatableEle
         return new static(
             Appinfo::getChildrenOfClass($xml),
             Documentation::getChildrenOfClass($xml),
-            self::getOptionalAttribute($xml, 'id', null),
+            self::getOptionalAttribute($xml, 'id', IDValue::class, null),
             self::getAttributesNSFromXML($xml),
         );
     }
@@ -123,7 +124,7 @@ final class Annotation extends AbstractOpenAttrs implements SchemaValidatableEle
         $e = parent::toXML($parent);
 
         if ($this->getId() !== null) {
-            $e->setAttribute('id', $this->getId());
+            $e->setAttribute('id', strval($this->getId()));
         }
 
         foreach ($this->getAppinfo() as $appinfo) {

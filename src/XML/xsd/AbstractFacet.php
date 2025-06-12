@@ -5,6 +5,10 @@ declare(strict_types=1);
 namespace SimpleSAML\XSD\XML\xsd;
 
 use DOMElement;
+use SimpleSAML\XML\Type\{BooleanValue, IDValue};
+use SimpleSAML\XML\Type\ValueTypeInterface;
+
+use function strval;
 
 /**
  * Abstract class representing the facet-type.
@@ -16,17 +20,17 @@ abstract class AbstractFacet extends AbstractAnnotated
     /**
      * Facet constructor
      *
-     * @param string $value
-     * @param bool $fixed
+     * @param \SimpleSAML\XML\Type\ValueTypeInterface $value
+     * @param \SimpleSAML\XML\Type\BooleanValue $fixed
      * @param \SimpleSAML\XSD\XML\xsd\Annotation|null $annotation
-     * @param string|null $id
+     * @param \SimpleSAML\XML\Type\IDValue|null $id
      * @param array<\SimpleSAML\XML\Attribute> $namespacedAttributes
      */
     public function __construct(
-        protected string $value,
-        protected ?bool $fixed = false,
+        protected ValueTypeInterface $value,
+        protected ?BooleanValue $fixed = null,
         ?Annotation $annotation = null,
-        ?string $id = null,
+        ?IDValue $id = null,
         array $namespacedAttributes = [],
     ) {
         parent::__construct($annotation, $id, $namespacedAttributes);
@@ -36,9 +40,9 @@ abstract class AbstractFacet extends AbstractAnnotated
     /**
      * Collect the value of the value-property
      *
-     * @return string
+     * @return \SimpleSAML\XML\Type\ValueTypeInterface
      */
-    public function getValue(): string
+    public function getValue(): ValueTypeInterface
     {
         return $this->value;
     }
@@ -47,9 +51,9 @@ abstract class AbstractFacet extends AbstractAnnotated
     /**
      * Collect the value of the fixed-property
      *
-     * @return bool|null
+     * @return \SimpleSAML\XML\Type\BooleanValue|null
      */
-    public function getFixed(): ?bool
+    public function getFixed(): ?BooleanValue
     {
         return $this->fixed;
     }
@@ -65,10 +69,10 @@ abstract class AbstractFacet extends AbstractAnnotated
     {
         $e = parent::toXML($parent);
 
-        $e->setAttribute('value', $this->getValue());
+        $e->setAttribute('value', strval($this->getValue()));
 
         if ($this->getFixed() !== null) {
-            $e->setAttribute('fixed', $this->getFixed() ? 'true' : 'false');
+            $e->setAttribute('fixed', strval($this->getFixed()));
         }
 
         return $e;

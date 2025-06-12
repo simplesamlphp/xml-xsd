@@ -8,12 +8,10 @@ use DOMElement;
 use SimpleSAML\Assert\Assert;
 use SimpleSAML\XML\Exception\InvalidDOMElementException;
 use SimpleSAML\XML\{SchemaValidatableElementInterface, SchemaValidatableElementTrait};
-use SimpleSAML\XML\XsNamespace as NS;
-use SimpleSAML\XML\XsProcess;
+use SimpleSAML\XML\Type\IDValue;
+use SimpleSAML\XSD\Type\{NamespaceListValue, ProcessContentsValue};
 
-use function array_column;
 use function array_pop;
-use function in_array;
 
 /**
  * Class representing the anyAttribute element
@@ -42,23 +40,13 @@ final class AnyAttribute extends AbstractWildcard implements SchemaValidatableEl
         Assert::same($xml->localName, static::getLocalName(), InvalidDOMElementException::class);
         Assert::same($xml->namespaceURI, static::NS, InvalidDOMElementException::class);
 
-        $namespace = self::getOptionalAttribute($xml, 'namespace', null);
-        if (in_array($namespace, array_column(NS::cases(), 'value'), true)) {
-            $namespace = NS::from($namespace);
-        }
-
-        $processContents = self::getOptionalAttribute($xml, 'processContents', null);
-        if ($processContents !== null) {
-            $processContents = XsProcess::from($processContents);
-        }
-
         $annotation = Annotation::getChildrenOfClass($xml);
 
         return new static(
-            $namespace,
-            $processContents,
+            self::getOptionalAttribute($xml, 'namespace', NamespaceListValue::class, null),
+            self::getOptionalAttribute($xml, 'processContents', ProcessContentsValue::class, null),
             array_pop($annotation),
-            self::getOptionalAttribute($xml, 'id', null),
+            self::getOptionalAttribute($xml, 'id', IDValue::class, null),
             self::getAttributesNSFromXML($xml),
         );
     }

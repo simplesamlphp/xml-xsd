@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace SimpleSAML\XSD\XML\xsd;
 
 use DOMElement;
-use SimpleSAML\XML\Assert\Assert;
-use SimpleSAML\XML\Exception\SchemaViolationException;
+use SimpleSAML\XML\Type\IDValue;
+
+use function strval;
 
 /**
  * Abstract class representing the annotated-type.
@@ -19,16 +20,14 @@ abstract class AbstractAnnotated extends AbstractOpenAttrs
      * Annotated constructor
      *
      * @param \SimpleSAML\XSD\XML\xsd\Annotation|null $annotation
-     * @param string|null $id
+     * @param \SimpleSAML\XML\Type\IDValue|null $id
      * @param array<\SimpleSAML\XML\Attribute> $namespacedAttributes
      */
     public function __construct(
         protected ?Annotation $annotation = null,
-        protected ?string $id = null,
+        protected ?IDValue $id = null,
         array $namespacedAttributes = [],
     ) {
-        Assert::nullOrValidNCName($id, SchemaViolationException::class);
-
         parent::__construct($namespacedAttributes);
     }
 
@@ -47,9 +46,9 @@ abstract class AbstractAnnotated extends AbstractOpenAttrs
     /**
      * Collect the value of the id-property
      *
-     * @return string|null
+     * @return \SimpleSAML\XML\Type\IDValue|null
      */
-    public function getId(): ?string
+    public function getId(): ?IDValue
     {
         return $this->id;
     }
@@ -79,7 +78,7 @@ abstract class AbstractAnnotated extends AbstractOpenAttrs
         $e = parent::toXML($parent);
 
         if ($this->getId() !== null) {
-            $e->setAttribute('id', $this->getId());
+            $e->setAttribute('id', strval($this->getId()));
         }
 
         $this->getAnnotation()?->toXML($e);

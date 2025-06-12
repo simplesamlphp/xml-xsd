@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace SimpleSAML\XSD\XML\xsd;
 
-use SimpleSAML\Assert\Assert;
-use SimpleSAML\XML\Exception\SchemaViolationException;
+use SimpleSAML\XSD\Type\MinOccursValue;
 
 /**
  * Trait grouping common functionality for elements that can hold a MinOccurs attribute.
@@ -17,17 +16,17 @@ trait MinOccursTrait
     /**
      * The minOccurs.
      *
-     * @var non-negative-int|null
+     * @var \SimpleSAML\XSD\Type\MinOccursValue|null
      */
-    protected ?int $minOccurs;
+    protected ?MinOccursValue $minOccurs = null;
 
 
     /**
      * Collect the value of the minOccurs-property
      *
-     * @return non-negative-int|null
+     * @return \SimpleSAML\XSD\Type\MinOccursValue|null
      */
-    public function getMinOccurs(): ?int
+    public function getMinOccurs(): ?MinOccursValue
     {
         return $this->minOccurs;
     }
@@ -36,12 +35,10 @@ trait MinOccursTrait
     /**
      * Set the value of the minOccurs-property
      *
-     * @param non-negative-int $minOccurs
+     * @param \SimpleSAML\XSD\Type\MinOccursValue|null $minOccurs
      */
-    protected function setMinOccurs(?int $minOccurs): void
+    protected function setMinOccurs(?MinOccursValue $minOccurs): void
     {
-        Assert::nullOrPositiveInteger($minOccurs, SchemaViolationException::class);
-
         $this->minOccurs = $minOccurs;
     }
 }

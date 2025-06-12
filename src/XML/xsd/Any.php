@@ -8,14 +8,10 @@ use DOMElement;
 use SimpleSAML\Assert\Assert;
 use SimpleSAML\XML\Exception\InvalidDOMElementException;
 use SimpleSAML\XML\{SchemaValidatableElementInterface, SchemaValidatableElementTrait};
-use SimpleSAML\XML\XsNamespace as NS;
-use SimpleSAML\XML\XsProcess;
+use SimpleSAML\XML\Type\IDValue;
+use SimpleSAML\XSD\Type\{MinOccursValue, MaxOccursValue, NamespaceListValue, ProcessContentsValue};
 
-use function array_column;
 use function array_pop;
-use function in_array;
-use function intval;
-use function is_int;
 use function strval;
 
 /**
@@ -35,22 +31,22 @@ final class Any extends AbstractWildcard implements SchemaValidatableElementInte
     /**
      * Wildcard constructor
      *
-     * @param string|null $namespace
-     * @param \SimpleSAML\XML\XsProcess|null $processContents
+     * @param \SimpleSAML\XSD\Type\NamespaceListValue|null $namespace
+     * @param \SimpleSAML\XSD\Type\ProcessContents|null $processContents
      * @param \SimpleSAML\XSD\XML\xsd\Annotation|null $annotation
-     * @param string|null $id
+     * @param \SimpleSAML\XML\Type\IDValue|null $id
      * @param array<\SimpleSAML\XML\Attribute> $namespacedAttributes
-     * @param int|null $minOccurs
-     * @param int|string|null $maxOccurs
+     * @param \SimpleSAML\XSD\Type\MinOccursValue|null $minOccurs
+     * @param \SimpleSAML\XSD\Type\MaxOccursValue|null $maxOccurs
      */
     public function __construct(
-        protected NS|string|null $namespace = NS::ANY,
-        protected ?XsProcess $processContents = XsProcess::STRICT,
+        protected ?NamespaceListValue $namespace = null,
+        protected ?ProcessContentsValue $processContents = null,
         ?Annotation $annotation = null,
-        ?string $id = null,
+        ?IDValue $id = null,
         array $namespacedAttributes = [],
-        ?int $minOccurs = 1,
-        int|string|null $maxOccurs = 1,
+        ?MinOccursValue $minOccurs = null,
+        ?MaxOccursValue $maxOccurs = null,
     ) {
         parent::__construct($namespace, $processContents, $annotation, $id, $namespacedAttributes);
 
@@ -86,32 +82,16 @@ final class Any extends AbstractWildcard implements SchemaValidatableElementInte
         Assert::same($xml->localName, static::getLocalName(), InvalidDOMElementException::class);
         Assert::same($xml->namespaceURI, static::NS, InvalidDOMElementException::class);
 
-        $namespace = self::getOptionalAttribute($xml, 'namespace', null);
-        if (in_array($namespace, array_column(NS::cases(), 'value'), true)) {
-            $namespace = NS::from($namespace);
-        }
-
-        $processContents = self::getOptionalAttribute($xml, 'processContents', null);
-        if ($processContents !== null) {
-            $processContents = XsProcess::from($processContents);
-        }
-
         $annotation = Annotation::getChildrenOfClass($xml);
 
-        $minOccurs = self::getOptionalIntegerAttribute($xml, 'minOccurs', null);
-        $maxOccurs = self::getOptionalAttribute($xml, 'maxOccurs', null);
-        if (!in_array($maxOccurs, [null, 'unbounded'])) {
-            $maxOccurs = intval($maxOccurs);
-        }
-
         return new static(
-            $namespace,
-            $processContents,
+            self::getOptionalAttribute($xml, 'namespace', NamespaceListValue::class, null),
+            self::getOptionalAttribute($xml, 'processContents', ProcessContentsValue::class, null),
             array_pop($annotation),
-            self::getOptionalAttribute($xml, 'id', null),
+            self::getOptionalAttribute($xml, 'id', IDValue::class, null),
             self::getAttributesNSFromXML($xml),
-            $minOccurs,
-            $maxOccurs,
+            self::getOptionalAttribute($xml, 'minOccurs', MinOccursValue::class, null),
+            self::getOptionalAttribute($xml, 'maxOccurs', MaxOccursvalue::class, null),
         );
     }
 
@@ -131,8 +111,7 @@ final class Any extends AbstractWildcard implements SchemaValidatableElementInte
         }
 
         if ($this->getMaxOccurs() !== null) {
-            $maxOccurs = $this->getMaxOccurs();
-            $e->setAttribute('maxOccurs', is_int($maxOccurs) ? strval($maxOccurs) : $maxOccurs);
+            $e->setAttribute('maxOccurs', strval($this->getMaxOccurs()));
         }
 
         return $e;
