@@ -15,6 +15,7 @@ use SimpleSAML\XML\TestUtils\{SchemaValidationTestTrait, SerializableElementTest
 use SimpleSAML\XML\Type\{AnyURIValue, BooleanValue, IDValue, NonNegativeIntegerValue, StringValue};
 use SimpleSAML\XSD\XML\xsd\AbstractAnnotated;
 use SimpleSAML\XSD\XML\xsd\AbstractFacet;
+use SimpleSAML\XSD\XML\xsd\AbstractNumFacet;
 use SimpleSAML\XSD\XML\xsd\AbstractOpenAttrs;
 use SimpleSAML\XSD\XML\xsd\AbstractXsdElement;
 use SimpleSAML\XSD\XML\xsd\Annotation;
@@ -26,12 +27,13 @@ use function dirname;
 use function strval;
 
 /**
- * Tests for xsd:minLength
+ * Tests for xs:minLength
  *
  * @package simplesamlphp/xml-xsd
  */
-#[Group('xsd')]
+#[Group('xs')]
 #[CoversClass(MinLength::class)]
+#[CoversClass(AbstractNumFacet::class)]
 #[CoversClass(AbstractFacet::class)]
 #[CoversClass(AbstractAnnotated::class)]
 #[CoversClass(AbstractOpenAttrs::class)]

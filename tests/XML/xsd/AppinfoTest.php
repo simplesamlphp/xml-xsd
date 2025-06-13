@@ -18,11 +18,11 @@ use function dirname;
 use function strval;
 
 /**
- * Tests for xsd:appinfo
+ * Tests for xs:appinfo
  *
  * @package simplesamlphp/xml-xsd
  */
-#[Group('xsd')]
+#[Group('xs')]
 #[CoversClass(Appinfo::class)]
 #[CoversClass(AbstractXsdElement::class)]
 final class AppinfoTest extends TestCase

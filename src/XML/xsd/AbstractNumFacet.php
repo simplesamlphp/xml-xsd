@@ -35,7 +35,7 @@ abstract class AbstractNumFacet extends AbstractFacet
         ?IDValue $id = null,
         array $namespacedAttributes = [],
     ) {
-        Assert::isInstanceOf($value, NonNegativeIntegerValue::class);
+        Assert::isAOf($value, NonNegativeIntegerValue::class);
 
         parent::__construct($value, $fixed, $annotation, $id, $namespacedAttributes);
     }
