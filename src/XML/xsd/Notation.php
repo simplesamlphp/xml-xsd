@@ -82,9 +82,9 @@ final class Notation extends AbstractAnnotated implements SchemaValidatableEleme
 
 
     /**
-     * Add this Facet to an XML element.
+     * Add this Notation to an XML element.
      *
-     * @param \DOMElement|null $parent The element we should append this facet to.
+     * @param \DOMElement|null $parent The element we should append this notation to.
      * @return \DOMElement
      */
     public function toXML(?DOMElement $parent = null): DOMElement
