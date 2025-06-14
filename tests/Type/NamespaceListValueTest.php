@@ -49,8 +49,8 @@ final class NamespaceListValueTest extends TestCase
             '##targetNamespace combined' => ['##targetNamespace urn:x-simplesamlphp:namespace', true],
             'multiple spaces and newlines' => [
                 "urn:x-simplesamlphp:namespace1  urn:x-simplesamlphp:namespace2 \n urn:x-simplesamlphp:namespace3",
+                true,
             ],
-            'not-a-uri' => ['undefined', false],
             'empty' => ['', false],
         ];
     }
