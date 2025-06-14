@@ -5,37 +5,40 @@ declare(strict_types=1);
 namespace SimpleSAML\XSD\Test\XML\xsd;
 
 use DOMText;
-use PHPUnit\Framework\Attributes\{CoversClass, Group};
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 use SimpleSAML\XML\Attribute as XMLAttribute;
 use SimpleSAML\XML\Constants as C;
 use SimpleSAML\XML\DOMDocumentFactory;
 use SimpleSAML\XML\TestUtils\{SchemaValidationTestTrait, SerializableElementTestTrait};
-use SimpleSAML\XML\Type\{AnyURIValue, BooleanValue, IDValue, StringValue};
+use SimpleSAML\XML\Type\{AnyURIValue, BooleanValue, IDValue, NonNegativeIntegerValue, StringValue};
 use SimpleSAML\XSD\XML\xsd\AbstractAnnotated;
 use SimpleSAML\XSD\XML\xsd\AbstractFacet;
+use SimpleSAML\XSD\XML\xsd\AbstractNumFacet;
 use SimpleSAML\XSD\XML\xsd\AbstractOpenAttrs;
 use SimpleSAML\XSD\XML\xsd\AbstractXsdElement;
 use SimpleSAML\XSD\XML\xsd\Annotation;
 use SimpleSAML\XSD\XML\xsd\Appinfo;
 use SimpleSAML\XSD\XML\xsd\Documentation;
-use SimpleSAML\XSD\XML\xsd\MaxExclusive;
+use SimpleSAML\XSD\XML\xsd\MaxLength;
 
 use function dirname;
 use function strval;
 
 /**
- * Tests for xs:maxExclusive
+ * Tests for xs:MaxLength
  *
  * @package simplesamlphp/xml-xsd
  */
 #[Group('xs')]
-#[CoversClass(MaxExclusive::class)]
+#[CoversClass(MaxLength::class)]
+#[CoversClass(AbstractNumFacet::class)]
 #[CoversClass(AbstractFacet::class)]
 #[CoversClass(AbstractAnnotated::class)]
 #[CoversClass(AbstractOpenAttrs::class)]
 #[CoversClass(AbstractXsdElement::class)]
-final class MaxExclusiveTest extends TestCase
+final class MaxLengthTest extends TestCase
 {
     use SchemaValidationTestTrait;
     use SerializableElementTestTrait;
@@ -45,10 +48,10 @@ final class MaxExclusiveTest extends TestCase
      */
     public static function setUpBeforeClass(): void
     {
-        self::$testedClass = MaxExclusive::class;
+        self::$testedClass = MaxLength::class;
 
         self::$xmlRepresentation = DOMDocumentFactory::fromFile(
-            dirname(__FILE__, 3) . '/resources/xml/maxExclusive.xml',
+            dirname(__FILE__, 3) . '/resources/xml/maxLength.xml',
         );
     }
 
@@ -57,7 +60,7 @@ final class MaxExclusiveTest extends TestCase
 
 
     /**
-     * Test creating an MinExclusive object from scratch.
+     * Test creating an MaxLength object from scratch.
      */
     public function testMarshalling(): void
     {
@@ -114,17 +117,17 @@ final class MaxExclusiveTest extends TestCase
             [$attr3],
         );
 
-        $maxExclusive = new MaxExclusive(
-            StringValue::fromString('1024'),
+        $MaxLength = new MaxLength(
+            NonNegativeIntegerValue::fromInteger(1024),
             BooleanValue::fromBoolean(true),
             $annotation,
-            IDValue::fromString('phpunit_maxexclusive'),
+            IDValue::fromString('phpunit_maxlength'),
             [$attr4],
         );
 
         $this->assertEquals(
             self::$xmlRepresentation->saveXML(self::$xmlRepresentation->documentElement),
-            strval($maxExclusive),
+            strval($MaxLength),
         );
     }
 }
