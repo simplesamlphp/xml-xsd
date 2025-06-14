@@ -10,8 +10,6 @@ use SimpleSAML\XML\Exception\{InvalidDOMElementException, SchemaViolationExcepti
 use SimpleSAML\XML\Type\{BooleanValue, IDValue, NonNegativeIntegerValue};
 use SimpleSAML\XML\Type\ValueTypeInterface;
 
-use function strval;
-
 /**
  * Abstract class representing the facet-type.
  *

@@ -7,7 +7,8 @@ namespace SimpleSAML\XSD\XML\xsd;
 use DOMElement;
 use SimpleSAML\XML\Assert\Assert;
 use SimpleSAML\XML\Exception\SchemaViolationException;
-use SimpleSAML\XML\Type\{IDValue, NCNameValue, QNameValue};
+use SimpleSAML\XML\Type\{BooleanValue, IDValue, NCNameValue, QNameValue};
+use SimpleSAML\XSD\Type\FormChoiceValue;
 
 use function strval;
 
@@ -30,8 +31,8 @@ abstract class AbstractAttribute extends AbstractAnnotated
      * @param string $type
      * @param string|null $use
      * @param string|null $default
-     * @param string|null $fixed
-     * @param \SimpleSAML\XSD\XML\xsd\FormChoiceEnum|null $formChoice
+     * @param \SimpleSAML\XML\Type\BooleanValue|null $fixed
+     * @param \SimpleSAML\XSD\Type\FormChoiceValue|null $formChoice
      * @param array $simpleType
      * @param \SimpleSAML\XSD\XML\xsd\Annotation|null $annotation
      * @param \SimpleSAML\XML\Type\IDValue|null $id
@@ -43,8 +44,8 @@ abstract class AbstractAttribute extends AbstractAnnotated
         protected string $type,
         protected ?string $use = null,
         protected ?string $default = null,
-        protected ?string $fixed = null,
-        protected ?FormChoiceEnum $formChoice = null,
+        protected ?BooleanValue $fixed = null,
+        protected ?FormChoiceValue $formChoice = null,
         protected array $simpleType = [],
         ?Annotation $annotation = null,
         ?IDValue $id = null,
@@ -108,9 +109,9 @@ abstract class AbstractAttribute extends AbstractAnnotated
     /**
      * Collect the value of the fixed-property
      *
-     * @return string|null
+     * @return \SimpleSAML\XML\Type\BooleanValue|null
      */
-    public function getFixed(): ?string
+    public function getFixed(): ?BooleanValue
     {
         return $this->fixed;
     }
@@ -139,11 +140,11 @@ abstract class AbstractAttribute extends AbstractAnnotated
         }
 
         if ($this->getFixed() !== null) {
-            $e->setAttribute('fixed', $this->getFixed());
+            $e->setAttribute('fixed', strval($this->getFixed()));
         }
 
         if ($this->getFormChoice() !== null) {
-            $e->setAttribute('formChoice', $this->getFormChoice()->value);
+            $e->setAttribute('formChoice', strval($this->getFormChoice()));
         }
 
         foreach ($this->getSimpleType() as $st) {
