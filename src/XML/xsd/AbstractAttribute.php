@@ -7,7 +7,7 @@ namespace SimpleSAML\XSD\XML\xsd;
 use DOMElement;
 use SimpleSAML\XML\Assert\Assert;
 use SimpleSAML\XML\Exception\SchemaViolationException;
-use SimpleSAML\XML\Type\{BooleanValue, IDValue, NCNameValue, QNameValue};
+use SimpleSAML\XML\Type\{IDValue, NCNameValue, QNameValue, StringValue};
 use SimpleSAML\XSD\Type\{FormChoiceValue, UseValue};
 
 use function strval;
@@ -30,10 +30,10 @@ abstract class AbstractAttribute extends AbstractAnnotated
      * @param \SimpleSAML\XML\Type\QNameValue $reference
      * @param \SimpleSAML\XML\Type\QNameValue $type
      * @param \SimpleSAML\XSD\Type\UseValue|null $use
-     * @param string|null $default
-     * @param \SimpleSAML\XML\Type\BooleanValue|null $fixed
+     * @param \SimpleSAML\XML\Type\StringValue|null $default
+     * @param \SimpleSAML\XML\Type\StringValue|null $fixed
      * @param \SimpleSAML\XSD\Type\FormChoiceValue|null $formChoice
-     * @param array $simpleType
+     * @param \SimpleSAML\XSD\XML\xsd\LocalSimpleType|null $simpleType
      * @param \SimpleSAML\XSD\XML\xsd\Annotation|null $annotation
      * @param \SimpleSAML\XML\Type\IDValue|null $id
      * @param array<\SimpleSAML\XML\Attribute> $namespacedAttributes
@@ -43,16 +43,14 @@ abstract class AbstractAttribute extends AbstractAnnotated
         QNameValue $reference,
         protected QNameValue $type,
         protected ?UseValue $use = null,
-        protected ?string $default = null,
-        protected ?BooleanValue $fixed = null,
+        protected ?StringValue $default = null,
+        protected ?StringValue $fixed = null,
         protected ?FormChoiceValue $formChoice = null,
-        protected array $simpleType = [],
+        protected ?LocalSimpleType $simpleType = null,
         ?Annotation $annotation = null,
         ?IDValue $id = null,
         array $namespacedAttributes = [],
     ) {
-        Assert::validQName($type, SchemaViolationException::class);
-
         parent::__construct($annotation, $id, $namespacedAttributes);
 
         $this->setName($name);
@@ -64,9 +62,9 @@ abstract class AbstractAttribute extends AbstractAnnotated
     /**
      * Collect the value of the simpleType-property
      *
-     * @return array
+     * @return \SimpleSAML\XSD\XML\xsd\LocalSimpleType|null
      */
-    public function getSimpleType(): array
+    public function getSimpleType(): ?LocalSimpleType
     {
         return $this->simpleType;
     }
@@ -97,9 +95,9 @@ abstract class AbstractAttribute extends AbstractAnnotated
     /**
      * Collect the value of the default-property
      *
-     * @return string|null
+     * @return \SimpleSAML\XML\Type\StringValue|null
      */
-    public function getDefault(): ?string
+    public function getDefault(): ?StringValue
     {
         return $this->default;
     }
@@ -108,9 +106,9 @@ abstract class AbstractAttribute extends AbstractAnnotated
     /**
      * Collect the value of the fixed-property
      *
-     * @return \SimpleSAML\XML\Type\BooleanValue|null
+     * @return \SimpleSAML\XML\Type\StringValue|null
      */
-    public function getFixed(): ?BooleanValue
+    public function getFixed(): ?StringValue
     {
         return $this->fixed;
     }
@@ -146,9 +144,7 @@ abstract class AbstractAttribute extends AbstractAnnotated
             $e->setAttribute('formChoice', strval($this->getFormChoice()));
         }
 
-        foreach ($this->getSimpleType() as $st) {
-            $st->toXML($e);
-        }
+        $this->getSimpleType()?->toXML($e);
 
         return $e;
     }
