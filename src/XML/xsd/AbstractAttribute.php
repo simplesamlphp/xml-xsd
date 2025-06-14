@@ -8,7 +8,7 @@ use DOMElement;
 use SimpleSAML\XML\Assert\Assert;
 use SimpleSAML\XML\Exception\SchemaViolationException;
 use SimpleSAML\XML\Type\{BooleanValue, IDValue, NCNameValue, QNameValue};
-use SimpleSAML\XSD\Type\FormChoiceValue;
+use SimpleSAML\XSD\Type\{FormChoiceValue, UseValue};
 
 use function strval;
 
@@ -28,8 +28,8 @@ abstract class AbstractAttribute extends AbstractAnnotated
      *
      * @param \SimpleSAML\XML\Type\NCNameValue $name
      * @param \SimpleSAML\XML\Type\QNameValue $reference
-     * @param string $type
-     * @param string|null $use
+     * @param \SimpleSAML\XML\Type\QNameValue $type
+     * @param \SimpleSAML\XSD\Type\UseValue|null $use
      * @param string|null $default
      * @param \SimpleSAML\XML\Type\BooleanValue|null $fixed
      * @param \SimpleSAML\XSD\Type\FormChoiceValue|null $formChoice
@@ -41,8 +41,8 @@ abstract class AbstractAttribute extends AbstractAnnotated
     public function __construct(
         NCNameValue $name,
         QNameValue $reference,
-        protected string $type,
-        protected ?string $use = null,
+        protected QNameValue $type,
+        protected ?UseValue $use = null,
         protected ?string $default = null,
         protected ?BooleanValue $fixed = null,
         protected ?FormChoiceValue $formChoice = null,
@@ -52,7 +52,6 @@ abstract class AbstractAttribute extends AbstractAnnotated
         array $namespacedAttributes = [],
     ) {
         Assert::validQName($type, SchemaViolationException::class);
-        Assert::nullOrOneOf($use, ['optional', 'prohibited', 'required'], SchemaViolationException::class);
 
         parent::__construct($annotation, $id, $namespacedAttributes);
 
@@ -76,9 +75,9 @@ abstract class AbstractAttribute extends AbstractAnnotated
     /**
      * Collect the value of the type-property
      *
-     * @return string
+     * @return \SimpleSAML\XML\Type\QNameValue
      */
-    public function getType(): string
+    public function getType(): QNameValue
     {
         return $this->type;
     }
@@ -87,9 +86,9 @@ abstract class AbstractAttribute extends AbstractAnnotated
     /**
      * Collect the value of the use-property
      *
-     * @return string|null
+     * @return \SimpleSAML\XSD\Type\UseValue|null
      */
-    public function getUse(): ?string
+    public function getUse(): ?UseValue
     {
         return $this->use;
     }
@@ -129,10 +128,10 @@ abstract class AbstractAttribute extends AbstractAnnotated
 
         $e->setAttribute('name', strval($this->getName()));
         $e->setAttribute('reference', strval($this->getReference()));
-        $e->setAttribute('type', $this->getType());
+        $e->setAttribute('type', strval($this->getType()));
 
         if ($this->getUse() !== null) {
-            $e->setAttribute('use', $this->getUse());
+            $e->setAttribute('use', strval($this->getUse()));
         }
 
         if ($this->getDefault() !== null) {
