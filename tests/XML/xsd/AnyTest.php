@@ -32,11 +32,11 @@ use function dirname;
 use function strval;
 
 /**
- * Tests for xsd:any
+ * Tests for xs:any
  *
  * @package simplesamlphp/xml-xsd
  */
-#[Group('xsd')]
+#[Group('xs')]
 #[CoversClass(Any::class)]
 #[CoversClass(AbstractWildcard::class)]
 #[CoversClass(AbstractAnnotated::class)]
@@ -138,5 +138,20 @@ final class AnyTest extends TestCase
             self::$xmlRepresentation->saveXML(self::$xmlRepresentation->documentElement),
             strval($any),
         );
+    }
+
+
+    /**
+     * Adding an empty xs:Any element should yield an empty element.
+     */
+    public function testMarshallingEmptyElement(): void
+    {
+        $xsns = C::NS_XS;
+        $any = new Any();
+        $this->assertEquals(
+            "<xsd:any xmlns:xsd=\"$xsns\"/>",
+            strval($any),
+        );
+        $this->assertTrue($any->isEmptyElement());
     }
 }

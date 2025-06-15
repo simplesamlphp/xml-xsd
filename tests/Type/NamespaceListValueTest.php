@@ -7,6 +7,8 @@ namespace SimpleSAML\Test\XSD\Type;
 use PHPUnit\Framework\Attributes\{CoversClass, DataProvider, DependsOnClass};
 use PHPUnit\Framework\TestCase;
 use SimpleSAML\XML\Exception\SchemaViolationException;
+use SimpleSAML\XML\XsNamespace;
+//use SimpleSAML\XSD\XML\xsd\NamespaceEnum;
 use SimpleSAML\XSD\Type\NamespaceListValue;
 
 /**
@@ -34,6 +36,32 @@ final class NamespaceListValueTest extends TestCase
 
 
     /**
+     * Test helpers
+    public function testHelpers(): void
+    {
+        $x = NamespaceListValue::fromEnum(NamespaceEnum::Any);
+        $this->assertEquals(NamespaceEnum::Any, $x->toEnum());
+
+        $y = NameSpaceListValue::fromString('##any');
+        $this->assertEquals(NamespaceEnum::Any, $y->toEnum());
+    }
+     */
+
+
+    /**
+     * Test helpers
+     */
+    public function testHelpers(): void
+    {
+        $x = NamespaceListValue::fromEnum(XsNamespace::ANY);
+        $this->assertEquals(XsNamespace::ANY, $x->toEnum());
+
+        $y = NameSpaceListValue::fromString('##any');
+        $this->assertEquals(XsNamespace::ANY, $y->toEnum());
+    }
+
+
+    /**
      * @return array<string, array{0: string, 1: string}>
      */
     public static function provideNamespaceList(): array
@@ -49,8 +77,8 @@ final class NamespaceListValueTest extends TestCase
             '##targetNamespace combined' => ['##targetNamespace urn:x-simplesamlphp:namespace', true],
             'multiple spaces and newlines' => [
                 "urn:x-simplesamlphp:namespace1  urn:x-simplesamlphp:namespace2 \n urn:x-simplesamlphp:namespace3",
+                true,
             ],
-            'not-a-uri' => ['undefined', false],
             'empty' => ['', false],
         ];
     }

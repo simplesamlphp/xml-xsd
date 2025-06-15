@@ -25,11 +25,11 @@ use function dirname;
 use function strval;
 
 /**
- * Tests for xsd:enumeration
+ * Tests for xs:enumeration
  *
  * @package simplesamlphp/xml-xsd
  */
-#[Group('xsd')]
+#[Group('xs')]
 #[CoversClass(Enumeration::class)]
 #[CoversClass(AbstractNoFixedFacet::class)]
 #[CoversClass(AbstractAnnotated::class)]

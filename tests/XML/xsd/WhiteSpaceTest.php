@@ -27,11 +27,11 @@ use function dirname;
 use function strval;
 
 /**
- * Tests for xsd:whiteSpace
+ * Tests for xs:whiteSpace
  *
  * @package simplesamlphp/xml-xsd
  */
-#[Group('xsd')]
+#[Group('xs')]
 #[CoversClass(WhiteSpace::class)]
 #[CoversClass(AbstractFacet::class)]
 #[CoversClass(AbstractAnnotated::class)]

@@ -11,31 +11,31 @@ use SimpleSAML\XML\Attribute as XMLAttribute;
 use SimpleSAML\XML\Constants as C;
 use SimpleSAML\XML\DOMDocumentFactory;
 use SimpleSAML\XML\TestUtils\{SchemaValidationTestTrait, SerializableElementTestTrait};
-use SimpleSAML\XML\Type\{AnyURIValue, BooleanValue, IDValue, StringValue};
+use SimpleSAML\XML\Type\{AnyURIValue, IDValue, StringValue};
 use SimpleSAML\XSD\XML\xsd\AbstractAnnotated;
-use SimpleSAML\XSD\XML\xsd\AbstractFacet;
 use SimpleSAML\XSD\XML\xsd\AbstractOpenAttrs;
+use SimpleSAML\XSD\XML\xsd\AbstractWildcard;
 use SimpleSAML\XSD\XML\xsd\AbstractXsdElement;
 use SimpleSAML\XSD\XML\xsd\Annotation;
 use SimpleSAML\XSD\XML\xsd\Appinfo;
 use SimpleSAML\XSD\XML\xsd\Documentation;
-use SimpleSAML\XSD\XML\xsd\MaxExclusive;
+use SimpleSAML\XSD\XML\xsd\Field;
 
 use function dirname;
 use function strval;
 
 /**
- * Tests for xs:maxExclusive
+ * Tests for xs:field
  *
  * @package simplesamlphp/xml-xsd
  */
 #[Group('xs')]
-#[CoversClass(MaxExclusive::class)]
-#[CoversClass(AbstractFacet::class)]
+#[CoversClass(Field::class)]
+#[CoversClass(AbstractWildcard::class)]
 #[CoversClass(AbstractAnnotated::class)]
 #[CoversClass(AbstractOpenAttrs::class)]
 #[CoversClass(AbstractXsdElement::class)]
-final class MaxExclusiveTest extends TestCase
+final class FieldTest extends TestCase
 {
     use SchemaValidationTestTrait;
     use SerializableElementTestTrait;
@@ -45,10 +45,10 @@ final class MaxExclusiveTest extends TestCase
      */
     public static function setUpBeforeClass(): void
     {
-        self::$testedClass = MaxExclusive::class;
+        self::$testedClass = Field::class;
 
         self::$xmlRepresentation = DOMDocumentFactory::fromFile(
-            dirname(__FILE__, 3) . '/resources/xml/maxExclusive.xml',
+            dirname(__FILE__, 3) . '/resources/xml/field.xml',
         );
     }
 
@@ -57,7 +57,7 @@ final class MaxExclusiveTest extends TestCase
 
 
     /**
-     * Test creating an MinExclusive object from scratch.
+     * Test creating an Field object from scratch.
      */
     public function testMarshalling(): void
     {
@@ -114,17 +114,16 @@ final class MaxExclusiveTest extends TestCase
             [$attr3],
         );
 
-        $maxExclusive = new MaxExclusive(
-            StringValue::fromString('1024'),
-            BooleanValue::fromBoolean(true),
+        $field = new Field(
+            StringValue::fromString('@id'),
             $annotation,
-            IDValue::fromString('phpunit_maxexclusive'),
+            IDValue::fromString('phpunit_field'),
             [$attr4],
         );
 
         $this->assertEquals(
             self::$xmlRepresentation->saveXML(self::$xmlRepresentation->documentElement),
-            strval($maxExclusive),
+            strval($field),
         );
     }
 }

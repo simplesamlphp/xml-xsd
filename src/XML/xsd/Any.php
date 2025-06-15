@@ -32,7 +32,7 @@ final class Any extends AbstractWildcard implements SchemaValidatableElementInte
      * Wildcard constructor
      *
      * @param \SimpleSAML\XSD\Type\NamespaceListValue|null $namespace
-     * @param \SimpleSAML\XSD\Type\ProcessContents|null $processContents
+     * @param \SimpleSAML\XSD\Type\ProcessContentsValue|null $processContents
      * @param \SimpleSAML\XSD\XML\xsd\Annotation|null $annotation
      * @param \SimpleSAML\XML\Type\IDValue|null $id
      * @param array<\SimpleSAML\XML\Attribute> $namespacedAttributes

@@ -19,11 +19,11 @@ use function dirname;
 use function strval;
 
 /**
- * Tests for xsd:documentation
+ * Tests for xs:documentation
  *
  * @package simplesamlphp/xml-xsd
  */
-#[Group('xsd')]
+#[Group('xs')]
 #[CoversClass(Documentation::class)]
 #[CoversClass(AbstractXsdElement::class)]
 final class DocumentationTest extends TestCase
