@@ -43,7 +43,7 @@ trait FacetsTrait
     protected function setFacets(array $facets): void
     {
         Assert::maxCount($facets, C::UNBOUNDED_LIMIT);
-        Assert::isInstanceOf($facets, FacetInterface::class, SchemaViolationException::class);
+        Assert::allIsInstanceOf($facets, FacetInterface::class, SchemaViolationException::class);
         $this->facets = $facets;
     }
 }
