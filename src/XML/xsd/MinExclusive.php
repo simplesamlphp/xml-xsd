@@ -17,7 +17,7 @@ use function array_pop;
  *
  * @package simplesamlphp/xml-xsd
  */
-final class MinExclusive extends AbstractFacet implements SchemaValidatableElementInterface
+final class MinExclusive extends AbstractFacet implements SchemaValidatableElementInterface, FacetInterface
 {
     use SchemaValidatableElementTrait;
 

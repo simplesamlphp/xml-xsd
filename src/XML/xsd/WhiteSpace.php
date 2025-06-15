@@ -18,7 +18,7 @@ use function array_pop;
  *
  * @package simplesamlphp/xml-xsd
  */
-final class WhiteSpace extends AbstractFacet implements SchemaValidatableElementInterface
+final class WhiteSpace extends AbstractFacet implements SchemaValidatableElementInterface, FacetInterface
 {
     use SchemaValidatableElementTrait;
 

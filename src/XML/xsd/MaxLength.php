@@ -11,7 +11,7 @@ use SimpleSAML\XML\{SchemaValidatableElementInterface, SchemaValidatableElementT
  *
  * @package simplesamlphp/xml-xsd
  */
-final class MaxLength extends AbstractNumFacet implements SchemaValidatableElementInterface
+final class MaxLength extends AbstractNumFacet implements SchemaValidatableElementInterface, FacetInterface
 {
     use SchemaValidatableElementTrait;
 

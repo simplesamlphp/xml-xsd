@@ -17,7 +17,7 @@ use function array_pop;
  *
  * @package simplesamlphp/xml-xsd
  */
-final class TotalDigits extends AbstractNumFacet implements SchemaValidatableElementInterface
+final class TotalDigits extends AbstractNumFacet implements SchemaValidatableElementInterface, FacetInterface
 {
     use SchemaValidatableElementTrait;
 
