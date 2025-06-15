@@ -14,7 +14,6 @@ use SimpleSAML\XML\TestUtils\{SchemaValidationTestTrait, SerializableElementTest
 use SimpleSAML\XML\Type\{AnyURIValue, IDValue, StringValue};
 use SimpleSAML\XSD\XML\xsd\AbstractAnnotated;
 use SimpleSAML\XSD\XML\xsd\AbstractOpenAttrs;
-use SimpleSAML\XSD\XML\xsd\AbstractWildcard;
 use SimpleSAML\XSD\XML\xsd\AbstractXsdElement;
 use SimpleSAML\XSD\XML\xsd\Annotation;
 use SimpleSAML\XSD\XML\xsd\Appinfo;
@@ -31,7 +30,6 @@ use function strval;
  */
 #[Group('xs')]
 #[CoversClass(Field::class)]
-#[CoversClass(AbstractWildcard::class)]
 #[CoversClass(AbstractAnnotated::class)]
 #[CoversClass(AbstractOpenAttrs::class)]
 #[CoversClass(AbstractXsdElement::class)]
