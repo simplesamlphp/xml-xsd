@@ -8,9 +8,8 @@ use SimpleSAML\XML\Assert\Assert;
 use SimpleSAML\XML\Constants as C;
 use SimpleSAML\XML\Exception\SchemaViolationException;
 use SimpleSAML\XML\Type\NMTokenValue;
-use SimpleSAML\XML\XsNamespace;
-use SimpleSAML\XSD\XML\xsd\DerivationControlEnum;
 // use SimpleSAML\XSD\XML\xsd\NameSpaceEnum;
+use SimpleSAML\XSD\XML\xsd\DerivationControlEnum;
 
 use function explode;
 
