@@ -139,4 +139,19 @@ final class AnyTest extends TestCase
             strval($any),
         );
     }
+
+
+    /**
+     * Adding an empty xs:Any element should yield an empty element.
+     */
+    public function testMarshallingEmptyElement(): void
+    {
+        $xsns = C::NS_XS;
+        $any = new Any();
+        $this->assertEquals(
+            "<xsd:any xmlns:xsd=\"$xsns\"/>",
+            strval($any),
+        );
+        $this->assertTrue($any->isEmptyElement());
+    }
 }

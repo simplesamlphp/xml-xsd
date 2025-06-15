@@ -7,6 +7,8 @@ namespace SimpleSAML\Test\XSD\Type;
 use PHPUnit\Framework\Attributes\{CoversClass, DataProvider, DependsOnClass};
 use PHPUnit\Framework\TestCase;
 use SimpleSAML\XML\Exception\SchemaViolationException;
+use SimpleSAML\XML\XsNamespace;
+//use SimpleSAML\XSD\XML\xsd\NamespaceEnum;
 use SimpleSAML\XSD\Type\NamespaceListValue;
 
 /**
@@ -30,6 +32,32 @@ final class NamespaceListValueTest extends TestCase
         } catch (SchemaViolationException $e) {
             $this->assertFalse($shouldPass);
         }
+    }
+
+
+    /**
+     * Test helpers
+    public function testHelpers(): void
+    {
+        $x = NamespaceListValue::fromEnum(NamespaceEnum::Any);
+        $this->assertEquals(NamespaceEnum::Any, $x->toEnum());
+
+        $y = NameSpaceListValue::fromString('##any');
+        $this->assertEquals(NamespaceEnum::Any, $y->toEnum());
+    }
+     */
+
+
+    /**
+     * Test helpers
+     */
+    public function testHelpers(): void
+    {
+        $x = NamespaceListValue::fromEnum(XsNamespace::ANY);
+        $this->assertEquals(XsNamespace::ANY, $x->toEnum());
+
+        $y = NameSpaceListValue::fromString('##any');
+        $this->assertEquals(XsNamespace::ANY, $y->toEnum());
     }
 
 
