@@ -40,7 +40,7 @@ return [
         'selector' => '\SimpleSAML\XSD\XML\xsd\Selector',
 //        'sequence' => '\SimpleSAML\XSD\XML\xsd\Sequence',
 //        'simpleContent' => '\SimpleSAML\XSD\XML\xsd\SimpleContent',
-//        'simpleType' => '\SimpleSAML\XSD\XML\xsd\SimpleType',
+        'simpleType' => '\SimpleSAML\XSD\XML\xsd\TopLevelSimpleType',
         'totalDigits' => '\SimpleSAML\XSD\XML\xsd\TotalDigits',
 //        'union' => '\SimpleSAML\XSD\XML\xsd\Union',
 //        'unique' => '\SimpleSAML\XSD\XML\xsd\Unique',

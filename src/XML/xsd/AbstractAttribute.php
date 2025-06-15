@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace SimpleSAML\XSD\XML\xsd;
 
 use DOMElement;
-use SimpleSAML\XML\Assert\Assert;
-use SimpleSAML\XML\Exception\SchemaViolationException;
 use SimpleSAML\XML\Type\{IDValue, NCNameValue, QNameValue, StringValue};
 use SimpleSAML\XSD\Type\{FormChoiceValue, UseValue};
 
@@ -133,7 +131,7 @@ abstract class AbstractAttribute extends AbstractAnnotated
         }
 
         if ($this->getDefault() !== null) {
-            $e->setAttribute('default', $this->getDefault());
+            $e->setAttribute('default', strval($this->getDefault()));
         }
 
         if ($this->getFixed() !== null) {

@@ -33,7 +33,11 @@ trait SimpleDerivationTrait
     /**
      * Set the value of the derivation-property
      *
-     * @param \SimpleSAML\XSD\XML\xsd\Restriction|\SimpleSAML\XSD\XML\xsd\XsList|\SimpleSAML\XSD\XML\xsd\Union $derivation
+     * @param (
+     *   \SimpleSAML\XSD\XML\xsd\Restriction|
+     *   \SimpleSAML\XSD\XML\xsd\XsList|
+     *   \SimpleSAML\XSD\XML\xsd\Union
+     * ) $derivation
      */
     protected function setDerivation(Restriction|XsList|Union $derivation): void
     {
