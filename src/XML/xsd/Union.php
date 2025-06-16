@@ -6,12 +6,14 @@ namespace SimpleSAML\XSD\XML\xsd;
 
 use DOMElement;
 use SimpleSAML\Assert\Assert;
-use SimpleSAML\XML\Exception\{InvalidDOMElementException, MissingElementException};
+use SimpleSAML\XML\Exception\{InvalidDOMElementException, MissingElementException, SchemaViolationException};
 use SimpleSAML\XML\{SchemaValidatableElementInterface, SchemaValidatableElementTrait};
 use SimpleSAML\XML\Type\{IDValue, QNameValue, StringValue};
 
+use function array_fill;
 use function array_map;
 use function array_pop;
+use function implode;
 use function strval;
 
 /**
@@ -31,21 +33,22 @@ final class Union extends AbstractAnnotated implements SchemaValidatableElementI
      * Notation constructor
      *
      * @param \SimpleSAML\XSD\XML\xsd\LocalSimpleType[] $simpleType
-     * @param \SimpleSAML\XML\Type\QNameValue|null $memberTypes
+     * @param array<\SimpleSAML\XML\Type\QNameValue> $memberTypes
      * @param \SimpleSAML\XSD\XML\xsd\Annotation|null $annotation
      * @param \SimpleSAML\XML\Type\IDValue|null $id
      * @param array<\SimpleSAML\XML\Attribute> $namespacedAttributes
      */
     public function __construct(
         protected array $simpleType,
-        protected ?QNameValue $memberTypes = null,
+        protected array $memberTypes = [],
         ?Annotation $annotation = null,
         ?IDValue $id = null,
         array $namespacedAttributes = [],
     ) {
         Assert::allIsInstanceOf($simpleType, LocalSimpleType::class, SchemaViolationException::class);
+        Assert::allIsInstanceOf($memberTypes, QNameValue::class, SchemaViolationException::class);
 
-        if ($memberTypes === null) {
+        if (empty($memberTypes)) {
             Assert::minCount($simpleType, 1, MissingElementException::class);
         }
 
@@ -67,9 +70,9 @@ final class Union extends AbstractAnnotated implements SchemaValidatableElementI
     /**
      * Collect the value of the memberTypes-property
      *
-     * @return \SimpleSAML\XML\Type\QNameValue|null
+     * @return array<\SimpleSAML\XML\Type\QNameValue>
      */
-    public function getMemberTypes(): ?QNameValue
+    public function getMemberTypes(): array
     {
         return $this->memberTypes;
     }
@@ -85,8 +88,9 @@ final class Union extends AbstractAnnotated implements SchemaValidatableElementI
     {
         $e = parent::toXML($parent);
 
-        if ($this->getMemberTypes() !== null) {
-            $e->setAttribute('memberTypes', strval($this->getMemberTypes()));
+        $memberTypes = implode(' ', array_map('strval', $this->getMemberTypes()));
+        if ($memberTypes !== '') {
+            $e->setAttribute('memberTypes', $memberTypes);
         }
 
         foreach ($this->getSimpleType() as $simpleType) {
@@ -114,11 +118,16 @@ final class Union extends AbstractAnnotated implements SchemaValidatableElementI
         $annotation = Annotation::getChildrenOfClass($xml);
         $simpleType = LocalSimpleType::getChildrenOfClass($xml);
 
-        $memberTypes = null;
+        $memberTypes = [];
         $memberTypesValue = self::getOptionalAttribute($xml, 'memberTypes', StringValue::class, null);
         if ($memberTypesValue !== null) {
             $exploded = explode(' ', strval($memberTypesValue));
-            $memberTypes = array_map([QNameValue::class, 'fromDocument'], $exploded, $xml);
+            /** @var \SimpleSAML\XML\Type\QNameValue[] $memberTypes */
+            $memberTypes = array_map(
+                [QNameValue::class, 'fromDocument'],
+                $exploded,
+                array_fill(0, count($exploded), $xml),
+            );
         }
 
         return new static(

@@ -15,17 +15,24 @@ use SimpleSAML\XML\Exception\SchemaViolationException;
 trait AttrDeclsTrait
 {
     /**
-     * The attributes.
+     * The attributes + groups.
      *
-     * @var \SimpleSAML\XML\xsd\Attribute|\SimpleSAML\XML\xsd\AttributeGroup|\SimpleSAML\XML\xsd\AnyAttribute
+     * @var array<\SimpleSAML\XSD\XML\xsd\Attribute|\SimpleSAML\XSD\XML\xsd\AttributeGroup> $attributes
      */
-    protected string $attributes;
+    protected array $attributes = [];
+
+    /**
+     * The AnyAttribute
+     *
+     * @var \SimpleSAML\XSD\XML\xsd\AnyAttribute|null $anyAttribute
+     */
+    protected ?AnyAttribute $anyAttribute = null;
 
 
     /**
      * Collect the value of the attributes-property
      *
-     * @return array<\SimpleSAML\XML\xsd\Attribute|\SimpleSAML\XML\xsd\AttributeGroup|\SimpleSAML\XML\xsd\AnyAttribute>
+     * @return array<\SimpleSAML\XSD\XML\xsd\Attribute|\SimpleSAML\XSD\XML\xsd\AttributeGroup>
      */
     public function getAttributes(): array
     {
@@ -34,18 +41,42 @@ trait AttrDeclsTrait
 
 
     /**
+     * Collect the value of the anyAttribute-property
+     *
+     * @return \SimpleSAML\XSD\XML\xsd\AnyAttribute|null
+     */
+    public function getAnyAttribute(): ?AnyAttribute
+    {
+        return $this->anyAttribute;
+    }
+
+
+    /**
      * Set the value of the attributes-property
      *
-     * @param array<\SimpleSAML\XML\xsd\Attribute|\SimpleSAML\XML\xsd\AttributeGroup|\SimpleSAML\XML\xsd\AnyAttribute>
+     * @param array<\SimpleSAML\XSD\XML\xsd\Attribute|\SimpleSAML\XSD\XML\xsd\AttributeGroup> $attributes
      */
     protected function setAttributes(array $attributes): void
     {
         Assert::allIsInstanceOfAny(
             $attributes,
-            [Attribute::class, AttributeGroup::class, AnyAttribute::class],
+            [Attribute::class, AttributeGroup::class],
             SchemaViolationException::class,
         );
 
         $this->attributes = $attributes;
+    }
+
+
+    /**
+     * Set the value of the anyAttribute-property
+     *
+     * @param \SimpleSAML\XSD\XML\xsd\AnyAttribute|null $anyAttribute
+     */
+    protected function setAnyAttribute(?AnyAttribute $anyAttribute): void
+    {
+        Assert::allIsInstanceOf($anyAttribute, AnyAttribute::class, SchemaViolationException::class);
+
+        $this->anyAttribute = $anyAttribute;
     }
 }

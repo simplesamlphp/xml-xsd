@@ -137,7 +137,10 @@ final class UnionTest extends TestCase
 
         $union = new Union(
             [$simpleType1, $simpleType2],
-            null,
+            [
+                QNameValue::fromString('{http://www.w3.org/2001/XMLSchema}xsd:integer'),
+                QNameValue::fromString('{http://www.w3.org/2001/XMLSchema}xsd:string'),
+            ],
             $annotation,
             IDValue::fromString('phpunit_union'),
             [$attr4],

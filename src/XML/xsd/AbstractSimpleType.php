@@ -100,7 +100,7 @@ abstract class AbstractSimpleType extends AbstractAnnotated
             $e->setAttribute('name', strval($this->getName()));
         }
 
-        $this->getDerivation()?->toXML($e);
+        $this->getDerivation()->toXML($e);
 
         return $e;
     }
