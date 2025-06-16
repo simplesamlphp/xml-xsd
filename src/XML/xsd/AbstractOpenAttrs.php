@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace SimpleSAML\XSD\XML\xsd;
 
-use DOMElement;
-use SimpleSAML\XML\ExtendableAttributesTrait;
 //use SimpleSAML\XSD\XML\xsd\NamespaceEnum;
 use SimpleSAML\XML\XsNamespace;
 
@@ -14,9 +12,10 @@ use SimpleSAML\XML\XsNamespace;
  *
  * @package simplesamlphp/xml-xsd
  */
-abstract class AbstractOpenAttrs extends AbstractXsdElement
+abstract class AbstractOpenAttrs extends AbstractAnyType
 {
-    use ExtendableAttributesTrait;
+    /** The namespace-attribute for the xs:any element */
+    public const XS_ANY_ELT_NAMESPACE = [];
 
     /** The namespace-attribute for the xs:anyAttribute element */
     public const XS_ANY_ATTR_NAMESPACE = XsNamespace::OTHER;
@@ -24,42 +23,21 @@ abstract class AbstractOpenAttrs extends AbstractXsdElement
 
 
     /**
-     * AbstractOpenAttrs constructor
+     * AbstractAnyType constructor
      *
-     * @param array<\SimpleSAML\XML\Attribute> $namespacedAttributes
+     * @param array<\SimpleSAML\XML\Attribute> $attributes
      */
     public function __construct(
-        array $namespacedAttributes = [],
+        array $attributes = [],
     ) {
-        $this->setAttributesNS($namespacedAttributes);
-    }
-
-
-    /**
-     * Test if an object, at the state it's in, would produce an empty XML-element
-     *
-     * @return bool
-     */
-    public function isEmptyElement(): bool
-    {
-        return empty($this->getAttributesNS());
-    }
-
-
-    /**
-     * Add this OpenAttrs to an XML element.
-     *
-     * @param \DOMElement|null $parent The element we should append this OpenAttrs to.
-     * @return \DOMElement
-     */
-    public function toXML(?DOMElement $parent = null): DOMElement
-    {
-        $e = parent::instantiateParentElement($parent);
-
-        foreach ($this->getAttributesNS() as $attr) {
-            $attr->toXML($e);
-        }
-
-        return $e;
+        /**
+         * NOTE: no elements allowed here:
+         *
+         * @see XML Schema specification (Part 1, Section 3.4.2)
+         *
+         * If no content model is specified in a restriction, the content model is effectively empty
+         * for elements unless mixed content is explicitly allowed.
+         */
+        parent::__construct([], $attributes);
     }
 }

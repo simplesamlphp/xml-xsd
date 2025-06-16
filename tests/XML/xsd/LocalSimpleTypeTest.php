@@ -22,7 +22,6 @@ use SimpleSAML\XSD\XML\xsd\Appinfo;
 use SimpleSAML\XSD\XML\xsd\Documentation;
 use SimpleSAML\XSD\XML\xsd\LocalSimpleType;
 use SimpleSAML\XSD\XML\xsd\Restriction;
-use SimpleSAML\XSD\XML\xsd\XsList;
 
 use function dirname;
 use function strval;
