@@ -41,9 +41,11 @@ final class SimpleDerivationSetValueTest extends TestCase
         return [
             '#all' => ['#all', true],
             '#all combined' => ['#all list restriction union', false],
+            'extension' => ['extension', false],
             'list' => ['list', true],
             'union' => ['union', true],
             'restriction' => ['restriction', true],
+            'substitution' => ['substitution', false],
             'combined' => ['restriction union list', true],
             'multiple spaces and newlines' => [
                 "restriction  list \n union",

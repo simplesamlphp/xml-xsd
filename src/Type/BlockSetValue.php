@@ -16,10 +16,10 @@ use function explode;
 /**
  * @package simplesaml/xml-xsd
  */
-class SimpleDerivationSetValue extends NMTokenValue
+class BlockSetValue extends NMTokenValue
 {
     /** @var string */
-    public const SCHEMA_TYPE = 'simpleDerivationSet';
+    public const SCHEMA_TYPE = 'blockSet';
 
 
     /**
@@ -41,9 +41,9 @@ class SimpleDerivationSetValue extends NMTokenValue
             $filtered = array_diff(
                 $list,
                 [
-                    DerivationControlEnum::List->value,
+                    DerivationControlEnum::Extension->value,
                     DerivationControlEnum::Restriction->value,
-                    DerivationControlEnum::Union->value,
+                    DerivationControlEnum::Substitution->value,
                 ],
             );
             Assert::isEmpty($filtered, SchemaViolationException::class);
