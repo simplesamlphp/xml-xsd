@@ -8,24 +8,27 @@ use DOMElement;
 use SimpleSAML\Assert\Assert;
 use SimpleSAML\XML\Exception\InvalidDOMElementException;
 use SimpleSAML\XML\{SchemaValidatableElementInterface, SchemaValidatableElementTrait};
-use SimpleSAML\XML\Type\{IDValue, NCNameValue};
+use SimpleSAML\XML\Type\{IDValue, NCNameValue, QNameValue};
+
+use function strval;
 
 /**
- * Class representing the unique-element.
+ * Class representing the keyref-element.
  *
  * @package simplesamlphp/xml-xsd
  */
-final class Unique extends AbstractKeybase implements SchemaValidatableElementInterface
+final class Keyref extends AbstractKeybase implements SchemaValidatableElementInterface
 {
     use SchemaValidatableElementTrait;
 
     /** @var string */
-    public const LOCALNAME = 'unique';
+    public const LOCALNAME = 'keyref';
 
 
     /**
-     * Unique constructor
+     * Keyref constructor
      *
+     * @param \SimpleSAML\XML\Type\QNameValue $refer
      * @param \SimpleSAML\XML\Type\NCNameValue $name
      * @param \SimpleSAML\XSD\XML\xsd\Selector $selector
      * @param array<\SimpleSAML\XSD\XML\xsd\Field> $field
@@ -34,6 +37,7 @@ final class Unique extends AbstractKeybase implements SchemaValidatableElementIn
      * @param array<\SimpleSAML\XML\Attribute> $namespacedAttributes
      */
     public function __construct(
+        protected QNameValue $refer,
         NCNameValue $name,
         Selector $selector,
         array $field = [],
@@ -42,6 +46,32 @@ final class Unique extends AbstractKeybase implements SchemaValidatableElementIn
         array $namespacedAttributes = [],
     ) {
         parent::__construct($name, $selector, $field, $annotation, $id, $namespacedAttributes);
+    }
+
+
+    /**
+     * Collect the value of the refer-property
+     *
+     * @return \SimpleSAML\XML\Type\QNameValue
+     */
+    public function getRefer(): QNameValue
+    {
+        return $this->refer;
+    }
+
+
+    /**
+     * Add this Annotated to an XML element.
+     *
+     * @param \DOMElement|null $parent The element we should append this Annotated to.
+     * @return \DOMElement
+     */
+    public function toXML(?DOMElement $parent = null): DOMElement
+    {
+        $e = parent::toXML($parent);
+        $e->setAttribute('refer', strval($this->getRefer()));
+
+        return $e;
     }
 
 
@@ -64,6 +94,7 @@ final class Unique extends AbstractKeybase implements SchemaValidatableElementIn
         $field = Field::getChildrenOfClass($xml);
 
         return new static(
+            self::getAttribute($xml, 'refer', QNameValue::class),
             self::getAttribute($xml, 'name', NCNameValue::class),
             array_pop($selector),
             $field,

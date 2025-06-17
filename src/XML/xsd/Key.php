@@ -24,7 +24,7 @@ final class Key extends AbstractKeybase implements SchemaValidatableElementInter
 
 
     /**
-     * Import constructor
+     * Key constructor
      *
      * @param \SimpleSAML\XML\Type\NCNameValue $name
      * @param \SimpleSAML\XSD\XML\xsd\Selector $selector

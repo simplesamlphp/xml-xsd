@@ -95,10 +95,7 @@ abstract class AbstractKeybase extends AbstractAnnotated
     public function toXML(?DOMElement $parent = null): DOMElement
     {
         $e = parent::toXML($parent);
-
-        if ($this->getName() !== null) {
-            $e->setAttribute('name', strval($this->getName()));
-        }
+        $e->setAttribute('name', strval($this->getName()));
 
         $this->getSelector()->toXML($e);
 
