@@ -11,33 +11,33 @@ use SimpleSAML\XML\Attribute as XMLAttribute;
 use SimpleSAML\XML\Constants as C;
 use SimpleSAML\XML\DOMDocumentFactory;
 use SimpleSAML\XML\TestUtils\{SchemaValidationTestTrait, SerializableElementTestTrait};
-use SimpleSAML\XML\Type\{AnyURIValue, BooleanValue, IDValue, NonNegativeIntegerValue, StringValue};
+use SimpleSAML\XML\Type\{AnyURIValue, IDValue, NCNameValue, StringValue};
 use SimpleSAML\XSD\XML\xsd\AbstractAnnotated;
-use SimpleSAML\XSD\XML\xsd\AbstractFacet;
-use SimpleSAML\XSD\XML\xsd\AbstractNumFacet;
+use SimpleSAML\XSD\XML\xsd\AbstractKeyBase;
 use SimpleSAML\XSD\XML\xsd\AbstractOpenAttrs;
 use SimpleSAML\XSD\XML\xsd\AbstractXsdElement;
 use SimpleSAML\XSD\XML\xsd\Annotation;
 use SimpleSAML\XSD\XML\xsd\Appinfo;
 use SimpleSAML\XSD\XML\xsd\Documentation;
-use SimpleSAML\XSD\XML\xsd\MaxLength;
+use SimpleSAML\XSD\XML\xsd\Field;
+use SimpleSAML\XSD\XML\xsd\Key;
+use SimpleSAML\XSD\XML\xsd\Selector;
 
 use function dirname;
 use function strval;
 
 /**
- * Tests for xs:MaxLength
+ * Tests for xs:key
  *
  * @package simplesamlphp/xml-xsd
  */
 #[Group('xs')]
-#[CoversClass(MaxLength::class)]
-#[CoversClass(AbstractNumFacet::class)]
-#[CoversClass(AbstractFacet::class)]
+#[CoversClass(Key::class)]
+#[CoversClass(AbstractKeyBase::class)]
 #[CoversClass(AbstractAnnotated::class)]
 #[CoversClass(AbstractOpenAttrs::class)]
 #[CoversClass(AbstractXsdElement::class)]
-final class MaxLengthTest extends TestCase
+final class KeyTest extends TestCase
 {
     use SchemaValidationTestTrait;
     use SerializableElementTestTrait;
@@ -47,10 +47,10 @@ final class MaxLengthTest extends TestCase
      */
     public static function setUpBeforeClass(): void
     {
-        self::$testedClass = MaxLength::class;
+        self::$testedClass = Key::class;
 
         self::$xmlRepresentation = DOMDocumentFactory::fromFile(
-            dirname(__FILE__, 3) . '/resources/xml/maxLength.xml',
+            dirname(__FILE__, 3) . '/resources/xml/key.xml',
         );
     }
 
@@ -59,7 +59,7 @@ final class MaxLengthTest extends TestCase
 
 
     /**
-     * Test creating an MaxLength object from scratch.
+     * Test creating an Annotation object from scratch.
      */
     public function testMarshalling(): void
     {
@@ -102,6 +102,7 @@ final class MaxLengthTest extends TestCase
             AnyURIValue::fromString('urn:x-simplesamlphp:source'),
             [$attr1],
         );
+
         $documentation2 = new Documentation(
             $otherDocumentationDocument->childNodes,
             $langattr,
@@ -109,24 +110,51 @@ final class MaxLengthTest extends TestCase
             [$attr2],
         );
 
-        $annotation = new Annotation(
+        $annotation1 = new Annotation(
             [$appinfo1, $appinfo2],
             [$documentation1, $documentation2],
-            IDValue::fromString('phpunit_annotation'),
+            IDValue::fromString('phpunit_annotation1'),
+            [$attr3],
+        );
+        $annotation2 = new Annotation(
+            [$appinfo1, $appinfo2],
+            [$documentation1, $documentation2],
+            IDValue::fromString('phpunit_annotation2'),
+            [$attr3],
+        );
+        $annotation3 = new Annotation(
+            [$appinfo1, $appinfo2],
+            [$documentation1, $documentation2],
+            IDValue::fromString('phpunit_annotation3'),
             [$attr3],
         );
 
-        $MaxLength = new MaxLength(
-            NonNegativeIntegerValue::fromInteger(1024),
-            BooleanValue::fromBoolean(true),
-            $annotation,
-            IDValue::fromString('phpunit_maxlength'),
+        $selector = new Selector(
+            StringValue::fromString('.//annotation'),
+            $annotation2,
+            IDValue::fromString('phpunit_selector'),
             [$attr4],
+        );
+
+        $field = new Field(
+            StringValue::fromString('@id'),
+            $annotation3,
+            IDValue::fromString('phpunit_field'),
+            [$attr4],
+        );
+
+        $key = new Key(
+            NCNameValue::fromString('phpunit_key'),
+            $selector,
+            [$field],
+            $annotation1,
+            IDValue::fromString('phpunit'),
+            [$attr3],
         );
 
         $this->assertEquals(
             self::$xmlRepresentation->saveXML(self::$xmlRepresentation->documentElement),
-            strval($MaxLength),
+            strval($key),
         );
     }
 }

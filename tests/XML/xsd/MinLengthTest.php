@@ -5,8 +5,7 @@ declare(strict_types=1);
 namespace SimpleSAML\XSD\Test\XML\xsd;
 
 use DOMText;
-use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\{CoversClass, Group};
 use PHPUnit\Framework\TestCase;
 use SimpleSAML\XML\Attribute as XMLAttribute;
 use SimpleSAML\XML\Constants as C;
