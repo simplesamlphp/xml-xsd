@@ -18,7 +18,7 @@ use SimpleSAML\XSD\Type\SimpleDerivationSetValue;
 final class SimpleDerivationSetValueTest extends TestCase
 {
     /**
-     * @param string $SimpleDerivationSet
+     * @param string $simpleDerivationSet
      * @param bool $expected
      */
     #[DataProvider('provideSimpleDerivationSet')]
