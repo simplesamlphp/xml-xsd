@@ -31,6 +31,11 @@ abstract class AbstractLocalSimpleType extends AbstractSimpleType
         ?IDValue $id = null,
         array $namespacedAttributes = [],
     ) {
-        parent::__construct($derivation, null, null, $annotation, $id, $namespacedAttributes);
+        parent::__construct(
+            derivation: $derivation,
+            annotation: $annotation,
+            id: $id,
+            namespacedAttributes: $namespacedAttributes,
+        );
     }
 }
