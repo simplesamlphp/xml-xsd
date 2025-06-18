@@ -15,7 +15,7 @@ use SimpleSAML\XML\Type\{IDValue, NCNameValue};
  *
  * @package simplesamlphp/xml-xsd
  */
-final class Unique extends AbstractKeybase implements SchemaValidatableElementInterface
+final class Unique extends AbstractKeybase implements IdentityConstraintInterface, SchemaValidatableElementInterface
 {
     use SchemaValidatableElementTrait;
 

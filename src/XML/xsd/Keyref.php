@@ -17,7 +17,7 @@ use function strval;
  *
  * @package simplesamlphp/xml-xsd
  */
-final class Keyref extends AbstractKeybase implements SchemaValidatableElementInterface
+final class Keyref extends AbstractKeybase implements IdentityConstraintInterface, SchemaValidatableElementInterface
 {
     use SchemaValidatableElementTrait;
 
