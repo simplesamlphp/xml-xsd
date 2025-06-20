@@ -6,7 +6,7 @@ namespace SimpleSAML\XSD\XML\xsd;
 
 use DOMElement;
 use SimpleSAML\Assert\Assert;
-use SimpleSAML\XML\Exception\InvalidDOMElementException;
+use SimpleSAML\XML\Exception\{InvalidDOMElementException, TooManyElementsException};
 use SimpleSAML\XML\{SchemaValidatableElementInterface, SchemaValidatableElementTrait};
 use SimpleSAML\XML\Type\{AnyURIValue, IDValue, NCNameValue};
 use SimpleSAML\XSD\Type\PublicValue;
@@ -120,6 +120,7 @@ final class Notation extends AbstractAnnotated implements SchemaValidatableEleme
         Assert::same($xml->namespaceURI, static::NS, InvalidDOMElementException::class);
 
         $annotation = Annotation::getChildrenOfClass($xml);
+        Assert::maxCount($annotation, 1, TooManyElementsException::class);
 
         return new static(
             self::getOptionalAttribute($xml, 'name', NCNameValue::class),

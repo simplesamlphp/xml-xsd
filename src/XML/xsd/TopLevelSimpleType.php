@@ -47,6 +47,7 @@ final class TopLevelSimpleType extends AbstractTopLevelSimpleType
         Assert::same($xml->namespaceURI, static::NS, InvalidDOMElementException::class);
 
         $annotation = Annotation::getChildrenOfClass($xml);
+        Assert::maxCount($annotation, 1, TooManyElementsException::class);
 
         $union = Union::getChildrenOfClass($xml);
         $xsList = XsList::getChildrenOfClass($xml);

@@ -16,17 +16,17 @@ trait FormChoiceTrait
     /**
      * The formChoice.
      *
-     * @var \SimpleSAML\XSD\Type\FormChoiceValue
+     * @var \SimpleSAML\XSD\Type\FormChoiceValue|null
      */
-    protected FormChoiceValue $formChoice;
+    protected ?FormChoiceValue $formChoice = null;
 
 
     /**
      * Collect the value of the formChoice-property
      *
-     * @return \SimpleSAML\XSD\Type\FormChoiceValue
+     * @return \SimpleSAML\XSD\Type\FormChoiceValue|null
      */
-    public function getFormChoice(): FormChoiceValue
+    public function getFormChoice(): ?FormChoiceValue
     {
         return $this->formChoice;
     }
@@ -35,9 +35,9 @@ trait FormChoiceTrait
     /**
      * Set the value of the formChoice-property
      *
-     * @param \SimpleSAML\XSD\Type\FormChoiceValue $formChoice
+     * @param \SimpleSAML\XSD\Type\FormChoiceValue|null $formChoice
      */
-    protected function setFormChoice(FormChoiceValue $formChoice): void
+    protected function setFormChoice(?FormChoiceValue $formChoice): void
     {
         $this->formChoice = $formChoice;
     }

@@ -6,7 +6,7 @@ namespace SimpleSAML\XSD\XML\xsd;
 
 use DOMElement;
 use SimpleSAML\Assert\Assert;
-use SimpleSAML\XML\Exception\InvalidDOMElementException;
+use SimpleSAML\XML\Exception\{InvalidDOMElementException, TooManyElementsException};
 use SimpleSAML\XML\{SchemaValidatableElementInterface, SchemaValidatableElementTrait};
 use SimpleSAML\XML\Type\{IDValue, NCNameValue};
 
@@ -60,7 +60,11 @@ final class Unique extends AbstractKeybase implements IdentityConstraintInterfac
         Assert::same($xml->namespaceURI, static::NS, InvalidDOMElementException::class);
 
         $annotation = Annotation::getChildrenOfClass($xml);
+        Assert::maxCount($annotation, 1, TooManyElementsException::class);
+
         $selector = Selector::getChildrenOfClass($xml);
+        Assert::maxCount($selector, 1, TooManyElementsException::class);
+
         $field = Field::getChildrenOfClass($xml);
 
         return new static(

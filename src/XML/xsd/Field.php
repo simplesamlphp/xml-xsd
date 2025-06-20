@@ -6,7 +6,7 @@ namespace SimpleSAML\XSD\XML\xsd;
 
 use DOMElement;
 use SimpleSAML\XML\Assert\Assert;
-use SimpleSAML\XML\Exception\{InvalidDOMElementException, SchemaViolationException};
+use SimpleSAML\XML\Exception\{InvalidDOMElementException, SchemaViolationException, TooManyElementsException};
 use SimpleSAML\XML\{SchemaValidatableElementInterface, SchemaValidatableElementTrait};
 use SimpleSAML\XML\Type\{IDValue, StringValue};
 
@@ -98,6 +98,7 @@ final class Field extends AbstractAnnotated implements SchemaValidatableElementI
         Assert::same($xml->namespaceURI, static::NS, InvalidDOMElementException::class);
 
         $annotation = Annotation::getChildrenOfClass($xml);
+        Assert::maxCount($annotation, 1, TooManyElementsException::class);
 
         return new static(
             self::getOptionalAttribute($xml, 'xpath', StringValue::class),

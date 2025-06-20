@@ -24,9 +24,9 @@ abstract class AbstractAttribute extends AbstractAnnotated
     /**
      * Attribute constructor
      *
-     * @param \SimpleSAML\XML\Type\NCNameValue $name
-     * @param \SimpleSAML\XML\Type\QNameValue $reference
      * @param \SimpleSAML\XML\Type\QNameValue $type
+     * @param \SimpleSAML\XML\Type\NCNameValue|null $name
+     * @param \SimpleSAML\XML\Type\QNameValue|null $reference
      * @param \SimpleSAML\XSD\Type\UseValue|null $use
      * @param \SimpleSAML\XML\Type\StringValue|null $default
      * @param \SimpleSAML\XML\Type\StringValue|null $fixed
@@ -37,13 +37,13 @@ abstract class AbstractAttribute extends AbstractAnnotated
      * @param array<\SimpleSAML\XML\Attribute> $namespacedAttributes
      */
     public function __construct(
-        NCNameValue $name,
-        QNameValue $reference,
         protected QNameValue $type,
+        ?NCNameValue $name = null,
+        ?QNameValue $reference = null,
         protected ?UseValue $use = null,
         protected ?StringValue $default = null,
         protected ?StringValue $fixed = null,
-        protected ?FormChoiceValue $formChoice = null,
+        ?FormChoiceValue $formChoice = null,
         protected ?LocalSimpleType $simpleType = null,
         ?Annotation $annotation = null,
         ?IDValue $id = null,
@@ -122,9 +122,17 @@ abstract class AbstractAttribute extends AbstractAnnotated
     {
         $e = parent::toXML($parent);
 
-        $e->setAttribute('name', strval($this->getName()));
-        $e->setAttribute('reference', strval($this->getReference()));
-        $e->setAttribute('type', strval($this->getType()));
+        if ($this->getName() !== null) {
+            $e->setAttribute('name', strval($this->getName()));
+        }
+
+        if ($this->getReference() !== null) {
+            $e->setAttribute('reference', strval($this->getReference()));
+        }
+
+        if ($this->getType() !== null) {
+            $e->setAttribute('type', strval($this->getType()));
+        }
 
         if ($this->getUse() !== null) {
             $e->setAttribute('use', strval($this->getUse()));

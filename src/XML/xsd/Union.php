@@ -6,7 +6,12 @@ namespace SimpleSAML\XSD\XML\xsd;
 
 use DOMElement;
 use SimpleSAML\Assert\Assert;
-use SimpleSAML\XML\Exception\{InvalidDOMElementException, MissingElementException, SchemaViolationException};
+use SimpleSAML\XML\Exception\{
+    InvalidDOMElementException,
+    MissingElementException,
+    SchemaViolationException,
+    TooManyElementsException,
+};
 use SimpleSAML\XML\{SchemaValidatableElementInterface, SchemaValidatableElementTrait};
 use SimpleSAML\XML\Type\{IDValue, QNameValue, StringValue};
 
@@ -116,7 +121,7 @@ final class Union extends AbstractAnnotated implements SchemaValidatableElementI
         Assert::same($xml->namespaceURI, static::NS, InvalidDOMElementException::class);
 
         $annotation = Annotation::getChildrenOfClass($xml);
-        $simpleType = LocalSimpleType::getChildrenOfClass($xml);
+        Assert::maxCount($annotation, 1, TooManyElementsException::class);
 
         $memberTypes = [];
         $memberTypesValue = self::getOptionalAttribute($xml, 'memberTypes', StringValue::class, null);
@@ -131,7 +136,7 @@ final class Union extends AbstractAnnotated implements SchemaValidatableElementI
         }
 
         return new static(
-            $simpleType,
+            LocalSimpleType::getChildrenOfClass($xml),
             $memberTypes,
             array_pop($annotation),
             self::getOptionalAttribute($xml, 'id', IDValue::class, null),
