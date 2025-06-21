@@ -18,7 +18,9 @@ use function strval;
  *
  * @package simplesamlphp/xml-xsd
  */
-final class Notation extends AbstractAnnotated implements SchemaValidatableElementInterface
+final class Notation extends AbstractAnnotated implements
+    SchemaTopInterface,
+    SchemaValidatableElementInterface
 {
     use SchemaValidatableElementTrait;
 

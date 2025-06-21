@@ -19,7 +19,7 @@ use function array_pop;
  * @package simplesamlphp/xml-xsd
  */
 final class Attribute extends AbstractTopLevelAttribute implements
-    RedefinableInterface,
+    SchemaTopInterface,
     SchemaValidatableElementInterface
 {
     use SchemaValidatableElementTrait;
