@@ -24,11 +24,7 @@ abstract class AbstractSimpleType extends AbstractAnnotated
     /**
      * Annotated constructor
      *
-     * @param (
-     *   \SimpleSAML\XSD\XML\xsd\Union|
-     *   \SimpleSAML\XSD\XML\xsd\XsList|
-     *   \SimpleSAML\XSD\XML\xsd\Restriction
-     * ) $derivation
+     * @param \SimpleSAML\XSD\XML\xsd\SimpleDerivationInterface $derivation
      * @param \SimpleSAML\XML\Type\NCNameValue $name
      * @param \SimpleSAML\XSD\Type\SimpleDerivationSetValue $final
      * @param \SimpleSAML\XSD\XML\xsd\Annotation|null $annotation
@@ -36,7 +32,7 @@ abstract class AbstractSimpleType extends AbstractAnnotated
      * @param array<\SimpleSAML\XML\Attribute> $namespacedAttributes
      */
     public function __construct(
-        Union|XsList|Restriction $derivation,
+        SimpleDerivationInterface $derivation,
         protected ?NCNameValue $name = null,
         protected ?SimpleDerivationSetValue $final = null,
         ?Annotation $annotation = null,

@@ -19,7 +19,9 @@ use function strval;
  *
  * @package simplesamlphp/xml-xsd
  */
-final class Restriction extends AbstractAnnotated implements SchemaValidatableElementInterface
+final class Restriction extends AbstractAnnotated implements
+    SchemaValidatableElementInterface,
+    SimpleDerivationInterface
 {
     use SchemaValidatableElementTrait;
     use SimpleRestrictionModelTrait;

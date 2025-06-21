@@ -14,17 +14,17 @@ trait SimpleDerivationTrait
     /**
      * The derivation.
      *
-     * @var \SimpleSAML\XSD\XML\xsd\Restriction|\SimpleSAML\XSD\XML\xsd\XsList|\SimpleSAML\XSD\XML\xsd\Union
+     * @var \SimpleSAML\XSD\XML\xsd\SimpleDerivationInterface
      */
-    protected Restriction|XsList|Union $derivation;
+    protected SimpleDerivationInterface $derivation;
 
 
     /**
      * Collect the value of the derivation-property
      *
-     * @return \SimpleSAML\XSD\XML\xsd\Restriction|\SimpleSAML\XSD\XML\xsd\XsList|\SimpleSAML\XSD\XML\xsd\Union
+     * @return \SimpleSAML\XSD\XML\xsd\SimpleDerivationInterface
      */
-    public function getDerivation(): Restriction|XsList|Union
+    public function getDerivation(): SimpleDerivationInterface
     {
         return $this->derivation;
     }
@@ -33,13 +33,9 @@ trait SimpleDerivationTrait
     /**
      * Set the value of the derivation-property
      *
-     * @param (
-     *   \SimpleSAML\XSD\XML\xsd\Restriction|
-     *   \SimpleSAML\XSD\XML\xsd\XsList|
-     *   \SimpleSAML\XSD\XML\xsd\Union
-     * ) $derivation
+     * @param \SimpleSAML\XSD\XML\xsd\SimpleDerivationInterface $derivation
      */
-    protected function setDerivation(Restriction|XsList|Union $derivation): void
+    protected function setDerivation(SimpleDerivationInterface $derivation): void
     {
         $this->derivation = $derivation;
     }

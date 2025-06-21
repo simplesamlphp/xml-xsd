@@ -26,7 +26,9 @@ use function strval;
  *
  * @package simplesamlphp/xml-xsd
  */
-final class Union extends AbstractAnnotated implements SchemaValidatableElementInterface
+final class Union extends AbstractAnnotated implements
+    SchemaValidatableElementInterface,
+    SimpleDerivationInterface
 {
     use SchemaValidatableElementTrait;
 

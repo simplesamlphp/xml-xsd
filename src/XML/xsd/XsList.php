@@ -17,7 +17,9 @@ use function strval;
  *
  * @package simplesamlphp/xml-xsd
  */
-final class XsList extends AbstractAnnotated implements SchemaValidatableElementInterface
+final class XsList extends AbstractAnnotated implements
+    SchemaValidatableElementInterface,
+    SimpleDerivationInterface
 {
     use SchemaValidatableElementTrait;
 
