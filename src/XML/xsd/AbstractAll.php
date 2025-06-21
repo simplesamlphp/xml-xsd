@@ -6,16 +6,17 @@ namespace SimpleSAML\XSD\XML\xsd;
 
 use SimpleSAML\Assert\Assert;
 use SimpleSAML\XML\Exception\SchemaViolationException;
-use SimpleSAML\XML\Type\{IDValue, NCNameValue};
+use SimpleSAML\XML\Type\IDValue;
+use SimpleSAML\XSD\Type\{MinOccursValue, MaxOccursValue};
 //use SimpleSAML\XSD\XML\xsd\NamespaceEnum;
 use SimpleSAML\XML\XsNamespace;
 
 /**
- * Abstract class representing the namedGroup-type.
+ * Abstract class representing the explicitGroup-type.
  *
  * @package simplesamlphp/xml-xsd
  */
-abstract class AbstractNamedGroup extends AbstractRealGroup
+abstract class AbstractAll extends AbstractExplicitGroup
 {
     /** The namespace-attribute for the xs:anyAttribute element */
     public const XS_ANY_ATTR_NAMESPACE = XsNamespace::OTHER;
@@ -23,35 +24,30 @@ abstract class AbstractNamedGroup extends AbstractRealGroup
 
 
     /**
-     * Group constructor
+     * All constructor
      *
-     * @param \SimpleSAML\XSD\XML\xsd\ParticleInterface $particle
-     * @param \SimpleSAML\XML\Type\NCNameValue|null $name
+     * @param \SimpleSAML\XSD\Type\MinOccursValue|null $minOccurs
+     * @param \SimpleSAML\XSD\Type\MaxOccursValue|null $maxOccurs
+     * @param array<\SimpleSAML\XSD\XML\xsd\NestedParticleInterface> $particles
      * @param \SimpleSAML\XSD\XML\xsd\Annotation|null $annotation
      * @param \SimpleSAML\XML\Type\IDValue|null $id
      * @param array<\SimpleSAML\XML\Attribute> $namespacedAttributes
      */
     public function __construct(
-        ParticleInterface $particle,
-        ?NCNameValue $name = null,
+        ?MinOccursValue $minOccurs = null,
+        ?MaxOccursValue $maxOccurs = null,
+        array $particles = [],
         ?Annotation $annotation = null,
         ?IDValue $id = null,
         array $namespacedAttributes = [],
     ) {
-        Assert::nullOrIsInstanceOfAny(
-            $particle,
-            [All::class, Choice::class, Sequence::class],
-            SchemaViolationException::class,
-        );
-
-        if ($particle instanceof All) {
-            Assert::null($particle->getMinOccurs(), SchemaViolationException::class);
-            Assert::null($particle->getMaxOccurs(), SchemaViolationException::class);
-        }
+        Assert::oneOf($minOccurs->toInteger(), [0, 1], SchemaViolationException::class);
+        Assert::same($maxOccurs->toInteger(), 1, SchemaViolationException::class);
 
         parent::__construct(
-            name: $name,
-            particle: $particle,
+            nestedParticles: $particles,
+            minOccurs: $minOccurs,
+            maxOccurs: $maxOccurs,
             annotation: $annotation,
             id: $id,
             namespacedAttributes: $namespacedAttributes,
