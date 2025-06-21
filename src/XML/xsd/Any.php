@@ -19,7 +19,9 @@ use function strval;
  *
  * @package simplesamlphp/xml-xsd
  */
-final class Any extends AbstractWildcard implements SchemaValidatableElementInterface
+final class Any extends AbstractWildcard implements
+    ParticleInterface,
+    SchemaValidatableElementInterface
 {
     use OccursTrait;
     use SchemaValidatableElementTrait;
