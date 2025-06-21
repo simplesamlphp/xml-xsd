@@ -48,7 +48,7 @@ final class SequenceTest extends TestCase
      */
     public static function setUpBeforeClass(): void
     {
-        self::$testedClass = SequenceGroup::class;
+        self::$testedClass = Sequence::class;
 
         self::$xmlRepresentation = DOMDocumentFactory::fromFile(
             dirname(__FILE__, 3) . '/resources/xml/sequence.xml',

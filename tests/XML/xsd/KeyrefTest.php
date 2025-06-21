@@ -157,5 +157,7 @@ final class KeyrefTest extends TestCase
             self::$xmlRepresentation->saveXML(self::$xmlRepresentation->documentElement),
             strval($keyref),
         );
+
+        $this->assertFalse($keyref->isEmptyElement());
     }
 }

@@ -16,7 +16,10 @@ use function array_pop;
  *
  * @package simplesamlphp/xml-xsd
  */
-final class ReferencedGroup extends AbstractReferencedGroup implements NestedParticleInterface, ParticleInterface
+final class ReferencedGroup extends AbstractReferencedGroup implements
+    NestedParticleInterface,
+    ParticleInterface,
+    TypeDefParticleInterface
 {
     /** @var string */
     public const LOCALNAME = 'group';

@@ -156,5 +156,7 @@ final class KeyTest extends TestCase
             self::$xmlRepresentation->saveXML(self::$xmlRepresentation->documentElement),
             strval($key),
         );
+
+        $this->assertFalse($key->isEmptyElement());
     }
 }

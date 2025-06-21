@@ -48,7 +48,7 @@ final class ChoiceTest extends TestCase
      */
     public static function setUpBeforeClass(): void
     {
-        self::$testedClass = ChoiceGroup::class;
+        self::$testedClass = Choice::class;
 
         self::$xmlRepresentation = DOMDocumentFactory::fromFile(
             dirname(__FILE__, 3) . '/resources/xml/choice.xml',
@@ -134,5 +134,19 @@ final class ChoiceTest extends TestCase
             self::$xmlRepresentation->saveXML(self::$xmlRepresentation->documentElement),
             strval($choice),
         );
+    }
+
+
+    /**
+     * Creating an empty Choice element should yield an empty element.
+     */
+    public function testMarshallingEmptyElement(): void
+    {
+        $choice = new Choice();
+        $this->assertEquals(
+            '<xsd:choice xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>',
+            strval($choice),
+        );
+        $this->assertTrue($choice->isEmptyElement());
     }
 }

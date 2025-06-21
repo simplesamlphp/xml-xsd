@@ -21,7 +21,8 @@ use function array_pop;
 final class Sequence extends AbstractExplicitGroup implements
     NestedParticleInterface,
     ParticleInterface,
-    SchemaValidatableElementInterface
+    SchemaValidatableElementInterface,
+    TypeDefParticleInterface
 {
     use SchemaValidatableElementTrait;
 

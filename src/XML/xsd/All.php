@@ -24,7 +24,10 @@ use function array_pop;
  *
  * @package simplesamlphp/xml-xsd
  */
-final class All extends AbstractAll implements ParticleInterface, SchemaValidatableElementInterface
+final class All extends AbstractAll implements
+    ParticleInterface,
+    SchemaValidatableElementInterface,
+    TypeDefParticleInterface
 {
     use SchemaValidatableElementTrait;
 

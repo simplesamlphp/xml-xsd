@@ -156,5 +156,7 @@ final class UniqueTest extends TestCase
             self::$xmlRepresentation->saveXML(self::$xmlRepresentation->documentElement),
             strval($unique),
         );
+
+        $this->assertFalse($unique->isEmptyElement());
     }
 }

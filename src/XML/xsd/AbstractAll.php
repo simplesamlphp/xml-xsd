@@ -43,6 +43,11 @@ abstract class AbstractAll extends AbstractExplicitGroup
     ) {
         Assert::oneOf($minOccurs->toInteger(), [0, 1], SchemaViolationException::class);
         Assert::same($maxOccurs->toInteger(), 1, SchemaViolationException::class);
+        Assert::allIsInstance(
+            $particles,
+            NarrowMinMaxElement::class,
+            SchemaViolationException::class,
+        );
 
         parent::__construct(
             nestedParticles: $particles,
