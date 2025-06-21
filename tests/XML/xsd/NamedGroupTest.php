@@ -130,7 +130,7 @@ final class NamedGroupTest extends TestCase
             [$referencedGroup],
         );
 
-        $namedGroup = new ReferencedGroup(
+        $namedGroup = new NamedGroup(
             $choice,
             NCNameValue::fromString("dulyNoted"),
             $annotation,

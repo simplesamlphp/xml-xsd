@@ -18,7 +18,7 @@ final class PublicValueTest extends TestCase
 {
     /**
      * @param string $public
-     * @param string $normalizedToken
+     * @param string $normalizedPublic
      */
     #[DataProvider('providePublic')]
     public function testPublic(string $public, string $normalizedPublic): void

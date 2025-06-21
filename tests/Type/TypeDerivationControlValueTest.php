@@ -20,7 +20,7 @@ final class TypeDerivationControlValueTest extends TestCase
 {
     /**
      * @param string $typeDerivationControl
-     * @param bool $expected
+     * @param bool $shouldPass
      */
     #[DataProvider('provideTypeDerivationControl')]
     public function testTypeDerivationControlValue(string $typeDerivationControl, bool $shouldPass): void
@@ -48,7 +48,7 @@ final class TypeDerivationControlValueTest extends TestCase
 
 
     /**
-     * @return array<string, array{0: string, 1: string}>
+     * @return array<string, array{0: string, 1: bool}>
      */
     public static function provideTypeDerivationControl(): array
     {

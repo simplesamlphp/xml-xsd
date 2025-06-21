@@ -21,7 +21,7 @@ final class NamespaceListValueTest extends TestCase
 {
     /**
      * @param string $namespaceList
-     * @param bool $expected
+     * @param bool $shouldPass
      */
     #[DataProvider('provideNamespaceList')]
     public function testNamespaceListValue(string $namespaceList, bool $shouldPass): void
@@ -62,7 +62,7 @@ final class NamespaceListValueTest extends TestCase
 
 
     /**
-     * @return array<string, array{0: string, 1: string}>
+     * @return array<string, array{0: string, 1: bool}>
      */
     public static function provideNamespaceList(): array
     {

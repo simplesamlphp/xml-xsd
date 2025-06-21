@@ -20,7 +20,7 @@ final class UseValueTest extends TestCase
 {
     /**
      * @param string $use
-     * @param bool $expected
+     * @param bool $shouldPass
      */
     #[DataProvider('provideUse')]
     public function testUseValue(string $use, bool $shouldPass): void
@@ -48,7 +48,7 @@ final class UseValueTest extends TestCase
 
 
     /**
-     * @return array<string, array{0: string, 1: string}>
+     * @return array<string, array{0: string, 1: bool}>
      */
     public static function provideUse(): array
     {

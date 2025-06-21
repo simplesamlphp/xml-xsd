@@ -19,7 +19,7 @@ final class MinOccursValueTest extends TestCase
 {
     /**
      * @param string $minOccurs
-     * @param bool $expected
+     * @param bool $shouldPass
      */
     #[DataProvider('provideMinOccurs')]
     public function testMinOccursValue(string $minOccurs, bool $shouldPass): void
@@ -47,7 +47,7 @@ final class MinOccursValueTest extends TestCase
 
 
     /**
-     * @return array<string, array{0: string, 1: string}>
+     * @return array<string, array{0: string, 1: bool}>
      */
     public static function provideMinOccurs(): array
     {

@@ -20,7 +20,7 @@ final class FormChoiceValueTest extends TestCase
 {
     /**
      * @param string $formChoice
-     * @param bool $expected
+     * @param bool $shouldPass
      */
     #[DataProvider('provideFormChoice')]
     public function testFormChoiceValue(string $formChoice, bool $shouldPass): void
@@ -48,7 +48,7 @@ final class FormChoiceValueTest extends TestCase
 
 
     /**
-     * @return array<string, array{0: string, 1: string}>
+     * @return array<string, array{0: string, 1: bool}>
      */
     public static function provideFormChoice(): array
     {

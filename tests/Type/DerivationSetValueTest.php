@@ -20,7 +20,7 @@ final class DerivationSetValueTest extends TestCase
 {
     /**
      * @param string $derivationSet
-     * @param bool $expected
+     * @param bool $shouldPass
      */
     #[DataProvider('provideDerivationSet')]
     public function testDerivationSetValue(string $derivationSet, bool $shouldPass): void
@@ -48,7 +48,7 @@ final class DerivationSetValueTest extends TestCase
 
 
     /**
-     * @return array<string, array{0: string, 1: string}>
+     * @return array<string, array{0: string, 1: bool}>
      */
     public static function provideDerivationSet(): array
     {

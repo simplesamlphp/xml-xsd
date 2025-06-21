@@ -19,7 +19,7 @@ final class BlockSetValueTest extends TestCase
 {
     /**
      * @param string $blockSet
-     * @param bool $expected
+     * @param bool $shouldPass
      */
     #[DataProvider('provideBlockSet')]
     public function testBlockSetValue(string $blockSet, bool $shouldPass): void
@@ -34,7 +34,7 @@ final class BlockSetValueTest extends TestCase
 
 
     /**
-     * @return array<string, array{0: string, 1: string}>
+     * @return array<string, array{0: string, 1: bool}>
      */
     public static function provideBlockSet(): array
     {

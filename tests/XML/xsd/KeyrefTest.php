@@ -13,7 +13,7 @@ use SimpleSAML\XML\DOMDocumentFactory;
 use SimpleSAML\XML\TestUtils\{SchemaValidationTestTrait, SerializableElementTestTrait};
 use SimpleSAML\XML\Type\{AnyURIValue, IDValue, NCNameValue, StringValue, QNameValue};
 use SimpleSAML\XSD\XML\xsd\AbstractAnnotated;
-use SimpleSAML\XSD\XML\xsd\AbstractKeyBase;
+use SimpleSAML\XSD\XML\xsd\AbstractKeybase;
 use SimpleSAML\XSD\XML\xsd\AbstractOpenAttrs;
 use SimpleSAML\XSD\XML\xsd\AbstractXsdElement;
 use SimpleSAML\XSD\XML\xsd\Annotation;
@@ -33,7 +33,7 @@ use function strval;
  */
 #[Group('xs')]
 #[CoversClass(Keyref::class)]
-#[CoversClass(AbstractKeyBase::class)]
+#[CoversClass(AbstractKeybase::class)]
 #[CoversClass(AbstractAnnotated::class)]
 #[CoversClass(AbstractOpenAttrs::class)]
 #[CoversClass(AbstractXsdElement::class)]

@@ -20,7 +20,7 @@ final class ReducedDerivationControlValueTest extends TestCase
 {
     /**
      * @param string $reducedDerivationControl
-     * @param bool $expected
+     * @param bool $shouldPass
      */
     #[DataProvider('provideReducedDerivationControl')]
     public function testReducedDerivationControlValue(string $reducedDerivationControl, bool $shouldPass): void
@@ -48,7 +48,7 @@ final class ReducedDerivationControlValueTest extends TestCase
 
 
     /**
-     * @return array<string, array{0: string, 1: string}>
+     * @return array<string, array{0: string, 1: bool}>
      */
     public static function provideReducedDerivationControl(): array
     {
