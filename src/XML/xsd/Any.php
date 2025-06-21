@@ -20,6 +20,7 @@ use function strval;
  * @package simplesamlphp/xml-xsd
  */
 final class Any extends AbstractWildcard implements
+    NestedParticleInterface,
     ParticleInterface,
     SchemaValidatableElementInterface
 {
