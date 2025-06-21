@@ -6,30 +6,27 @@ namespace SimpleSAML\XSD\XML\xsd;
 
 use DOMElement;
 use SimpleSAML\Assert\Assert;
-use SimpleSAML\XML\Exception\{
-    InvalidDOMElementException,
-    MissingElementException,
-    SchemaViolationException,
-    TooManyElementsException,
-};
+use SimpleSAML\XML\Exception\{InvalidDOMElementException, SchemaViolationException, TooManyElementsException};
 use SimpleSAML\XML\{SchemaValidatableElementInterface, SchemaValidatableElementTrait};
 use SimpleSAML\XML\Type\{IDValue, NCNameValue, QNameValue};
-use SimpleSAML\XSD\Type\{MinOccursValue, MaxOccursValue};
 
 use function array_merge;
 use function array_pop;
 
 /**
- * Class representing the group-element.
+ * Class representing the choice-element.
  *
  * @package simplesamlphp/xml-xsd
  */
-final class NamedGroup extends AbstractNamedGroup implements SchemaValidatableElementInterface
+final class Choice extends AbstractExplicitGroup implements
+    NestedParticleInterface,
+    ParticleInterface,
+    SchemaValidatableElementInterface
 {
     use SchemaValidatableElementTrait;
 
     /** @var string */
-    public const LOCALNAME = 'group';
+    public const LOCALNAME = 'choice';
 
 
     /**
@@ -47,29 +44,25 @@ final class NamedGroup extends AbstractNamedGroup implements SchemaValidatableEl
         Assert::same($xml->namespaceURI, static::NS, InvalidDOMElementException::class);
 
         // Prohibited attributes
+        $name = self::getOptionalAttribute($xml, 'name', NCNameValue::class, null);
+        Assert::null($name, SchemaViolationException::class);
+
         $ref = self::getOptionalAttribute($xml, 'ref', QNameValue::class, null);
         Assert::null($ref, SchemaViolationException::class);
-
-        $minCount = self::getOptionalAttribute($xml, 'minCount', MinOccursValue::class, null);
-        Assert::null($minCount, SchemaViolationException::class);
-
-        $maxCount = self::getOptionalAttribute($xml, 'maxCount', MaxOccursValue::class, null);
-        Assert::null($maxCount, SchemaViolationException::class);
 
         $annotation = Annotation::getChildrenOfClass($xml);
         Assert::maxCount($annotation, 1, TooManyElementsException::class);
 
         $all = All::getChildrenOfClass($xml);
         $choice = Choice::getChildrenOfClass($xml);
+        $element = Element::getChildrenOfClass($xml);
+        $referencedGroup = ReferencedGroup::getChildrenOfClass($xml);
         $sequence = Sequence::getChildrenOfClass($xml);
 
-        $particles = array_merge($all, $choice, $sequence);
-        Assert::minCount($particles, 1, MissingElementException::class);
-        Assert::maxCount($particles, 1, TooManyElementsException::class);
+        $particles = array_merge($all, $choice, $element, $referencedGroup, $sequence);
 
         return new static(
-            array_pop($particles),
-            name: self::getAttribute($xml, 'name', NCNameValue::class),
+            nestedParticles: $particles,
             annotation: array_pop($annotation),
             id: self::getOptionalAttribute($xml, 'id', IDValue::class, null),
             namespacedAttributes: self::getAttributesNSFromXML($xml),
