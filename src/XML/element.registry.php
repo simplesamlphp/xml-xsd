@@ -10,7 +10,7 @@ return [
         'anyAttribute' => '\SimpleSAML\XSD\XML\xsd\AnyAttribute',
         'appinfo' => '\SimpleSAML\XSD\XML\xsd\Appinfo',
         'attribute' => '\SimpleSAML\XSD\XML\xsd\Attribute',
-//        'attributeGroup' => '\SimpleSAML\XSD\XML\xsd\AttributeGroup',
+        'attributeGroup' => '\SimpleSAML\XSD\XML\xsd\NamedAttributeGroup',
 //        'choice' => '\SimpleSAML\XSD\XML\xsd\choice',
 //        'complexContent' => '\SimpleSAML\XSD\XML\xsd\ComplexContent',
 //        'complexType' => '\SimpleSAML\XSD\XML\xsd\ComplexType',

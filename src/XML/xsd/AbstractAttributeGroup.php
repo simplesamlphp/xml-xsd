@@ -20,9 +20,9 @@ abstract class AbstractAttributeGroup extends AbstractAnnotated
     use DefRefTrait;
 
     /**
-     * Annotated constructor
+     * AttributeGroup constructor
      *
-     * @param array<\SimpleSAML\XSD\XML\xsd\Attribute|\SimpleSAML\XSD\XML\xsd\AttributeGroup> $attributes
+     * @param array<\SimpleSAML\XSD\XML\xsd\Attribute|\SimpleSAML\XSD\XML\xsd\ReferencedAttributeGroup> $attributes
      * @param \SimpleSAML\XSD\XML\xsd\AnyAttribute|null $anyAttribute
      * @param \SimpleSAML\XML\Type\NCNameValue|null $name
      * @param \SimpleSAML\XML\Type\QNameValue|null $reference

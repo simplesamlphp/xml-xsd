@@ -17,7 +17,7 @@ trait AttrDeclsTrait
     /**
      * The attributes + groups.
      *
-     * @var array<\SimpleSAML\XSD\XML\xsd\Attribute|\SimpleSAML\XSD\XML\xsd\AttributeGroup> $attributes
+     * @var array<\SimpleSAML\XSD\XML\xsd\Attribute|\SimpleSAML\XSD\XML\xsd\ReferencedAttributeGroup> $attributes
      */
     protected array $attributes = [];
 
@@ -32,7 +32,7 @@ trait AttrDeclsTrait
     /**
      * Collect the value of the attributes-property
      *
-     * @return array<\SimpleSAML\XSD\XML\xsd\Attribute|\SimpleSAML\XSD\XML\xsd\AttributeGroup>
+     * @return array<\SimpleSAML\XSD\XML\xsd\Attribute|\SimpleSAML\XSD\XML\xsd\ReferencedAttributeGroup>
      */
     public function getAttributes(): array
     {
@@ -54,13 +54,13 @@ trait AttrDeclsTrait
     /**
      * Set the value of the attributes-property
      *
-     * @param array<\SimpleSAML\XSD\XML\xsd\Attribute|\SimpleSAML\XSD\XML\xsd\AttributeGroup> $attributes
+     * @param array<\SimpleSAML\XSD\XML\xsd\Attribute|\SimpleSAML\XSD\XML\xsd\ReferencedAttributeGroup> $attributes
      */
     protected function setAttributes(array $attributes): void
     {
         Assert::allIsInstanceOfAny(
             $attributes,
-            [Attribute::class, AttributeGroup::class],
+            [Attribute::class, ReferencedAttributeGroup::class],
             SchemaViolationException::class,
         );
 
@@ -75,8 +75,6 @@ trait AttrDeclsTrait
      */
     protected function setAnyAttribute(?AnyAttribute $anyAttribute): void
     {
-        Assert::allIsInstanceOf($anyAttribute, AnyAttribute::class, SchemaViolationException::class);
-
         $this->anyAttribute = $anyAttribute;
     }
 }
