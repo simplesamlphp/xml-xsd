@@ -13,8 +13,8 @@ use SimpleSAML\XML\Exception\InvalidDOMElementException;
 use SimpleSAML\XML\ExtendableAttributesTrait;
 use SimpleSAML\XML\{SchemaValidatableElementInterface, SchemaValidatableElementTrait};
 use SimpleSAML\XML\Type\{AnyURIValue, StringValue};
+//use SimpleSAML\XSD\XML\xsd\NamespaceEnum;
 use SimpleSAML\XML\XsNamespace;
-use SimpleSAML\XSD\XML\xsd\NamespaceEnum;
 
 use function strval;
 

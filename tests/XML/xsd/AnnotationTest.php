@@ -5,8 +5,7 @@ declare(strict_types=1);
 namespace SimpleSAML\XSD\Test\XML\xsd;
 
 use DOMText;
-use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\{CoversClass, Group};
 use PHPUnit\Framework\TestCase;
 use SimpleSAML\XML\Attribute as XMLAttribute;
 use SimpleSAML\XML\Constants as C;
@@ -23,11 +22,11 @@ use function dirname;
 use function strval;
 
 /**
- * Tests for xsd:annotation
+ * Tests for xs:annotation
  *
  * @package simplesamlphp/xml-xsd
  */
-#[Group('xsd')]
+#[Group('xs')]
 #[CoversClass(Annotation::class)]
 #[CoversClass(AbstractOpenAttrs::class)]
 #[CoversClass(AbstractXsdElement::class)]

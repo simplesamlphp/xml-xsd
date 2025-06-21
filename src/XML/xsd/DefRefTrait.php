@@ -16,25 +16,25 @@ trait DefRefTrait
     /**
      * The name.
      *
-     * @var \SimpleSAML\XML\Type\NCNameValue
+     * @var \SimpleSAML\XML\Type\NCNameValue|null
      */
-    protected NCNameValue $name;
+    protected ?NCNameValue $name = null;
 
 
     /**
      * The reference.
      *
-     * @var \SimpleSAML\XML\Type\QNameValue
+     * @var \SimpleSAML\XML\Type\QNameValue|null
      */
-    protected QNameValue $reference;
+    protected ?QNameValue $reference = null;
 
 
     /**
      * Collect the value of the name-property
      *
-     * @return \SimpleSAML\XML\Type\NCNameValue
+     * @return \SimpleSAML\XML\Type\NCNameValue|null
      */
-    public function getName(): NCNameValue
+    public function getName(): ?NCNameValue
     {
         return $this->name;
     }
@@ -43,9 +43,9 @@ trait DefRefTrait
     /**
      * Set the value of the name-property
      *
-     * @param \SimpleSAML\XML\Type\NCNameValue $name
+     * @param \SimpleSAML\XML\Type\NCNameValue|null $name
      */
-    protected function setName(NCNameValue $name): void
+    protected function setName(?NCNameValue $name): void
     {
         $this->name = $name;
     }
@@ -54,9 +54,9 @@ trait DefRefTrait
     /**
      * Collect the value of the reference-property
      *
-     * @return \SimpleSAML\XML\Type\QNameValue
+     * @return \SimpleSAML\XML\Type\QNameValue|null
      */
-    public function getReference(): QNameValue
+    public function getReference(): ?QNameValue
     {
         return $this->reference;
     }
@@ -65,9 +65,9 @@ trait DefRefTrait
     /**
      * Set the value of the reference-property
      *
-     * @param \SimpleSAML\XML\Type\QNameValue $reference
+     * @param \SimpleSAML\XML\Type\QNameValue|null $reference
      */
-    protected function setReference(QNameValue $reference): void
+    protected function setReference(?QNameValue $reference): void
     {
         $this->reference = $reference;
     }

@@ -25,11 +25,11 @@ use function dirname;
 use function strval;
 
 /**
- * Tests for xsd:minInclusive
+ * Tests for xs:minInclusive
  *
  * @package simplesamlphp/xml-xsd
  */
-#[Group('xsd')]
+#[Group('xs')]
 #[CoversClass(MinInclusive::class)]
 #[CoversClass(AbstractFacet::class)]
 #[CoversClass(AbstractAnnotated::class)]
@@ -57,7 +57,7 @@ final class MinInclusiveTest extends TestCase
 
 
     /**
-     * Test creating an MinExclusive object from scratch.
+     * Test creating an MinInclusive object from scratch.
      */
     public function testMarshalling(): void
     {

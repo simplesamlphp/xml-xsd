@@ -11,7 +11,7 @@ use SimpleSAML\XML\{SchemaValidatableElementInterface, SchemaValidatableElementT
  *
  * @package simplesamlphp/xml-xsd
  */
-final class Enumeration extends AbstractNoFixedFacet implements SchemaValidatableElementInterface
+final class Enumeration extends AbstractNoFixedFacet implements SchemaValidatableElementInterface, FacetInterface
 {
     use SchemaValidatableElementTrait;
 
