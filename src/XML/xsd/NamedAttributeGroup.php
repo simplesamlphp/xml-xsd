@@ -18,7 +18,9 @@ use function array_pop;
  *
  * @package simplesamlphp/xml-xsd
  */
-final class NamedAttributeGroup extends AbstractNamedAttributeGroup implements SchemaValidatableElementInterface
+final class NamedAttributeGroup extends AbstractNamedAttributeGroup implements
+    RedefinableInterface,
+    SchemaValidatableElementInterface
 {
     use SchemaValidatableElementTrait;
 
