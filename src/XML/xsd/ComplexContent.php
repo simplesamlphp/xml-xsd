@@ -8,33 +8,36 @@ use DOMElement;
 use SimpleSAML\Assert\Assert;
 use SimpleSAML\XML\Exception\{InvalidDOMElementException, TooManyElementsException};
 use SimpleSAML\XML\{SchemaValidatableElementInterface, SchemaValidatableElementTrait};
-use SimpleSAML\XML\Type\IDValue;
+use SimpleSAML\XML\Type\{BooleanValue, IDValue};
 
 use function array_merge;
+use function strval;
 
 /**
- * Class representing the simpleContent-type.
+ * Class representing the complexContent-type.
  *
  * @package simplesamlphp/xml-xsd
  */
-final class SimpleContent extends AbstractAnnotated implements SchemaValidatableElementInterface
+final class ComplexContent extends AbstractAnnotated implements SchemaValidatableElementInterface
 {
     use SchemaValidatableElementTrait;
 
     /** @var string */
-    public const LOCALNAME = 'simpleContent';
+    public const LOCALNAME = 'complexContent';
 
 
     /**
-     * SimpleContent constructor
+     * ComplexContent constructor
      *
-     * @param \SimpleSAML\XSD\XML\xsd\SimpleRestriction|\SimpleSAML\XSD\XML\xsd\SimpleExtension $content
+     * @param \SimpleSAML\XSD\XML\xsd\ComplexRestriction|\SimpleSAML\XSD\XML\xsd\Extension $content
+     * @param \SimpleSAML\XML\Type\BooleanValue|null $mixed
      * @param \SimpleSAML\XSD\XML\xsd\Annotation|null $annotation
      * @param \SimpleSAML\XML\Type\IDValue|null $id
      * @param array<\SimpleSAML\XML\Attribute> $namespacedAttributes
      */
     public function __construct(
-        protected SimpleRestriction|SimpleExtension $content,
+        protected ComplexRestriction|Extension $content,
+        protected ?BooleanValue $mixed = null,
         ?Annotation $annotation = null,
         ?IDValue $id = null,
         array $namespacedAttributes = [],
@@ -46,11 +49,22 @@ final class SimpleContent extends AbstractAnnotated implements SchemaValidatable
     /**
      * Collect the value of the content-property
      *
-     * @return \SimpleSAML\XSD\XML\xsd\SimpleRestriction|\SimpleSAML\XSD\XML\xsd\SimpleExtension
+     * @return \SimpleSAML\XSD\XML\xsd\ComplexRestriction|\SimpleSAML\XSD\XML\xsd\Extension
      */
-    public function getContent(): SimpleRestriction|SimpleExtension
+    public function getContent(): ComplexRestriction|Extension
     {
         return $this->content;
+    }
+
+
+    /**
+     * Collect the value of the mixed-property
+     *
+     * @return \SimpleSAML\XML\Type\BooleanValue|null
+     */
+    public function getMixed(): ?BooleanValue
+    {
+        return $this->mixed;
     }
 
 
@@ -66,14 +80,18 @@ final class SimpleContent extends AbstractAnnotated implements SchemaValidatable
 
 
     /**
-     * Add this SimpleContent to an XML element.
+     * Add this ComplexContent to an XML element.
      *
-     * @param \DOMElement|null $parent The element we should append this SimpleContent to.
+     * @param \DOMElement|null $parent The element we should append this ComplexContent to.
      * @return \DOMElement
      */
     public function toXML(?DOMElement $parent = null): DOMElement
     {
         $e = parent::toXML($parent);
+
+        if ($this->getMixed() !== null) {
+            $e->setAttribute('mixed', strval($this->getMixed()));
+        }
 
         $this->getContent()->toXML($e);
 
@@ -98,17 +116,18 @@ final class SimpleContent extends AbstractAnnotated implements SchemaValidatable
         $annotation = Annotation::getChildrenOfClass($xml);
         Assert::maxCount($annotation, 1, TooManyElementsException::class);
 
-        $simpleRestriction = SimpleRestriction::getChildrenOfClass($xml);
-        Assert::maxCount($simpleRestriction, 1, TooManyElementsException::class);
+        $complexRestriction = ComplexRestriction::getChildrenOfClass($xml);
+        Assert::maxCount($complexRestriction, 1, TooManyElementsException::class);
 
-        $simpleExtension = SimpleExtension::getChildrenOfClass($xml);
-        Assert::maxCount($simpleExtension, 1, TooManyElementsException::class);
+        $extension = Extension::getChildrenOfClass($xml);
+        Assert::maxCount($extension, 1, TooManyElementsException::class);
 
-        $content = array_merge($simpleRestriction, $simpleExtension);
+        $content = array_merge($complexRestriction, $extension);
         Assert::maxCount($content, 1, TooManyElementsException::class);
 
         return new static(
             array_pop($content),
+            self::getOptionalAttribute($xml, 'mixed', BooleanValue::class, null),
             array_pop($annotation),
             self::getOptionalAttribute($xml, 'id', IDValue::class, null),
             self::getAttributesNSFromXML($xml),
