@@ -22,7 +22,7 @@ abstract class AbstractSimpleType extends AbstractAnnotated
 
 
     /**
-     * Annotated constructor
+     * SimpleType constructor
      *
      * @param \SimpleSAML\XSD\XML\xsd\SimpleDerivationInterface $derivation
      * @param \SimpleSAML\XML\Type\NCNameValue $name

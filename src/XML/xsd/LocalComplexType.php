@@ -6,7 +6,7 @@ namespace SimpleSAML\XSD\XML\xsd;
 
 use DOMElement;
 use SimpleSAML\Assert\Assert;
-use SimpleSAML\XML\Exception\{InvalidDOMElementException, TooManyElementsException};
+use SimpleSAML\XML\Exception\{InvalidDOMElementException, SchemaViolationException, TooManyElementsException};
 use SimpleSAML\XML\{SchemaValidatableElementInterface, SchemaValidatableElementTrait};
 use SimpleSAML\XML\Type\{BooleanValue, IDValue, NCNameValue};
 use SimpleSAML\XSD\Type\DerivationSetValue;
@@ -19,10 +19,8 @@ use function array_pop;
  *
  * @package simplesamlphp/xml-xsd
  */
-final class ComplexType extends AbstractTopLevelComplexType implements SchemaValidatableElementInterface
+final class LocalComplexType extends AbstractLocalComplexType
 {
-    use SchemaValidatableElementTrait;
-
     /** @var string */
     public const LOCALNAME = 'complexType';
 
@@ -40,6 +38,19 @@ final class ComplexType extends AbstractTopLevelComplexType implements SchemaVal
     {
         Assert::same($xml->localName, static::getLocalName(), InvalidDOMElementException::class);
         Assert::same($xml->namespaceURI, static::NS, InvalidDOMElementException::class);
+
+        // Prohibited attributes
+        $name = self::getOptionalAttribute($xml, 'name', NCNameValue::class, null);
+        Assert::null($name, SchemaViolationException::class);
+
+        $abstract = self::getOptionalAttribute($xml, 'abstract', BooleanValue::class, null);
+        Assert::null($abstract, SchemaViolationException::class);
+
+        $final = self::getOptionalAttribute($xml, 'final', DerivationSetValue::class, null);
+        Assert::null($final, SchemaViolationException::class);
+
+        $block = self::getOptionalAttribute($xml, 'block', DerivationSetValue::class, null);
+        Assert::null($block, SchemaViolationException::class);
 
         $annotation = Annotation::getChildrenOfClass($xml);
         Assert::maxCount($annotation, 1, TooManyElementsException::class);
@@ -76,11 +87,7 @@ final class ComplexType extends AbstractTopLevelComplexType implements SchemaVal
         Assert::maxCount($anyAttribute, 1, TooManyElementsException::class);
 
         return new static(
-            self::getAttribute($xml, 'name', NCNameValue::class),
             self::getOptionalAttribute($xml, 'mixed', BooleanValue::class, null),
-            self::getOptionalAttribute($xml, 'abstract', BooleanValue::class, null),
-            self::getOptionalAttribute($xml, 'final', DerivationSetValue::class, null),
-            self::getOptionalAttribute($xml, 'block', DerivationSetValue::class, null),
             array_pop($content),
             array_pop($particles),
             $attributes,

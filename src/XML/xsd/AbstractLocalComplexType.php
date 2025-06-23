@@ -20,6 +20,7 @@ abstract class AbstractLocalComplexType extends AbstractComplexType
      * @param \SimpleSAML\XSD\XML\xsd\SimpleContent|\SimpleSAML\XSD\XML\xsd\ComplexContent|null $content
      * @param \SimpleSAML\XSD\XML\xsd\TypeDefParticleInterface|null $particle
      * @param array<\SimpleSAML\XSD\XML\xsd\Attribute|\SimpleSAML\XSD\XML\xsd\ReferencedAttributeGroup> $attributes
+     * @param \SimpleSAML\XSD\XML\xsd\AnyAttribute|null $anyAttribute
      * @param \SimpleSAML\XSD\XML\xsd\Annotation|null $annotation
      * @param \SimpleSAML\XML\Type\IDValue|null $id
      * @param array<\SimpleSAML\XML\Attribute> $namespacedAttributes
@@ -29,6 +30,7 @@ abstract class AbstractLocalComplexType extends AbstractComplexType
         SimpleContent|ComplexContent|null $content = null,
         ?TypeDefParticleInterface $particle = null,
         array $attributes = [],
+        ?AnyAttribute $anyAttribute = null,
         ?Annotation $annotation = null,
         ?IDValue $id = null,
         array $namespacedAttributes = [],
@@ -38,6 +40,7 @@ abstract class AbstractLocalComplexType extends AbstractComplexType
             content: $content,
             particle: $particle,
             attributes: $attributes,
+            anyAttribute: $anyAttribute,
             annotation: $annotation,
             id: $id,
             namespacedAttributes: $namespacedAttributes,

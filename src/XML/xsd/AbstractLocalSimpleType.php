@@ -16,17 +16,13 @@ abstract class AbstractLocalSimpleType extends AbstractSimpleType
     /**
      * Annotated constructor
      *
-     * @param (
-     *   \SimpleSAML\XSD\XML\xsd\Union|
-     *   \SimpleSAML\XSD\XML\xsd\XsList|
-     *   \SimpleSAML\XSD\XML\xsd\Restriction
-     * ) $derivation
+     * @param \SimpleSAML\XSD\XML\xsd\SimpleDerivationInterface $derivation
      * @param \SimpleSAML\XSD\XML\xsd\Annotation|null $annotation
      * @param \SimpleSAML\XML\Type\IDValue|null $id
      * @param array<\SimpleSAML\XML\Attribute> $namespacedAttributes
      */
     public function __construct(
-        Union|XsList|Restriction $derivation,
+        SimpleDerivationInterface $derivation,
         ?Annotation $annotation = null,
         ?IDValue $id = null,
         array $namespacedAttributes = [],

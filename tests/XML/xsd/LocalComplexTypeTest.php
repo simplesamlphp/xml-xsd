@@ -10,7 +10,7 @@ use PHPUnit\Framework\TestCase;
 use SimpleSAML\XML\Attribute as XMLAttribute;
 use SimpleSAML\XML\Constants as C;
 use SimpleSAML\XML\DOMDocumentFactory;
-use SimpleSAML\XML\TestUtils\{SchemaValidationTestTrait, SerializableElementTestTrait};
+use SimpleSAML\XML\TestUtils\SerializableElementTestTrait;
 use SimpleSAML\XML\Type\{
     AnyURIValue,
     BooleanValue,
@@ -26,15 +26,14 @@ use SimpleSAML\XSD\Type\{DerivationSetValue, NamespaceListValue, ProcessContents
 use SimpleSAML\XSD\XML\xsd\AbstractAnnotated;
 use SimpleSAML\XSD\XML\xsd\AbstractComplexType;
 use SimpleSAML\XSD\XML\xsd\AbstractOpenAttrs;
-use SimpleSAML\XSD\XML\xsd\AbstractTopLevelComplexType;
+use SimpleSAML\XSD\XML\xsd\AbstractLocalComplexType;
 use SimpleSAML\XSD\XML\xsd\AbstractXsdElement;
 use SimpleSAML\XSD\XML\xsd\Annotation;
 use SimpleSAML\XSD\XML\xsd\AnyAttribute;
 use SimpleSAML\XSD\XML\xsd\Appinfo;
 use SimpleSAML\XSD\XML\xsd\Attribute;
-use SimpleSAML\XSD\XML\xsd\ComplexType;
-use SimpleSAML\XSD\XML\xsd\DerivationControlEnum;
 use SimpleSAML\XSD\XML\xsd\Documentation;
+use SimpleSAML\XSD\XML\xsd\LocalComplexType;
 use SimpleSAML\XSD\XML\xsd\ProcessContentsEnum;
 use SimpleSAML\XSD\XML\xsd\ReferencedAttributeGroup;
 use SimpleSAML\XSD\XML\xsd\ReferencedGroup;
@@ -48,15 +47,14 @@ use function strval;
  * @package simplesamlphp/xml-xsd
  */
 #[Group('xs')]
-#[CoversClass(ComplexType::class)]
-#[CoversClass(AbstractTopLevelComplexType::class)]
+#[CoversClass(LocalComplexType::class)]
+#[CoversClass(AbstractLocalComplexType::class)]
 #[CoversClass(AbstractComplexType::class)]
 #[CoversClass(AbstractAnnotated::class)]
 #[CoversClass(AbstractOpenAttrs::class)]
 #[CoversClass(AbstractXsdElement::class)]
-final class ComplexTypeTest extends TestCase
+final class LocalComplexTypeTest extends TestCase
 {
-    use SchemaValidationTestTrait;
     use SerializableElementTestTrait;
 
 
@@ -64,10 +62,10 @@ final class ComplexTypeTest extends TestCase
      */
     public static function setUpBeforeClass(): void
     {
-        self::$testedClass = ComplexType::class;
+        self::$testedClass = LocalComplexType::class;
 
         self::$xmlRepresentation = DOMDocumentFactory::fromFile(
-            dirname(__FILE__, 3) . '/resources/xml/complexType.xml',
+            dirname(__FILE__, 3) . '/resources/xml/localComplexType.xml',
         );
     }
 
@@ -76,7 +74,7 @@ final class ComplexTypeTest extends TestCase
 
 
     /**
-     * Test creating a ComplexRestriction object from scratch.
+     * Test creating a LocalComplexType object from scratch.
      */
     public function testMarshalling(): void
     {
@@ -147,12 +145,8 @@ final class ComplexTypeTest extends TestCase
             [$attr4],
         );
 
-        $complexType = new ComplexType(
-            NCNameValue::fromString('complex'),
+        $localComplexType = new LocalComplexType(
             BooleanValue::fromBoolean(true),
-            BooleanValue::fromBoolean(false),
-            DerivationSetValue::fromEnum(DerivationControlEnum::Restriction),
-            DerivationSetValue::fromString('#all'),
             null, // content
             $referencedGroup,
             [
@@ -172,7 +166,7 @@ final class ComplexTypeTest extends TestCase
 
         $this->assertEquals(
             self::$xmlRepresentation->saveXML(self::$xmlRepresentation->documentElement),
-            strval($complexType),
+            strval($localComplexType),
         );
     }
 }
