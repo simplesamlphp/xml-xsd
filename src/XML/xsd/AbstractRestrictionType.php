@@ -20,6 +20,7 @@ abstract class AbstractRestrictionType extends AbstractAnnotated
 {
     use AttrDeclsTrait;
     use SimpleRestrictionModelTrait;
+    use TypeDefParticleTrait;
 
     /**
      * AbstractRestrictionType constructor
@@ -37,7 +38,7 @@ abstract class AbstractRestrictionType extends AbstractAnnotated
     public function __construct(
         protected QNameValue $base,
         // xs:typeDefParticle
-        protected ?TypeDefParticleInterface $particle = null,
+        ?TypeDefParticleInterface $particle = null,
         // xs:simpleRestrictionModel
         protected ?LocalSimpleType $localSimpleType = null,
         array $facets = [],
@@ -62,17 +63,7 @@ abstract class AbstractRestrictionType extends AbstractAnnotated
 
         $this->setAttributes($attributes);
         $this->setAnyAttribute($anyAttribute);
-    }
-
-
-    /**
-     * Collect the value of the particle-property
-     *
-     * @return \SimpleSAML\XSD\XML\xsd\TypeDefParticleInterface|null
-     */
-    public function getParticle(): ?TypeDefParticleInterface
-    {
-        return $this->particle;
+        $this->setParticle($particle);
     }
 
 

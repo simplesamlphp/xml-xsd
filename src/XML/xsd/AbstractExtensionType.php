@@ -17,6 +17,7 @@ use function strval;
 abstract class AbstractExtensionType extends AbstractAnnotated
 {
     use AttrDeclsTrait;
+    use TypeDefParticleTrait;
 
     /**
      * AbstractExtensionType constructor
@@ -32,7 +33,7 @@ abstract class AbstractExtensionType extends AbstractAnnotated
     public function __construct(
         protected QNameValue $base,
         // xs:typeDefParticle
-        protected ?TypeDefParticleInterface $particle = null,
+        ?TypeDefParticleInterface $particle = null,
         // xs:attrDecls
         array $attributes = [],
         ?AnyAttribute $anyAttribute = null,
@@ -45,17 +46,7 @@ abstract class AbstractExtensionType extends AbstractAnnotated
 
         $this->setAttributes($attributes);
         $this->setAnyAttribute($anyAttribute);
-    }
-
-
-    /**
-     * Collect the value of the particle-property
-     *
-     * @return \SimpleSAML\XSD\XML\xsd\TypeDefParticleInterface|null
-     */
-    public function getParticle(): ?TypeDefParticleInterface
-    {
-        return $this->particle;
+        $this->setParticle($particle);
     }
 
 
