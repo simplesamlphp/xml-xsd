@@ -56,11 +56,11 @@ final class Sequence extends AbstractExplicitGroup implements
 
         $all = All::getChildrenOfClass($xml);
         $choice = Choice::getChildrenOfClass($xml);
-        $element = Element::getChildrenOfClass($xml);
+        $localElement = LocalElement::getChildrenOfClass($xml);
         $referencedGroup = ReferencedGroup::getChildrenOfClass($xml);
         $sequence = Sequence::getChildrenOfClass($xml);
 
-        $particles = array_merge($all, $choice, $element, $referencedGroup, $sequence);
+        $particles = array_merge($all, $choice, $localElement, $referencedGroup, $sequence);
 
         return new static(
             nestedParticles: $particles,

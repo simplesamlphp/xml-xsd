@@ -11,33 +11,41 @@ use SimpleSAML\XML\Attribute as XMLAttribute;
 use SimpleSAML\XML\Constants as C;
 use SimpleSAML\XML\DOMDocumentFactory;
 use SimpleSAML\XML\TestUtils\{SchemaValidationTestTrait, SerializableElementTestTrait};
-use SimpleSAML\XML\Type\{AnyURIValue, IDValue, NCNameValue, StringValue, QNameValue};
+use SimpleSAML\XML\Type\{AnyURIValue, BooleanValue, IDValue, NCNameValue, StringValue, QNameValue};
+use SimpleSAML\XSD\Type\{BlockSetValue, DerivationSetValue, FormChoiceValue};
 use SimpleSAML\XSD\XML\xsd\AbstractAnnotated;
-use SimpleSAML\XSD\XML\xsd\AbstractKeybase;
+use SimpleSAML\XSD\XML\xsd\AbstractElement;
+use SimpleSAML\XSD\XML\xsd\AbstractTopLevelElement;
 use SimpleSAML\XSD\XML\xsd\AbstractOpenAttrs;
 use SimpleSAML\XSD\XML\xsd\AbstractXsdElement;
 use SimpleSAML\XSD\XML\xsd\Annotation;
 use SimpleSAML\XSD\XML\xsd\Appinfo;
+use SimpleSAML\XSD\XML\xsd\DerivationControlEnum;
 use SimpleSAML\XSD\XML\xsd\Documentation;
 use SimpleSAML\XSD\XML\xsd\Field;
+use SimpleSAML\XSD\XML\xsd\FormChoiceEnum;
 use SimpleSAML\XSD\XML\xsd\Keyref;
+use SimpleSAML\XSD\XML\xsd\TopLevelElement;
+use SimpleSAML\XSD\XML\xsd\LocalSimpleType;
+use SimpleSAML\XSD\XML\xsd\Restriction;
 use SimpleSAML\XSD\XML\xsd\Selector;
 
 use function dirname;
 use function strval;
 
 /**
- * Tests for xs:keyref
+ * Tests for xs:topLevelElement
  *
  * @package simplesamlphp/xml-xsd
  */
 #[Group('xs')]
-#[CoversClass(Keyref::class)]
-#[CoversClass(AbstractKeybase::class)]
+#[CoversClass(TopLevelElement::class)]
+#[CoversClass(AbstractTopLevelElement::class)]
+#[CoversClass(AbstractElement::class)]
 #[CoversClass(AbstractAnnotated::class)]
 #[CoversClass(AbstractOpenAttrs::class)]
 #[CoversClass(AbstractXsdElement::class)]
-final class KeyrefTest extends TestCase
+final class TopLevelElementTest extends TestCase
 {
     use SchemaValidationTestTrait;
     use SerializableElementTestTrait;
@@ -47,10 +55,10 @@ final class KeyrefTest extends TestCase
      */
     public static function setUpBeforeClass(): void
     {
-        self::$testedClass = Keyref::class;
+        self::$testedClass = TopLevelElement::class;
 
         self::$xmlRepresentation = DOMDocumentFactory::fromFile(
-            dirname(__FILE__, 3) . '/resources/xml/keyref.xml',
+            dirname(__FILE__, 3) . '/resources/xml/topLevelElement.xml',
         );
     }
 
@@ -59,7 +67,7 @@ final class KeyrefTest extends TestCase
 
 
     /**
-     * Test creating an Annotation object from scratch.
+     * Test creating an TopLevelElement object from scratch.
      */
     public function testMarshalling(): void
     {
@@ -102,7 +110,6 @@ final class KeyrefTest extends TestCase
             AnyURIValue::fromString('urn:x-simplesamlphp:source'),
             [$attr1],
         );
-
         $documentation2 = new Documentation(
             $otherDocumentationDocument->childNodes,
             $langattr,
@@ -110,35 +117,36 @@ final class KeyrefTest extends TestCase
             [$attr2],
         );
 
-        $annotation1 = new Annotation(
+        $annotation = new Annotation(
             [$appinfo1, $appinfo2],
             [$documentation1, $documentation2],
-            IDValue::fromString('phpunit_annotation1'),
+            IDValue::fromString('phpunit_annotation'),
             [$attr3],
         );
-        $annotation2 = new Annotation(
-            [$appinfo1, $appinfo2],
-            [$documentation1, $documentation2],
-            IDValue::fromString('phpunit_annotation2'),
-            [$attr3],
+
+        $restriction = new Restriction(
+            null,
+            [],
+            QNameValue::fromString('{http://www.w3.org/2001/XMLSchema}xsd:nonNegativeInteger'),
         );
-        $annotation3 = new Annotation(
-            [$appinfo1, $appinfo2],
-            [$documentation1, $documentation2],
-            IDValue::fromString('phpunit_annotation3'),
-            [$attr3],
+
+        $localSimpleType = new LocalSimpleType(
+            $restriction,
+            null,
+            IDValue::fromString('phpunit_simpleType'),
+            [$attr4],
         );
 
         $selector = new Selector(
             StringValue::fromString('.//annotation'),
-            $annotation2,
+            null,
             IDValue::fromString('phpunit_selector'),
             [$attr4],
         );
 
         $field = new Field(
             StringValue::fromString('@id'),
-            $annotation3,
+            null,
             IDValue::fromString('phpunit_field'),
             [$attr4],
         );
@@ -148,16 +156,28 @@ final class KeyrefTest extends TestCase
             NCNameValue::fromString('phpunit_keyref'),
             $selector,
             [$field],
-            $annotation1,
+            null,
             IDValue::fromString('phpunit_keyref'),
             [$attr3],
         );
 
-        $this->assertEquals(
-            self::$xmlRepresentation->saveXML(self::$xmlRepresentation->documentElement),
-            strval($keyref),
+        $topLevelElement = new TopLevelElement(
+            name: NCNameValue::fromString('phpunit'),
+            localType: $localSimpleType,
+            identityConstraint: [$keyref],
+            type: QNameValue::fromString('{http://www.w3.org/2001/XMLSchema}xsd:group'),
+            substitutionGroup: QNameValue::fromString('{http://www.w3.org/2001/XMLSchema}xsd:typeDefParticle'),
+            fixed: StringValue::fromString('1'),
+            final: DerivationSetValue::fromEnum(DerivationControlEnum::Extension),
+            block: BlockSetValue::fromString('#all'),
+            annotation: $annotation,
+            id: IDValue::fromString('phpunit_localElement'),
+            namespacedAttributes: [$attr4],
         );
 
-        $this->assertFalse($keyref->isEmptyElement());
+        $this->assertEquals(
+            self::$xmlRepresentation->saveXML(self::$xmlRepresentation->documentElement),
+            strval($topLevelElement),
+        );
     }
 }

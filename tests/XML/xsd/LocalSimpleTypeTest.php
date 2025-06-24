@@ -59,7 +59,7 @@ final class LocalSimpleTypeTest extends TestCase
 
 
     /**
-     * Test creating an Notation object from scratch.
+     * Test creating an LocalSimpleType object from scratch.
      */
     public function testMarshalling(): void
     {

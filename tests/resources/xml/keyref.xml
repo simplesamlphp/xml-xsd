@@ -1,4 +1,4 @@
-<xsd:keyref xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ssp="urn:x-simplesamlphp:namespace" ssp:attr3="value3" id="phpunit" name="phpunit_key" refer="xsd:integer">
+<xsd:keyref xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ssp="urn:x-simplesamlphp:namespace" ssp:attr3="value3" id="phpunit_keyref" name="phpunit_keyref" refer="xsd:integer">
   <xsd:annotation ssp:attr3="value3" id="phpunit_annotation1">
     <xsd:appinfo source="urn:x-simplesamlphp:source" ssp:attr1="value1">Application Information</xsd:appinfo>
     <xsd:appinfo source="urn:x-simplesamlphp:source" ssp:attr2="value2">Other Application Information</xsd:appinfo>
