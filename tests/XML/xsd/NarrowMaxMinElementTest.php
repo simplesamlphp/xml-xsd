@@ -10,22 +10,22 @@ use PHPUnit\Framework\TestCase;
 use SimpleSAML\XML\Attribute as XMLAttribute;
 use SimpleSAML\XML\Constants as C;
 use SimpleSAML\XML\DOMDocumentFactory;
-use SimpleSAML\XML\TestUtils\{SchemaValidationTestTrait, SerializableElementTestTrait};
+use SimpleSAML\XML\TestUtils\SerializableElementTestTrait;
 use SimpleSAML\XML\Type\{AnyURIValue, BooleanValue, IDValue, NCNameValue, StringValue, QNameValue};
-use SimpleSAML\XSD\Type\{BlockSetValue, DerivationSetValue, FormChoiceValue};
+use SimpleSAML\XSD\Type\{BlockSetValue, FormChoiceValue, MaxOccursValue, MinOccursValue};
 use SimpleSAML\XSD\XML\xsd\AbstractAnnotated;
 use SimpleSAML\XSD\XML\xsd\AbstractElement;
-use SimpleSAML\XSD\XML\xsd\AbstractTopLevelElement;
+use SimpleSAML\XSD\XML\xsd\AbstractLocalElement;
 use SimpleSAML\XSD\XML\xsd\AbstractOpenAttrs;
 use SimpleSAML\XSD\XML\xsd\AbstractXsdElement;
 use SimpleSAML\XSD\XML\xsd\Annotation;
 use SimpleSAML\XSD\XML\xsd\Appinfo;
-use SimpleSAML\XSD\XML\xsd\DerivationControlEnum;
 use SimpleSAML\XSD\XML\xsd\Documentation;
 use SimpleSAML\XSD\XML\xsd\Field;
+use SimpleSAML\XSD\XML\xsd\FormChoiceEnum;
 use SimpleSAML\XSD\XML\xsd\Keyref;
-use SimpleSAML\XSD\XML\xsd\TopLevelElement;
 use SimpleSAML\XSD\XML\xsd\LocalSimpleType;
+use SimpleSAML\XSD\XML\xsd\NarrowMaxMinElement;
 use SimpleSAML\XSD\XML\xsd\Restriction;
 use SimpleSAML\XSD\XML\xsd\Selector;
 
@@ -33,20 +33,19 @@ use function dirname;
 use function strval;
 
 /**
- * Tests for xs:topLevelElement
+ * Tests for xs:narrowMaxMinElement
  *
  * @package simplesamlphp/xml-xsd
  */
 #[Group('xs')]
-#[CoversClass(TopLevelElement::class)]
-#[CoversClass(AbstractTopLevelElement::class)]
+#[CoversClass(NarrowMaxMinElement::class)]
+#[CoversClass(AbstractLocalElement::class)]
 #[CoversClass(AbstractElement::class)]
 #[CoversClass(AbstractAnnotated::class)]
 #[CoversClass(AbstractOpenAttrs::class)]
 #[CoversClass(AbstractXsdElement::class)]
-final class TopLevelElementTest extends TestCase
+final class NarrowMaxMinElementTest extends TestCase
 {
-    use SchemaValidationTestTrait;
     use SerializableElementTestTrait;
 
 
@@ -54,10 +53,10 @@ final class TopLevelElementTest extends TestCase
      */
     public static function setUpBeforeClass(): void
     {
-        self::$testedClass = TopLevelElement::class;
+        self::$testedClass = NarrowMaxMinElement::class;
 
         self::$xmlRepresentation = DOMDocumentFactory::fromFile(
-            dirname(__FILE__, 3) . '/resources/xml/topLevelElement.xml',
+            dirname(__FILE__, 3) . '/resources/xml/narrowMaxMinElement.xml',
         );
     }
 
@@ -66,7 +65,7 @@ final class TopLevelElementTest extends TestCase
 
 
     /**
-     * Test creating an TopLevelElement object from scratch.
+     * Test creating an NarrowMaxMinElement object from scratch.
      */
     public function testMarshalling(): void
     {
@@ -160,15 +159,17 @@ final class TopLevelElementTest extends TestCase
             [$attr3],
         );
 
-        $topLevelElement = new TopLevelElement(
+        $narrowMaxMinElement = new NarrowMaxMinElement(
             name: NCNameValue::fromString('phpunit'),
             localType: $localSimpleType,
             identityConstraint: [$keyref],
             type: QNameValue::fromString('{http://www.w3.org/2001/XMLSchema}xsd:group'),
-            substitutionGroup: QNameValue::fromString('{http://www.w3.org/2001/XMLSchema}xsd:typeDefParticle'),
-            fixed: StringValue::fromString('1'),
-            final: DerivationSetValue::fromEnum(DerivationControlEnum::Extension),
+            minOccurs: MinOccursValue::fromInteger(0),
+            maxOccurs: MaxOccursValue::fromInteger(1),
+            default: StringValue::fromString('1'),
+            nillable: BooleanValue::fromBoolean(true),
             block: BlockSetValue::fromString('#all'),
+            form: FormChoiceValue::fromEnum(FormChoiceEnum::Qualified),
             annotation: $annotation,
             id: IDValue::fromString('phpunit_localElement'),
             namespacedAttributes: [$attr4],
@@ -176,7 +177,7 @@ final class TopLevelElementTest extends TestCase
 
         $this->assertEquals(
             self::$xmlRepresentation->saveXML(self::$xmlRepresentation->documentElement),
-            strval($topLevelElement),
+            strval($narrowMaxMinElement),
         );
     }
 }

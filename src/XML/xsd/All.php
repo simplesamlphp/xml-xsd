@@ -56,9 +56,11 @@ final class All extends AbstractAll implements
         $ref = self::getOptionalAttribute($xml, 'ref', QNameValue::class, null);
         Assert::null($ref, SchemaViolationException::class);
 
+        // The annotation
         $annotation = Annotation::getChildrenOfClass($xml);
         Assert::maxCount($annotation, 1, TooManyElementsException::class);
 
+        // The content
         $all = All::getChildrenOfClass($xml);
         $choice = Choice::getChildrenOfClass($xml);
         $sequence = Sequence::getChildrenOfClass($xml);

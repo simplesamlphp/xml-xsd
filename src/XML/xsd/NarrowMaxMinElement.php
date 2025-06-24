@@ -14,11 +14,11 @@ use function array_merge;
 use function array_pop;
 
 /**
- * Class representing the local element-element.
+ * Class representing the local narrowMaxMin-element.
  *
  * @package simplesamlphp/xml-xsd
  */
-final class LocalElement extends AbstractLocalElement
+final class NarrowMaxMinElement extends AbstractLocalElement
 {
     /** @var string */
     public const LOCALNAME = 'element';

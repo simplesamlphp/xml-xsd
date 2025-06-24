@@ -45,7 +45,7 @@ abstract class AbstractAll extends AbstractExplicitGroup
         Assert::same($maxOccurs->toInteger(), 1, SchemaViolationException::class);
         Assert::allIsInstanceOf(
             $particles,
-            NarrowMinMaxElement::class,
+            NarrowMaxMinElement::class,
             SchemaViolationException::class,
         );
 
