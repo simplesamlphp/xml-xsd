@@ -11,8 +11,8 @@ use SimpleSAML\XML\Attribute as XMLAttribute;
 use SimpleSAML\XML\Constants as C;
 use SimpleSAML\XML\DOMDocumentFactory;
 use SimpleSAML\XML\TestUtils\SerializableElementTestTrait;
-use SimpleSAML\XML\Type\{AnyURIValue, IDValue, NCNameValue, StringValue, QNameValue};
-use SimpleSAML\XSD\Type\{MinOccursValue, MaxOccursValue, NamespaceListValue, ProcessContentsValue};
+use SimpleSAML\XML\Type\{AnyURIValue, BooleanValue, IDValue, NCNameValue, QNameValue, StringValue};
+use SimpleSAML\XSD\Type\{BlockSetValue, FormChoiceValue, MinOccursValue, MaxOccursValue};
 use SimpleSAML\XSD\XML\xsd\AbstractAnnotated;
 use SimpleSAML\XSD\XML\xsd\AbstractGroup;
 use SimpleSAML\XSD\XML\xsd\AbstractRealGroup;
@@ -23,8 +23,14 @@ use SimpleSAML\XSD\XML\xsd\Annotation;
 use SimpleSAML\XSD\XML\xsd\Appinfo;
 use SimpleSAML\XSD\XML\xsd\Choice;
 use SimpleSAML\XSD\XML\xsd\Documentation;
+use SimpleSAML\XSD\XML\xsd\Field;
+use SimpleSAML\XSD\XML\xsd\FormChoiceEnum;
+use SimpleSAML\XSD\XML\xsd\Keyref;
+use SimpleSAML\XSD\XML\xsd\LocalSimpleType;
 use SimpleSAML\XSD\XML\xsd\NamedGroup;
-use SimpleSAML\XSD\XML\xsd\ReferencedGroup;
+use SimpleSAML\XSD\XML\xsd\NarrowMaxMinElement;
+use SimpleSAML\XSD\XML\xsd\Restriction;
+use SimpleSAML\XSD\XML\xsd\Selector;
 
 use function dirname;
 use function strval;
@@ -120,18 +126,61 @@ final class NamedGroupTest extends TestCase
             [$attr3],
         );
 
-        $referencedGroup = new ReferencedGroup(
-            QNameValue::fromString("{http://www.w3.org/2001/XMLSchema}xsd:nestedParticle"),
+        $restriction = new Restriction(
+            null,
+            [],
+            QNameValue::fromString('{http://www.w3.org/2001/XMLSchema}xsd:nonNegativeInteger'),
         );
 
-        $choice = new Choice(
-            MinOccursValue::fromInteger(0),
-            MaxOccursValue::fromString('unbounded'),
-            [$referencedGroup],
+        $localSimpleType = new LocalSimpleType(
+            $restriction,
+            null,
+            IDValue::fromString('phpunit_simpleType'),
+            [$attr4],
+        );
+
+        $selector = new Selector(
+            StringValue::fromString('.//annotation'),
+            null,
+            IDValue::fromString('phpunit_selector'),
+            [$attr4],
+        );
+
+        $field = new Field(
+            StringValue::fromString('@id'),
+            null,
+            IDValue::fromString('phpunit_field'),
+            [$attr4],
+        );
+
+        $keyref = new Keyref(
+            QNameValue::fromString('{http://www.w3.org/2001/XMLSchema}xsd:integer'),
+            NCNameValue::fromString('phpunit_keyref'),
+            $selector,
+            [$field],
+            null,
+            IDValue::fromString('phpunit_keyref'),
+            [$attr3],
+        );
+
+        $narrowMaxMinElement = new NarrowMaxMinElement(
+            name: NCNameValue::fromString('phpunit'),
+            localType: $localSimpleType,
+            identityConstraint: [$keyref],
+            type: QNameValue::fromString('{http://www.w3.org/2001/XMLSchema}xsd:group'),
+            minOccurs: MinOccursValue::fromInteger(0),
+            maxOccurs: MaxOccursValue::fromInteger(1),
+            default: StringValue::fromString('1'),
+            nillable: BooleanValue::fromBoolean(true),
+            block: BlockSetValue::fromString('#all'),
+            form: FormChoiceValue::fromEnum(FormChoiceEnum::Qualified),
+            annotation: $annotation,
+            id: IDValue::fromString('phpunit_localElement'),
+            namespacedAttributes: [$attr4],
         );
 
         $namedGroup = new NamedGroup(
-            $choice,
+            $narrowMaxMinElement,
             NCNameValue::fromString("dulyNoted"),
             $annotation,
             IDValue::fromString('phpunit_group'),

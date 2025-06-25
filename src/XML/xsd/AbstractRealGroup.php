@@ -47,9 +47,9 @@ abstract class AbstractRealGroup extends AbstractGroup
         ?IDValue $id = null,
         array $namespacedAttributes = [],
     ) {
-        Assert::nullOrIsInstanceOfAny(
+        Assert::nullOrIsInstanceOf(
             $particle,
-            [All::class, Choice::class, Sequence::class],
+            ParticleInterface::class,
             SchemaViolationException::class,
         );
 

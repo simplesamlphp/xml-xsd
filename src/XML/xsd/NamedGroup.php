@@ -59,16 +59,12 @@ final class NamedGroup extends AbstractNamedGroup implements SchemaValidatableEl
         $annotation = Annotation::getChildrenOfClass($xml);
         Assert::maxCount($annotation, 1, TooManyElementsException::class);
 
-        $all = All::getChildrenOfClass($xml);
-        $choice = Choice::getChildrenOfClass($xml);
-        $sequence = Sequence::getChildrenOfClass($xml);
-
-        $particles = array_merge($all, $choice, $sequence);
-        Assert::minCount($particles, 1, MissingElementException::class);
-        Assert::maxCount($particles, 1, TooManyElementsException::class);
+        $narrowMaxMinElement = NarrowMaxMinElement::getChildrenOfClass($xml);
+        Assert::minCount($narrowMaxMinElement, 1, MissingElementException::class);
+        Assert::maxCount($narrowMaxMinElement, 1, TooManyElementsException::class);
 
         return new static(
-            array_pop($particles),
+            array_pop($narrowMaxMinElement),
             name: self::getAttribute($xml, 'name', NCNameValue::class),
             annotation: array_pop($annotation),
             id: self::getOptionalAttribute($xml, 'id', IDValue::class, null),
