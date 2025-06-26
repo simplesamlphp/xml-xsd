@@ -16,7 +16,6 @@ use SimpleSAML\XML\{SchemaValidatableElementInterface, SchemaValidatableElementT
 use SimpleSAML\XML\Type\{IDValue, NCNameValue, QNameValue};
 use SimpleSAML\XSD\Type\{MinOccursValue, MaxOccursValue};
 
-use function array_merge;
 use function array_pop;
 
 /**

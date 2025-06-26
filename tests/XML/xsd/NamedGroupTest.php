@@ -21,7 +21,6 @@ use SimpleSAML\XSD\XML\xsd\AbstractOpenAttrs;
 use SimpleSAML\XSD\XML\xsd\AbstractXsdElement;
 use SimpleSAML\XSD\XML\xsd\Annotation;
 use SimpleSAML\XSD\XML\xsd\Appinfo;
-use SimpleSAML\XSD\XML\xsd\Choice;
 use SimpleSAML\XSD\XML\xsd\Documentation;
 use SimpleSAML\XSD\XML\xsd\Field;
 use SimpleSAML\XSD\XML\xsd\FormChoiceEnum;
