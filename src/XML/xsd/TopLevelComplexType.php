@@ -19,7 +19,9 @@ use function array_pop;
  *
  * @package simplesamlphp/xml-xsd
  */
-final class TopLevelComplexType extends AbstractTopLevelComplexType implements SchemaValidatableElementInterface
+final class TopLevelComplexType extends AbstractTopLevelComplexType implements
+    RedefinableInterface,
+    SchemaValidatableElementInterface
 {
     use SchemaValidatableElementTrait;
 
