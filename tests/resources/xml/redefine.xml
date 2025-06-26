@@ -1,0 +1,45 @@
+<xsd:redefine xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ssp="urn:x-simplesamlphp:namespace" ssp:attr3="value3" schemaLocation="https://example.org/schema.xsd" id="phpunit_redefine">
+  <xsd:annotation xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ssp="urn:x-simplesamlphp:namespace" ssp:attr1="value1" id="phpunit_annotation1">
+    <xsd:documentation xmlns:xml="http://www.w3.org/XML/1998/namespace" source="urn:x-simplesamlphp:source" xml:lang="nl" ssp:attr2="value2">SimpleType</xsd:documentation>
+  </xsd:annotation>
+  <xsd:simpleType xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ssp="urn:x-simplesamlphp:namespace" ssp:attr4="value4" id="phpunit_simpleType" final="#all" name="phpunit">
+    <xsd:list itemType="xsd:integer">
+      <xsd:simpleType>
+        <xsd:restriction base="xsd:nonNegativeInteger"/>
+      </xsd:simpleType>
+    </xsd:list>
+  </xsd:simpleType>
+  <xsd:annotation xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ssp="urn:x-simplesamlphp:namespace" ssp:attr1="value1" id="phpunit_annotation2">
+    <xsd:documentation xmlns:xml="http://www.w3.org/XML/1998/namespace" source="urn:x-simplesamlphp:source" xml:lang="nl" ssp:attr2="value2">ComplexType</xsd:documentation>
+  </xsd:annotation>
+  <xsd:complexType xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ssp="urn:x-simplesamlphp:namespace" ssp:attr4="value4" id="phpunit_complexType" name="complex" mixed="true" abstract="false" final="restriction" block="#all">
+    <xsd:group ssp:attr4="value4" id="phpunit_group1" ref="xsd:nestedParticle" />
+    <xsd:attribute name="phpunit" type="xsd:integer"/>
+    <xsd:attributeGroup ref="xsd:defRef"/>
+    <xsd:anyAttribute id="phpunit_anyattribute1" namespace="##any" processContents="strict" />
+  </xsd:complexType>
+  <xsd:annotation xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ssp="urn:x-simplesamlphp:namespace" ssp:attr1="value1" id="phpunit_annotation3">
+    <xsd:documentation xmlns:xml="http://www.w3.org/XML/1998/namespace" source="urn:x-simplesamlphp:source" xml:lang="nl" ssp:attr2="value2">Group</xsd:documentation>
+  </xsd:annotation>
+  <xsd:group xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ssp="urn:x-simplesamlphp:namespace" ssp:attr4="value4" id="phpunit_group2" name="dulyNoted">
+    <xsd:all id="phpunit_all">
+      <xsd:element ssp:attr4="value4" id="phpunit_localElement" name="phpunit" type="xsd:group" minOccurs="0" maxOccurs="1" default="1" nillable="true" block="#all" form="qualified">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:nonNegativeInteger"/>
+        </xsd:simpleType>
+        <xsd:keyref ssp:attr3="value3" id="phpunit_keyref" name="phpunit_keyref" refer="xsd:integer">
+          <xsd:selector ssp:attr4="value4" id="phpunit_selector" xpath=".//annotation"/>
+          <xsd:field ssp:attr4="value4" id="phpunit_field" xpath="@id"/>
+        </xsd:keyref>
+      </xsd:element>
+    </xsd:all>
+  </xsd:group>
+  <xsd:annotation xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ssp="urn:x-simplesamlphp:namespace" ssp:attr1="value1" id="phpunit_annotation4">
+    <xsd:documentation xmlns:xml="http://www.w3.org/XML/1998/namespace" source="urn:x-simplesamlphp:source" xml:lang="nl" ssp:attr2="value2">AttributeGroup</xsd:documentation>
+  </xsd:annotation>
+  <xsd:attributeGroup xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ssp="urn:x-simplesamlphp:namespace" ssp:attr4="value4" id="phpunit_attributeGroup" name="number">
+    <xsd:attribute name="phpunit" type="xsd:integer"/>
+    <xsd:attributeGroup ref="xsd:defRef"/>
+    <xsd:anyAttribute id="phpunit_anyattribute2" namespace="##any" processContents="strict" />
+  </xsd:attributeGroup>
+</xsd:redefine>

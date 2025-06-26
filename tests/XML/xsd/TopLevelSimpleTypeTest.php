@@ -63,7 +63,7 @@ final class TopLevelSimpleTypeTest extends TestCase
 
 
     /**
-     * Test creating an Notation object from scratch.
+     * Test creating an TopLevelSimpleType object from scratch.
      */
     public function testMarshalling(): void
     {

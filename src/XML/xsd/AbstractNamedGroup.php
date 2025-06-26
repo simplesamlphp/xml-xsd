@@ -38,9 +38,9 @@ abstract class AbstractNamedGroup extends AbstractRealGroup
         ?IDValue $id = null,
         array $namespacedAttributes = [],
     ) {
-        Assert::isInstanceOf(
+        Assert::isInstanceOfAny(
             $particle,
-            NarrowMaxMinElement::class,
+            [All::class, Choice::class, Sequence::class],
             SchemaViolationException::class,
         );
 

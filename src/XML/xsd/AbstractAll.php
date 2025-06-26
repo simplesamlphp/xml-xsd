@@ -28,7 +28,7 @@ abstract class AbstractAll extends AbstractExplicitGroup
      *
      * @param \SimpleSAML\XSD\Type\MinOccursValue|null $minOccurs
      * @param \SimpleSAML\XSD\Type\MaxOccursValue|null $maxOccurs
-     * @param array<\SimpleSAML\XSD\XML\xsd\NestedParticleInterface> $particles
+     * @param \SimpleSAML\XSD\XML\xsd\NarrowMaxMinElement[] $particles
      * @param \SimpleSAML\XSD\XML\xsd\Annotation|null $annotation
      * @param \SimpleSAML\XML\Type\IDValue|null $id
      * @param array<\SimpleSAML\XML\Attribute> $namespacedAttributes
@@ -41,8 +41,14 @@ abstract class AbstractAll extends AbstractExplicitGroup
         ?IDValue $id = null,
         array $namespacedAttributes = [],
     ) {
-        Assert::oneOf($minOccurs->toInteger(), [0, 1], SchemaViolationException::class);
-        Assert::same($maxOccurs->toInteger(), 1, SchemaViolationException::class);
+        if ($minOccurs !== null) {
+            Assert::oneOf($minOccurs->toInteger(), [0, 1], SchemaViolationException::class);
+        }
+
+        if ($maxOccurs !== null) {
+            Assert::same($maxOccurs->toInteger(), 1, SchemaViolationException::class);
+        }
+
         Assert::allIsInstanceOf(
             $particles,
             NarrowMaxMinElement::class,

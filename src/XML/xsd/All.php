@@ -61,11 +61,11 @@ final class All extends AbstractAll implements
         Assert::maxCount($annotation, 1, TooManyElementsException::class);
 
         // The content
-        $all = All::getChildrenOfClass($xml);
+        $narrowMaxMin = NarrowMaxMinElement::getChildrenOfClass($xml);
         $choice = Choice::getChildrenOfClass($xml);
         $sequence = Sequence::getChildrenOfClass($xml);
 
-        $particles = array_merge($all, $choice, $sequence);
+        $particles = array_merge($narrowMaxMin, $choice, $sequence);
         Assert::minCount($particles, 1, MissingElementException::class);
         Assert::maxCount($particles, 1, TooManyElementsException::class);
 

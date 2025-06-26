@@ -19,6 +19,7 @@ use SimpleSAML\XSD\XML\xsd\AbstractRealGroup;
 use SimpleSAML\XSD\XML\xsd\AbstractNamedGroup;
 use SimpleSAML\XSD\XML\xsd\AbstractOpenAttrs;
 use SimpleSAML\XSD\XML\xsd\AbstractXsdElement;
+use SimpleSAML\XSD\XML\xsd\All;
 use SimpleSAML\XSD\XML\xsd\Annotation;
 use SimpleSAML\XSD\XML\xsd\Appinfo;
 use SimpleSAML\XSD\XML\xsd\Documentation;
@@ -178,8 +179,10 @@ final class NamedGroupTest extends TestCase
             namespacedAttributes: [$attr4],
         );
 
+        $all = new All(null, null, [$narrowMaxMinElement], null, IDValue::fromString('phpunit_all'));
+
         $namedGroup = new NamedGroup(
-            $narrowMaxMinElement,
+            $all,
             NCNameValue::fromString("dulyNoted"),
             $annotation,
             IDValue::fromString('phpunit_group'),
