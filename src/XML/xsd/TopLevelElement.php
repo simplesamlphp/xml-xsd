@@ -67,14 +67,8 @@ final class TopLevelElement extends AbstractTopLevelElement implements SchemaVal
 
         // The identity constraint
         $key = Key::getChildrenOfClass($xml);
-        Assert::maxCount($key, 1, TooManyElementsException::class);
-
         $keyref = Keyref::getChildrenOfClass($xml);
-        Assert::maxCount($keyref, 1, TooManyElementsException::class);
-
         $unique = Unique::getChildrenOfClass($xml);
-        Assert::maxCount($unique, 1, TooManyElementsException::class);
-
         $identityConstraint = array_merge($key, $keyref, $unique);
 
         return new static(
