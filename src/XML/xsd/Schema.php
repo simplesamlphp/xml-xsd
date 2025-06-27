@@ -51,9 +51,9 @@ final class Schema extends AbstractOpenAttrs implements SchemaValidatableElement
      *     \SimpleSAML\XSD\XML\xsd\NamedAttributeGroup|
      *     \SimpleSAML\XSD\XML\xsd\Attribute|
      *     \SimpleSAML\XSD\XML\xsd\TopLevelElement|
-     *     \SimpleSAML\XSD\XML\xsd\Notation
+     *     \SimpleSAML\XSD\XML\xsd\Notation|
+     *     \SimpleSAML\XSD\XML\xsd\Annotation
      * )[] $schemaTopElements
-     * @param array<\SimpleSAML\XSD\XML\xsd\Annotation> $annotation
      * @param \SimpleSAML\XML\Type\AnyURIValue $targetNamespace
      * @param \SimpleSAML\XML\Type\TokenValue $version
      * @param \SimpleSAML\XSD\Type\FullDerivationSetValue $finalDefault
@@ -67,7 +67,6 @@ final class Schema extends AbstractOpenAttrs implements SchemaValidatableElement
     public function __construct(
         protected array $topLevelElements = [],
         protected array $schemaTopElements = [],
-        protected array $annotation = [],
         protected ?AnyURIValue $targetNamespace = null,
         protected ?TokenValue $version = null,
         protected ?FullDerivationSetValue $finalDefault = null,
@@ -85,10 +84,15 @@ final class Schema extends AbstractOpenAttrs implements SchemaValidatableElement
         );
         Assert::allIsInstanceOfAny(
             $schemaTopElements,
-            [RedefinableInterface::class, Attribute::class, TopLevelElement::class, Notation::class],
+            [
+                RedefinableInterface::class,
+                Attribute::class,
+                TopLevelElement::class,
+                Notation::class,
+                Annotation::class,
+            ],
             SchemaViolationException::class,
         );
-        Assert::allIsInstanceOf($annotation, Annotation::class, SchemaViolationException::class);
 
         parent::__construct($namespacedAttributes);
     }
@@ -117,23 +121,13 @@ final class Schema extends AbstractOpenAttrs implements SchemaValidatableElement
      *     \SimpleSAML\XSD\XML\xsd\RedefinableInterface|
      *     \SimpleSAML\XSD\XML\xsd\Attribute|
      *     \SimpleSAML\XSD\XML\xsd\TopLevelElement|
-     *     \SimpleSAML\XSD\XML\xsd\Notation
+     *     \SimpleSAML\XSD\XML\xsd\Notation|
+     *     \SimpleSAML\XSD\XML\xsd\Annotation
      * )[]
      */
     public function getSchemaTopElements(): array
     {
         return $this->schemaTopElements;
-    }
-
-
-    /**
-     * Collect the value of the annotation-property
-     *
-     * @return array<\SimpleSAML\XSD\XML\xsd\Annotation>
-     */
-    public function getAnnotation(): array
-    {
-        return $this->annotation;
     }
 
 
@@ -235,7 +229,6 @@ final class Schema extends AbstractOpenAttrs implements SchemaValidatableElement
         return parent::isEmptyElement() &&
             empty($this->getTopLevelElements()) &&
             empty($this->getSchemaTopElements()) &&
-            empty($this->getAnnotation()) &&
             empty($this->getTargetNamespace()) &&
             empty($this->getVersion()) &&
             empty($this->getFinalDefault()) &&
@@ -262,56 +255,82 @@ final class Schema extends AbstractOpenAttrs implements SchemaValidatableElement
         Assert::same($xml->namespaceURI, static::NS, InvalidDOMElementException::class);
 
         $xpCache = XPath::getXPath($xml);
-        $beforeSchemaTopAnnotationElements = XPath::xpQuery(
+
+        $beforeAllowed = [
+            'annotation' => Annotation::class,
+            'import' => Import::class,
+            'include' => XsInclude::class,
+            'redefine' => Redefine::class,
+        ];
+        $beforeSchemaTopElements = XPath::xpQuery(
             $xml,
-            '/xs:schema/'
-            . '(xs:group|xs:attributeGroup|xs:complexType|xs:simpleType|xs:element|xs:attribute|xs:notation)[1]'
-            . '/preceding-sibling::xs:annotation',
-            $xpCache,
-        );
-        $afterSchemaTopAnnotationElements = XPath::xpQuery(
-            $xml,
-            '/xs:schema/'
-            . '(xs:group|xs:attributeGroup|xs:complexType|xs:simpleType|xs:element|xs:attribute|xs:notation)[1]'
-            . '/following-sibling::xs:annotation',
+            '('
+            . '/xsd:schema/xsd:group|'
+            . '/xsd:schema/xsd:attributeGroup|'
+            . '/xsd:schema/xsd:complexType|'
+            . '/xsd:schema/xsd:simpleType|'
+            . '/xsd:schema/xsd:element|'
+            .  '/xsd:schema/xsd:attribute'
+            . ')[1]/preceding-sibling::xsd:*',
             $xpCache,
         );
 
-        $beforeSchemaTopAnnotations = [];
-        foreach ($beforeSchemaTopAnnotationElements as $beforeElt) {
-            if ($beforeElt instanceof DOMElement) {
-                $beforeSchemaTopAnnotations[] = Annotation::fromXML($beforeElt);
+        $topLevelElements = [];
+        foreach ($beforeSchemaTopElements as $node) {
+            /** @var \DOMElement $node */
+            if ($node instanceof DOMElement) {
+                if ($node->namespaceURI === C::NS_XS && array_key_exists($node->localName, $beforeAllowed)) {
+                    $topLevelElements[] = $beforeAllowed[$node->localName]::fromXML($node);
+                }
             }
         }
 
-        $afterSchemaTopAnnotations = [];
-        foreach ($afterSchemaTopAnnotationElements as $afterElt) {
-            if ($afterElt instanceof DOMElement) {
-                $afterSchemaTopAnnotations[] = Annotation::fromXML($afterElt);
+        $afterAllowed = [
+            'annotation' => Annotation::class,
+            'attribute' => Attribute::class,
+            'attributeGroup' => NamedAttributeGroup::class,
+            'complexType' => TopLevelComplexType::class,
+            'element' => TopLevelElement::class,
+            'notation' => Notation::class,
+            'simpleType' => TopLevelSimpleType::class,
+        ];
+        $afterSchemaTopElementFirstHit = XPath::xpQuery(
+            $xml,
+            '('
+            . '/xsd:schema/xsd:group|'
+            . '/xsd:schema/xsd:attributeGroup|'
+            . '/xsd:schema/xsd:complexType'
+            . '/xsd:schema/xsd:simpleType|'
+            . '/xsd:schema/xsd:element|'
+            . '/xsd:schema/xsd:attribute'
+            . ')[1]',
+            $xpCache,
+        );
+
+        $afterSchemaTopElementSibling = XPath::xpQuery(
+            $xml,
+            '('
+            . '/xsd:schema/xsd:group|'
+            . '/xsd:schema/xsd:attributeGroup|'
+            . '/xsd:schema/xsd:complexType'
+            . '/xsd:schema/xsd:simpleType|'
+            . '/xsd:schema/xsd:element|'
+            . '/xsd:schema/xsd:attribute'
+            . ')[1]/following-sibling::xsd:*',
+            $xpCache,
+        );
+
+        $afterSchemaTopElements = array_merge($afterSchemaTopElementFirstHit, $afterSchemaTopElementSibling);
+
+        $schemaTopElements = [];
+        foreach ($afterSchemaTopElements as $node) {
+            /** @var \DOMElement $node */
+            if ($node instanceof DOMElement) {
+                if ($node->namespaceURI === C::NS_XS && array_key_exists($node->localName, $afterAllowed)) {
+                    $schemaTopElements[] = $afterAllowed[$node->localName]::fromXML($node);
+                }
             }
         }
-
-        $xsInclude = XsInclude::getChildrenOfClass($xml);
-        $import = Import::getChildrenOfClass($xml);
-        $redefine = Redefine::getChildrenOfClass($xml);
-        $topLevelElements = array_merge($xsInclude, $import, $redefine, $beforeSchemaTopAnnotations);
-
-        $topLevelSimpleType = TopLevelSimpleType::getChildrenOfClass($xml);
-        $topLevelComplexType = TopLevelComplexType::getChildrenOfClass($xml);
-        $namedGroup = NamedGroup::getChildrenOfClass($xml);
-        $namedAttributeGroup = NamedAttributeGroup::getChildrenOfClass($xml);
-        $attribute = Attribute::getChildrenOfClass($xml);
-        $topLevelElement = TopLevelElement::getChildrenOfClass($xml);
-        $notation = Notation::getChildrenOfClass($xml);
-        $schemaTopElements = array_merge(
-            $topLevelSimpleType,
-            $topLevelComplexType,
-            $namedGroup,
-            $namedAttributeGroup,
-            $attribute,
-            $topLevelElement,
-            $notation,
-        );
 
         $lang = null;
         if ($xml->hasAttributeNS(C::NS_XML, 'lang')) {
@@ -326,7 +345,6 @@ final class Schema extends AbstractOpenAttrs implements SchemaValidatableElement
         return new static(
             $topLevelElements,
             $schemaTopElements,
-            $afterSchemaTopAnnotations,
             self::getOptionalAttribute($xml, 'targetNamespace', AnyURIValue::class, null),
             self::getOptionalAttribute($xml, 'version', TokenValue::class, null),
             self::getOptionalAttribute($xml, 'finalDefault', FullDerivationSetValue::class, null),
@@ -388,10 +406,6 @@ final class Schema extends AbstractOpenAttrs implements SchemaValidatableElement
 
         foreach ($this->getSchemaTopElements() as $ste) {
             $ste->toXML($e);
-        }
-
-        foreach ($this->getAnnotation() as $annotation) {
-            $annotation->toXML($e);
         }
 
         return $e;

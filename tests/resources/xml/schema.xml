@@ -1,0 +1,26 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xml="http://www.w3.org/XML/1998/namespace" xmlns:ssp="urn:x-simplesamlphp:namespace" ssp:attr3="value3" targetNamespace="http://www.w3.org/2001/XMLSchema" version="1.0" finalDefault="union" blockDefault="restriction" attributeFormDefault="unqualified" elementFormDefault="unqualified" id="phpunit_schema" xml:lang="en">
+  <xsd:annotation xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ssp="urn:x-simplesamlphp:namespace" ssp:attr1="value1" id="phpunit_annotation1">
+    <xsd:documentation xmlns:xml="http://www.w3.org/XML/1998/namespace" source="urn:x-simplesamlphp:source" xml:lang="nl" ssp:attr2="value2">Import</xsd:documentation>
+  </xsd:annotation>
+  <xsd:import xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ssp="urn:x-simplesamlphp:namespace" ssp:attr4="value4" id="phpunit_import" namespace="urn:x-simplesamlphp:namespace" schemaLocation="file:///tmp/schema.xsd" />
+  <xsd:annotation xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ssp="urn:x-simplesamlphp:namespace" ssp:attr1="value1" id="phpunit_annotation2">
+    <xsd:documentation xmlns:xml="http://www.w3.org/XML/1998/namespace" source="urn:x-simplesamlphp:source" xml:lang="nl" ssp:attr2="value2">Element</xsd:documentation>
+  </xsd:annotation>
+  <xsd:element xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ssp="urn:x-simplesamlphp:namespace" ssp:attr4="value4" id="phpunit_localElement" name="phpunit" type="xsd:group" substitutionGroup="xsd:typeDefParticle" fixed="1" final="extension" block="#all">
+    <xsd:simpleType>
+      <xsd:restriction base="xsd:nonNegativeInteger"/>
+    </xsd:simpleType>
+    <xsd:keyref ssp:attr3="value3" id="phpunit_keyref" name="phpunit_keyref" refer="xsd:integer">
+      <xsd:selector ssp:attr4="value4" id="phpunit_selector" xpath=".//annotation" />
+      <xsd:field ssp:attr4="value4" id="phpunit_field" xpath="@id" />
+    </xsd:keyref>
+  </xsd:element>
+  <xsd:annotation xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ssp="urn:x-simplesamlphp:namespace" ssp:attr1="value1" id="phpunit_annotation3">
+    <xsd:documentation xmlns:xml="http://www.w3.org/XML/1998/namespace" source="urn:x-simplesamlphp:source" xml:lang="nl" ssp:attr2="value2">Attribute</xsd:documentation>
+  </xsd:annotation>
+  <xsd:attribute xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ssp="urn:x-simplesamlphp:namespace" ssp:attr4="value4" id="phpunit_attribute" name="number" type="xsd:integer" default="1" fixed="1">
+    <xsd:simpleType xmlns:ssp="urn:x-simplesamlphp:namespace" ssp:attr4="value4" id="phpunit_simpleType">
+      <xsd:restriction base="xsd:nonNegativeInteger"/>
+    </xsd:simpleType>
+  </xsd:attribute>
+</xsd:schema>
