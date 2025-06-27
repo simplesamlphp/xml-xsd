@@ -18,14 +18,14 @@ use SimpleSAML\XSD\Type\MaxOccursValue;
 final class MaxOccursValueTest extends TestCase
 {
     /**
-     * @param string $MaxOccurs
-     * @param bool $expected
+     * @param string $maxOccurs
+     * @param bool $shouldPass
      */
     #[DataProvider('provideMaxOccurs')]
-    public function testMaxOccursValue(string $MaxOccurs, bool $shouldPass): void
+    public function testMaxOccursValue(string $maxOccurs, bool $shouldPass): void
     {
         try {
-            MaxOccursValue::fromString($MaxOccurs);
+            MaxOccursValue::fromString($maxOccurs);
             $this->assertTrue($shouldPass);
         } catch (SchemaViolationException $e) {
             $this->assertFalse($shouldPass);
@@ -47,7 +47,7 @@ final class MaxOccursValueTest extends TestCase
 
 
     /**
-     * @return array<string, array{0: string, 1: string}>
+     * @return array<string, array{0: string, 1: bool}>
      */
     public static function provideMaxOccurs(): array
     {

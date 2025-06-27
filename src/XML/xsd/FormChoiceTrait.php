@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace SimpleSAML\XSD\XML\xsd;
 
+use SimpleSAML\XSD\Type\FormChoiceValue;
+
 /**
  * Trait grouping common functionality for elements that can hold a formChoice attribute.
  *
@@ -14,17 +16,17 @@ trait FormChoiceTrait
     /**
      * The formChoice.
      *
-     * @var \SimpleSAML\XSD\XML\xsd\FormChoiceEnum
+     * @var \SimpleSAML\XSD\Type\FormChoiceValue|null
      */
-    protected FormChoiceEnum $formChoice;
+    protected ?FormChoiceValue $formChoice = null;
 
 
     /**
      * Collect the value of the formChoice-property
      *
-     * @return \SimpleSAML\XSD\XML\xsd\FormChoiceEnum
+     * @return \SimpleSAML\XSD\Type\FormChoiceValue|null
      */
-    public function getFormChoice(): FormChoiceEnum
+    public function getFormChoice(): ?FormChoiceValue
     {
         return $this->formChoice;
     }
@@ -33,9 +35,9 @@ trait FormChoiceTrait
     /**
      * Set the value of the formChoice-property
      *
-     * @param \SimpleSAML\XSD\XML\xsd\FormChoiceEnum $formChoice
+     * @param \SimpleSAML\XSD\Type\FormChoiceValue|null $formChoice
      */
-    protected function setFormChoice(FormChoiceEnum $formChoice): void
+    protected function setFormChoice(?FormChoiceValue $formChoice): void
     {
         $this->formChoice = $formChoice;
     }

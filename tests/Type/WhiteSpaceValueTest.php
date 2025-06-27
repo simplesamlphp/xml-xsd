@@ -20,7 +20,7 @@ final class WhiteSpaceValueTest extends TestCase
 {
     /**
      * @param string $whiteSpace
-     * @param bool $expected
+     * @param bool $shouldPass
      */
     #[DataProvider('provideWhiteSpace')]
     public function testWhiteSpaceValue(string $whiteSpace, bool $shouldPass): void
@@ -48,7 +48,7 @@ final class WhiteSpaceValueTest extends TestCase
 
 
     /**
-     * @return array<string, array{0: string, 1: string}>
+     * @return array<string, array{0: string, 1: bool}>
      */
     public static function provideWhiteSpace(): array
     {

@@ -7,16 +7,16 @@ namespace SimpleSAML\XSD\Type;
 use SimpleSAML\XML\Assert\Assert;
 use SimpleSAML\XML\Constants as C;
 use SimpleSAML\XML\Exception\SchemaViolationException;
-use SimpleSAML\XML\Type\AbstractValueType;
-use SimpleSAML\XML\XsNamespace;
+use SimpleSAML\XML\Type\AnyURIValue;
 //use SimpleSAML\XSD\XML\xsd\NamespaceEnum;
+use SimpleSAML\XML\XsNamespace;
 
 use function explode;
 
 /**
  * @package simplesaml/xml-xsd
  */
-class NamespaceListValue extends AbstractValueType
+class NamespaceListValue extends AnyURIValue
 {
     /** @var string */
     public const SCHEMA_TYPE = 'namespaceList';
@@ -33,13 +33,18 @@ class NamespaceListValue extends AbstractValueType
     {
         $sanitized = $this->sanitizeValue($value);
 
-        if ($sanitized !== XsNamespace::ANY && $sanitized !== XsNamespace::OTHER) {
+        if ($sanitized !== XsNamespace::ANY->value && $sanitized !== XsNamespace::OTHER->value) {
 //        if ($sanitized !== NamespaceEnum::Any && $sanitized !== NamespaceEnum::Other) {
             $list = explode(' ', $sanitized, C::UNBOUNDED_LIMIT);
 
             // After filtering the two special namespaces, only AnyURI's should be left
             $filtered = array_diff($list, [XsNamespace::TARGET->value, XsNamespace::LOCAL->value]);
 //            $filtered = array_diff($list, [NamespaceEnum::TargetNamespace, NamespaceEnum::Local]);
+            Assert::false(
+                in_array(XsNamespace::ANY->value, $filtered) || in_array(XsNamespace::OTHER->value, $filtered),
+                SchemaViolationException::class,
+            );
+            Assert::notEmpty($sanitized, SchemaViolationException::class);
             Assert::allValidAnyURI($filtered, SchemaViolationException::class);
         }
     }

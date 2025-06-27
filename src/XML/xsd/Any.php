@@ -6,7 +6,7 @@ namespace SimpleSAML\XSD\XML\xsd;
 
 use DOMElement;
 use SimpleSAML\Assert\Assert;
-use SimpleSAML\XML\Exception\InvalidDOMElementException;
+use SimpleSAML\XML\Exception\{InvalidDOMElementException, TooManyElementsException};
 use SimpleSAML\XML\{SchemaValidatableElementInterface, SchemaValidatableElementTrait};
 use SimpleSAML\XML\Type\IDValue;
 use SimpleSAML\XSD\Type\{MinOccursValue, MaxOccursValue, NamespaceListValue, ProcessContentsValue};
@@ -19,7 +19,10 @@ use function strval;
  *
  * @package simplesamlphp/xml-xsd
  */
-final class Any extends AbstractWildcard implements SchemaValidatableElementInterface
+final class Any extends AbstractWildcard implements
+    NestedParticleInterface,
+    ParticleInterface,
+    SchemaValidatableElementInterface
 {
     use OccursTrait;
     use SchemaValidatableElementTrait;
@@ -32,7 +35,7 @@ final class Any extends AbstractWildcard implements SchemaValidatableElementInte
      * Wildcard constructor
      *
      * @param \SimpleSAML\XSD\Type\NamespaceListValue|null $namespace
-     * @param \SimpleSAML\XSD\Type\ProcessContents|null $processContents
+     * @param \SimpleSAML\XSD\Type\ProcessContentsValue|null $processContents
      * @param \SimpleSAML\XSD\XML\xsd\Annotation|null $annotation
      * @param \SimpleSAML\XML\Type\IDValue|null $id
      * @param array<\SimpleSAML\XML\Attribute> $namespacedAttributes
@@ -83,6 +86,7 @@ final class Any extends AbstractWildcard implements SchemaValidatableElementInte
         Assert::same($xml->namespaceURI, static::NS, InvalidDOMElementException::class);
 
         $annotation = Annotation::getChildrenOfClass($xml);
+        Assert::maxCount($annotation, 1, TooManyElementsException::class);
 
         return new static(
             self::getOptionalAttribute($xml, 'namespace', NamespaceListValue::class, null),

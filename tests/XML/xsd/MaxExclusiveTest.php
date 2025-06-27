@@ -25,11 +25,11 @@ use function dirname;
 use function strval;
 
 /**
- * Tests for xsd:maxExclusive
+ * Tests for xs:maxExclusive
  *
  * @package simplesamlphp/xml-xsd
  */
-#[Group('xsd')]
+#[Group('xs')]
 #[CoversClass(MaxExclusive::class)]
 #[CoversClass(AbstractFacet::class)]
 #[CoversClass(AbstractAnnotated::class)]

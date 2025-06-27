@@ -20,7 +20,7 @@ final class ProcessContentsValueTest extends TestCase
 {
     /**
      * @param string $processContents
-     * @param bool $expected
+     * @param bool $shouldPass
      */
     #[DataProvider('provideProcessContents')]
     public function testProcessContentsValue(string $processContents, bool $shouldPass): void
@@ -48,7 +48,7 @@ final class ProcessContentsValueTest extends TestCase
 
 
     /**
-     * @return array<string, array{0: string, 1: string}>
+     * @return array<string, array{0: string, 1: bool}>
      */
     public static function provideProcessContents(): array
     {
