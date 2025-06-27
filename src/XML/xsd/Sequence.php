@@ -9,6 +9,7 @@ use SimpleSAML\Assert\Assert;
 use SimpleSAML\XML\Exception\{InvalidDOMElementException, SchemaViolationException, TooManyElementsException};
 use SimpleSAML\XML\{SchemaValidatableElementInterface, SchemaValidatableElementTrait};
 use SimpleSAML\XML\Type\{IDValue, NCNameValue, QNameValue};
+use SimpleSAML\XSD\Type\{MaxOccursValue, MinOccursValue};
 
 use function array_merge;
 use function array_pop;
@@ -63,10 +64,12 @@ final class Sequence extends AbstractExplicitGroup implements
         $particles = array_merge($all, $choice, $localElement, $referencedGroup, $sequence);
 
         return new static(
-            nestedParticles: $particles,
-            annotation: array_pop($annotation),
-            id: self::getOptionalAttribute($xml, 'id', IDValue::class, null),
-            namespacedAttributes: self::getAttributesNSFromXML($xml),
+            self::getOptionalAttribute($xml, 'minOccurs', MinOccursValue::class, null),
+            self::getOptionalAttribute($xml, 'maxOccurs', MaxOccursValue::class, null),
+            $particles,
+            array_pop($annotation),
+            self::getOptionalAttribute($xml, 'id', IDValue::class, null),
+            self::getAttributesNSFromXML($xml),
         );
     }
 }

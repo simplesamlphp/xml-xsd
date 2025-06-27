@@ -7,7 +7,6 @@ namespace SimpleSAML\XSD\XML\xsd;
 use DOMElement;
 use SimpleSAML\Assert\Assert;
 use SimpleSAML\XML\Exception\{InvalidDOMElementException, SchemaViolationException, TooManyElementsException};
-use SimpleSAML\XML\{SchemaValidatableElementInterface, SchemaValidatableElementTrait};
 use SimpleSAML\XML\Type\{IDValue, NCNameValue, QNameValue};
 use SimpleSAML\XSD\Type\{MaxOccursValue, MinOccursValue};
 
@@ -19,14 +18,8 @@ use function array_pop;
  *
  * @package simplesamlphp/xml-xsd
  */
-final class Choice extends AbstractExplicitGroup implements
-    NestedParticleInterface,
-    ParticleInterface,
-    SchemaValidatableElementInterface,
-    TypeDefParticleInterface
+final class SimpleChoice extends AbstractSimpleExplicitGroup
 {
-    use SchemaValidatableElementTrait;
-
     /** @var string */
     public const LOCALNAME = 'choice';
 
@@ -52,6 +45,13 @@ final class Choice extends AbstractExplicitGroup implements
         $ref = self::getOptionalAttribute($xml, 'ref', QNameValue::class, null);
         Assert::null($ref, SchemaViolationException::class);
 
+        $minOccurs = self::getOptionalAttribute($xml, 'minOccurs', MinOccursValue::class, null);
+        Assert::null($minOccurs, SchemaViolationException::class);
+
+        $maxOccurs = self::getOptionalAttribute($xml, 'maxOccurs', MaxOccursValue::class, null);
+        Assert::null($maxOccurs, SchemaViolationException::class);
+
+        // Start here
         $annotation = Annotation::getChildrenOfClass($xml);
         Assert::maxCount($annotation, 1, TooManyElementsException::class);
 
@@ -64,12 +64,10 @@ final class Choice extends AbstractExplicitGroup implements
         $particles = array_merge($all, $choice, $localElement, $referencedGroup, $sequence);
 
         return new static(
-            self::getOptionalAttribute($xml, 'minOccurs', MinOccursValue::class, null),
-            self::getOptionalAttribute($xml, 'maxOccurs', MaxOccursValue::class, null),
-            $particles,
-            array_pop($annotation),
-            self::getOptionalAttribute($xml, 'id', IDValue::class, null),
-            self::getAttributesNSFromXML($xml),
+            nestedParticles: $particles,
+            annotation: array_pop($annotation),
+            id: self::getOptionalAttribute($xml, 'id', IDValue::class, null),
+            namespacedAttributes: self::getAttributesNSFromXML($xml),
         );
     }
 }
