@@ -16,6 +16,7 @@ use SimpleSAML\XSD\Type\{BlockSetValue, FormChoiceValue, MaxOccursValue, MinOccu
 use SimpleSAML\XSD\XML\xsd\AbstractAnnotated;
 use SimpleSAML\XSD\XML\xsd\AbstractElement;
 use SimpleSAML\XSD\XML\xsd\AbstractLocalElement;
+use SimpleSAML\XSD\XML\xsd\AbstractNarrowMaxMin;
 use SimpleSAML\XSD\XML\xsd\AbstractOpenAttrs;
 use SimpleSAML\XSD\XML\xsd\AbstractXsdElement;
 use SimpleSAML\XSD\XML\xsd\Annotation;
@@ -39,6 +40,7 @@ use function strval;
  */
 #[Group('xs')]
 #[CoversClass(NarrowMaxMinElement::class)]
+#[CoversClass(AbstractNarrowMaxMin::class)]
 #[CoversClass(AbstractLocalElement::class)]
 #[CoversClass(AbstractElement::class)]
 #[CoversClass(AbstractAnnotated::class)]
