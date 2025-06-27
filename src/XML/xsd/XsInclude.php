@@ -87,7 +87,7 @@ final class XsInclude extends AbstractAnnotated implements SchemaValidatableElem
         Assert::maxCount($annotation, 1, TooManyElementsException::class);
 
         return new static(
-            self::getOptionalAttribute($xml, 'schemaLocation', AnyURIValue::class),
+            self::getAttribute($xml, 'schemaLocation', AnyURIValue::class),
             array_pop($annotation),
             self::getOptionalAttribute($xml, 'id', IDValue::class, null),
             self::getAttributesNSFromXML($xml),

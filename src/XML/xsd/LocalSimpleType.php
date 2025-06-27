@@ -61,7 +61,7 @@ final class LocalSimpleType extends AbstractLocalSimpleType
         Assert::null($final, SchemaViolationException::class);
 
         return new static(
-            array_pop($derivation),
+            $derivation[0],
             array_pop($annotation),
             self::getOptionalAttribute($xml, 'id', IDValue::class, null),
             self::getAttributesNSFromXML($xml),

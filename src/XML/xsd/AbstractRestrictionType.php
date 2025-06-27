@@ -102,7 +102,7 @@ abstract class AbstractRestrictionType extends AbstractAnnotated
         if ($this->getParticle() !== null) {
             $this->getParticle()->toXML($e);
         } elseif ($this->getLocalSimpleType() !== null || $this->getFacets() !== []) {
-            $this->getLocalSimpleType()->toXML($e);
+            $this->getLocalSimpleType()?->toXML($e);
 
             foreach ($this->getFacets() as $facet) {
                 $facet->toXML($e);

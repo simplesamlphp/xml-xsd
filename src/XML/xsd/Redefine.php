@@ -34,7 +34,7 @@ final class Redefine extends AbstractOpenAttrs implements SchemaValidatableEleme
      * @param array<\SimpleSAML\XML\Attribute> $namespacedAttributes
      */
     public function __construct(
-        protected ?AnyURIValue $schemaLocation,
+        protected AnyURIValue $schemaLocation,
         protected ?IDValue $id = null,
         protected array $redefineElements = [],
         array $namespacedAttributes = [],

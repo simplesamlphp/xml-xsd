@@ -61,8 +61,8 @@ final class NamedGroup extends AbstractNamedGroup implements
         $annotation = Annotation::getChildrenOfClass($xml);
         Assert::maxCount($annotation, 1, TooManyElementsException::class);
 
-        $all = All::getChildrenOfClass($xml);
-        Assert::maxCount($all, 1, TooManyElementsException::class);
+        $any = All::getChildrenOfClass($xml);
+        Assert::maxCount($any, 1, TooManyElementsException::class);
 
         $choice = Choice::getChildrenOfClass($xml);
         Assert::maxCount($choice, 1, TooManyElementsException::class);
@@ -70,11 +70,11 @@ final class NamedGroup extends AbstractNamedGroup implements
         $sequence = Sequence::getChildrenOfClass($xml);
         Assert::maxCount($sequence, 1, TooManyElementsException::class);
 
-        $particle = array_merge($all, $choice, $sequence);
+        $particle = array_merge($any, $choice, $sequence);
         Assert::maxCount($particle, 1, TooManyElementsException::class);
 
         return new static(
-            array_pop($particle),
+            $particle[0],
             name: self::getAttribute($xml, 'name', NCNameValue::class),
             annotation: array_pop($annotation),
             id: self::getOptionalAttribute($xml, 'id', IDValue::class, null),

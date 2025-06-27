@@ -18,7 +18,7 @@ use function array_pop;
  *
  * @package simplesamlphp/xml-xsd
  */
-final class LocalElement extends AbstractLocalElement
+final class LocalElement extends AbstractLocalElement implements NestedParticleInterface
 {
     /** @var string */
     public const LOCALNAME = 'element';

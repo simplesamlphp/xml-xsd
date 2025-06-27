@@ -54,13 +54,13 @@ final class SimpleSequence extends AbstractSimpleExplicitGroup
         $annotation = Annotation::getChildrenOfClass($xml);
         Assert::maxCount($annotation, 1, TooManyElementsException::class);
 
-        $all = All::getChildrenOfClass($xml);
+        $any = Any::getChildrenOfClass($xml);
         $choice = Choice::getChildrenOfClass($xml);
         $localElement = LocalElement::getChildrenOfClass($xml);
         $referencedGroup = ReferencedGroup::getChildrenOfClass($xml);
         $sequence = Sequence::getChildrenOfClass($xml);
 
-        $particles = array_merge($all, $choice, $localElement, $referencedGroup, $sequence);
+        $particles = array_merge($any, $choice, $localElement, $referencedGroup, $sequence);
 
         return new static(
             nestedParticles: $particles,

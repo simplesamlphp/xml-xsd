@@ -101,7 +101,7 @@ final class Field extends AbstractAnnotated implements SchemaValidatableElementI
         Assert::maxCount($annotation, 1, TooManyElementsException::class);
 
         return new static(
-            self::getOptionalAttribute($xml, 'xpath', StringValue::class),
+            self::getAttribute($xml, 'xpath', StringValue::class),
             array_pop($annotation),
             self::getOptionalAttribute($xml, 'id', IDValue::class, null),
             self::getAttributesNSFromXML($xml),

@@ -37,7 +37,7 @@ final class Appinfo extends AbstractXsdElement implements SchemaValidatableEleme
     /**
      * Appinfo constructor
      *
-     * @param \DOMNodeList $content
+     * @param \DOMNodeList<\DOMNode> $content
      * @param \SimpleSAML\XML\Type\AnyURIValue|null $source
      * @param array<\SimpleSAML\XML\Attribute> $namespacedAttributes
      */
@@ -53,7 +53,7 @@ final class Appinfo extends AbstractXsdElement implements SchemaValidatableEleme
     /**
      * Get the content property.
      *
-     * @return \DOMNodeList
+     * @return \DOMNodeList<\DOMNode>
      */
     public function getContent(): DOMNodeList
     {

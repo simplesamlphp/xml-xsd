@@ -69,7 +69,7 @@ final class Key extends AbstractKeybase implements IdentityConstraintInterface, 
 
         return new static(
             self::getAttribute($xml, 'name', NCNameValue::class),
-            array_pop($selector),
+            $selector[0],
             $field,
             array_pop($annotation),
             self::getOptionalAttribute($xml, 'id', IDValue::class, null),

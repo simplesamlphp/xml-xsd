@@ -60,7 +60,7 @@ final class TopLevelSimpleType extends AbstractTopLevelSimpleType implements
         Assert::maxCount($derivation, 1, TooManyElementsException::class);
 
         return new static(
-            array_pop($derivation),
+            $derivation[0],
             self::getAttribute($xml, 'name', NCNameValue::class),
             self::getOptionalAttribute($xml, 'final', SimpleDerivationSetValue::class, null),
             array_pop($annotation),

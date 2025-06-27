@@ -32,8 +32,8 @@ final class Notation extends AbstractAnnotated implements
      * Notation constructor
      *
      * @param \SimpleSAML\XML\Type\NCNameValue $name
-     * @param \SimpleSAML\XSD\Type\PublicValue $public
-     * @param \SimpleSAML\XML\Type\AnyURIValue $system
+     * @param \SimpleSAML\XSD\Type\PublicValue|null $public
+     * @param \SimpleSAML\XML\Type\AnyURIValue|null $system
      * @param \SimpleSAML\XSD\XML\xsd\Annotation|null $annotation
      * @param \SimpleSAML\XML\Type\IDValue|null $id
      * @param array<\SimpleSAML\XML\Attribute> $namespacedAttributes
@@ -64,9 +64,9 @@ final class Notation extends AbstractAnnotated implements
     /**
      * Collect the value of the public-property
      *
-     * @return \SimpleSAML\XSD\Type\PublicValue
+     * @return \SimpleSAML\XSD\Type\PublicValue|null
      */
-    public function getPublic(): PublicValue
+    public function getPublic(): ?PublicValue
     {
         return $this->public;
     }
@@ -125,7 +125,7 @@ final class Notation extends AbstractAnnotated implements
         Assert::maxCount($annotation, 1, TooManyElementsException::class);
 
         return new static(
-            self::getOptionalAttribute($xml, 'name', NCNameValue::class),
+            self::getAttribute($xml, 'name', NCNameValue::class),
             self::getOptionalAttribute($xml, 'public', PublicValue::class, null),
             self::getOptionalAttribute($xml, 'system', AnyURIValue::class, null),
             array_pop($annotation),

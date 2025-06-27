@@ -16,7 +16,6 @@ use SimpleSAML\XML\{SchemaValidatableElementInterface, SchemaValidatableElementT
 use SimpleSAML\XML\Type\{IDValue, NCNameValue, QNameValue};
 use SimpleSAML\XSD\Type\{MinOccursValue, MaxOccursValue};
 
-use function array_merge;
 use function array_pop;
 
 /**
@@ -62,17 +61,11 @@ final class All extends AbstractAll implements
 
         // The content
         $narrowMaxMin = NarrowMaxMinElement::getChildrenOfClass($xml);
-        $choice = Choice::getChildrenOfClass($xml);
-        $sequence = Sequence::getChildrenOfClass($xml);
-
-        $particles = array_merge($narrowMaxMin, $choice, $sequence);
-        Assert::minCount($particles, 1, MissingElementException::class);
-        Assert::maxCount($particles, 1, TooManyElementsException::class);
 
         return new static(
             self::getOptionalAttribute($xml, 'minCount', MinOccursValue::class, null),
             self::getOptionalAttribute($xml, 'maxCount', MaxOccursValue::class, null),
-            $particles,
+            $narrowMaxMin,
             annotation: array_pop($annotation),
             id: self::getOptionalAttribute($xml, 'id', IDValue::class, null),
             namespacedAttributes: self::getAttributesNSFromXML($xml),

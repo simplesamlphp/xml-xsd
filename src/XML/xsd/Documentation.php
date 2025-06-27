@@ -44,7 +44,7 @@ final class Documentation extends AbstractXsdElement implements SchemaValidatabl
     /**
      * Documentation constructor
      *
-     * @param \DOMNodeList $content
+     * @param \DOMNodeList<\DOMNode> $content
      * @param \SimpleSAML\XML\Attribute|null $lang
      * @param \SimpleSAML\XML\Type\AnyURIValue|null $source
      * @param array<\SimpleSAML\XML\Attribute> $namespacedAttributes
@@ -62,7 +62,7 @@ final class Documentation extends AbstractXsdElement implements SchemaValidatabl
     /**
      * Get the content property.
      *
-     * @return \DOMNodeList
+     * @return \DOMNodeList<\DOMNode>
      */
     public function getContent(): DOMNodeList
     {

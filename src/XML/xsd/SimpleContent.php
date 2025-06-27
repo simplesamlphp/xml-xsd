@@ -108,7 +108,7 @@ final class SimpleContent extends AbstractAnnotated implements SchemaValidatable
         Assert::maxCount($content, 1, TooManyElementsException::class);
 
         return new static(
-            array_pop($content),
+            $content[0],
             array_pop($annotation),
             self::getOptionalAttribute($xml, 'id', IDValue::class, null),
             self::getAttributesNSFromXML($xml),

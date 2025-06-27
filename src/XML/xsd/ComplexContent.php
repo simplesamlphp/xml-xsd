@@ -126,7 +126,7 @@ final class ComplexContent extends AbstractAnnotated implements SchemaValidatabl
         Assert::maxCount($content, 1, TooManyElementsException::class);
 
         return new static(
-            array_pop($content),
+            $content[0],
             self::getOptionalAttribute($xml, 'mixed', BooleanValue::class, null),
             array_pop($annotation),
             self::getOptionalAttribute($xml, 'id', IDValue::class, null),

@@ -100,7 +100,7 @@ final class Keyref extends AbstractKeybase implements IdentityConstraintInterfac
         return new static(
             self::getAttribute($xml, 'refer', QNameValue::class),
             self::getAttribute($xml, 'name', NCNameValue::class),
-            array_pop($selector),
+            $selector[0],
             $field,
             array_pop($annotation),
             self::getOptionalAttribute($xml, 'id', IDValue::class, null),
