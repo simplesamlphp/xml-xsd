@@ -31,7 +31,7 @@ use SimpleSAML\XSD\XML\xsd\AbstractXsdElement;
 use SimpleSAML\XSD\XML\xsd\Annotation;
 use SimpleSAML\XSD\XML\xsd\AnyAttribute;
 use SimpleSAML\XSD\XML\xsd\Appinfo;
-use SimpleSAML\XSD\XML\xsd\Attribute;
+use SimpleSAML\XSD\XML\xsd\LocalAttribute;
 use SimpleSAML\XSD\XML\xsd\TopLevelComplexType;
 use SimpleSAML\XSD\XML\xsd\DerivationControlEnum;
 use SimpleSAML\XSD\XML\xsd\Documentation;
@@ -156,7 +156,7 @@ final class TopLevelComplexTypeTest extends TestCase
             null, // content
             $referencedGroup,
             [
-                new Attribute(
+                new LocalAttribute(
                     type: QNameValue::fromString('{http://www.w3.org/2001/XMLSchema}xsd:integer'),
                     name: NCNameValue::fromString('phpunit'),
                 ),

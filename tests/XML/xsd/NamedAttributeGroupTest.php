@@ -22,7 +22,7 @@ use SimpleSAML\XSD\XML\xsd\AbstractXsdElement;
 use SimpleSAML\XSD\XML\xsd\Annotation;
 use SimpleSAML\XSD\XML\xsd\AnyAttribute;
 use SimpleSAML\XSD\XML\xsd\Appinfo;
-use SimpleSAML\XSD\XML\xsd\Attribute;
+use SimpleSAML\XSD\XML\xsd\LocalAttribute;
 use SimpleSAML\XSD\XML\xsd\NamedAttributeGroup;
 use SimpleSAML\XSD\XML\xsd\Documentation;
 //use SimpleSAML\XSD\XML\xsd\NamespaceEnum;
@@ -133,7 +133,7 @@ final class NamedAttributeGroupTest extends TestCase
         $attributeGroup = new NamedAttributeGroup(
             NCNameValue::fromString("number"),
             [
-                new Attribute(
+                new LocalAttribute(
                     type: QNameValue::fromString('{http://www.w3.org/2001/XMLSchema}xsd:integer'),
                     name: NCNameValue::fromString('phpunit'),
                 ),

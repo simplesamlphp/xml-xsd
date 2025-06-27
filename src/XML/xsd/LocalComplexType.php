@@ -79,9 +79,9 @@ final class LocalComplexType extends AbstractLocalComplexType
         $particles = array_merge($referencedGroup, $all, $choice, $sequence);
         Assert::maxCount($particles, 1, TooManyElementsException::class);
 
-        $attribute = Attribute::getChildrenOfClass($xml);
+        $localAttribute = LocalAttribute::getChildrenOfClass($xml);
         $referencedAttributeGroup = ReferencedAttributeGroup::getChildrenOfClass($xml);
-        $attributes = array_merge($attribute, $referencedAttributeGroup);
+        $attributes = array_merge($localAttribute, $referencedAttributeGroup);
 
         $anyAttribute = AnyAttribute::getChildrenOfClass($xml);
         Assert::maxCount($anyAttribute, 1, TooManyElementsException::class);

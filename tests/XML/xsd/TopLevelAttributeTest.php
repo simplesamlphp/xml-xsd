@@ -19,7 +19,7 @@ use SimpleSAML\XSD\XML\xsd\AbstractTopLevelAttribute;
 use SimpleSAML\XSD\XML\xsd\AbstractXsdElement;
 use SimpleSAML\XSD\XML\xsd\Annotation;
 use SimpleSAML\XSD\XML\xsd\Appinfo;
-use SimpleSAML\XSD\XML\xsd\Attribute;
+use SimpleSAML\XSD\XML\xsd\TopLevelAttribute;
 use SimpleSAML\XSD\XML\xsd\Documentation;
 use SimpleSAML\XSD\XML\xsd\LocalSimpleType;
 use SimpleSAML\XSD\XML\xsd\Restriction;
@@ -33,13 +33,13 @@ use function strval;
  * @package simplesamlphp/xml-xsd
  */
 #[Group('xs')]
-#[CoversClass(Attribute::class)]
+#[CoversClass(TopLevelAttribute::class)]
 #[CoversClass(AbstractTopLevelAttribute::class)]
 #[CoversClass(AbstractAttribute::class)]
 #[CoversClass(AbstractAnnotated::class)]
 #[CoversClass(AbstractOpenAttrs::class)]
 #[CoversClass(AbstractXsdElement::class)]
-final class AttributeTest extends TestCase
+final class TopLevelAttributeTest extends TestCase
 {
     use SchemaValidationTestTrait;
     use SerializableElementTestTrait;
@@ -49,10 +49,10 @@ final class AttributeTest extends TestCase
      */
     public static function setUpBeforeClass(): void
     {
-        self::$testedClass = Attribute::class;
+        self::$testedClass = TopLevelAttribute::class;
 
         self::$xmlRepresentation = DOMDocumentFactory::fromFile(
-            dirname(__FILE__, 3) . '/resources/xml/attribute.xml',
+            dirname(__FILE__, 3) . '/resources/xml/topLevelAttribute.xml',
         );
     }
 
@@ -131,9 +131,9 @@ final class AttributeTest extends TestCase
             [$attr4],
         );
 
-        $attribute = new Attribute(
-            QNameValue::fromString('{http://www.w3.org/2001/XMLSchema}xsd:integer'),
+        $attribute = new TopLevelAttribute(
             NCNameValue::fromString('number'),
+            QNameValue::fromString('{http://www.w3.org/2001/XMLSchema}xsd:integer'),
             StringValue::fromString('1'),
             StringValue::fromString('1'),
             $simpleType,

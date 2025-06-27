@@ -55,9 +55,9 @@ final class Extension extends AbstractExtensionType
         $particles = array_merge($referencedGroup, $all, $choice, $sequence);
         Assert::maxCount($particles, 1, TooManyElementsException::class);
 
-        $attribute = Attribute::getChildrenOfClass($xml);
+        $localAttribute = LocalAttribute::getChildrenOfClass($xml);
         $attributeGroup = ReferencedAttributeGroup::getChildrenOfClass($xml);
-        $attributes = array_merge($attribute, $attributeGroup);
+        $attributes = array_merge($localAttribute, $attributeGroup);
 
         $anyAttribute = AnyAttribute::getChildrenOfClass($xml);
         Assert::maxCount($anyAttribute, 1, TooManyElementsException::class);

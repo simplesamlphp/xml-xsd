@@ -11,49 +11,36 @@ use SimpleSAML\XML\Attribute as XMLAttribute;
 use SimpleSAML\XML\Constants as C;
 use SimpleSAML\XML\DOMDocumentFactory;
 use SimpleSAML\XML\TestUtils\SerializableElementTestTrait;
-use SimpleSAML\XML\Type\{
-    AnyURIValue,
-    BooleanValue,
-    IDValue,
-    NCNameValue,
-    NonNegativeIntegerValue,
-    PositiveIntegerValue,
-    QNameValue,
-    StringValue,
-};
-use SimpleSAML\XML\XsNamespace as NS;
-use SimpleSAML\XSD\Type\{DerivationSetValue, NamespaceListValue, ProcessContentsValue, WhiteSpaceValue};
+use SimpleSAML\XML\Type\{AnyURIValue, IDValue, NCNameValue, QNameValue, StringValue};
+use SimpleSAML\XSD\Type\{FormChoiceValue, UseValue};
 use SimpleSAML\XSD\XML\xsd\AbstractAnnotated;
-use SimpleSAML\XSD\XML\xsd\AbstractComplexType;
+use SimpleSAML\XSD\XML\xsd\AbstractAttribute;
 use SimpleSAML\XSD\XML\xsd\AbstractOpenAttrs;
-use SimpleSAML\XSD\XML\xsd\AbstractLocalComplexType;
 use SimpleSAML\XSD\XML\xsd\AbstractXsdElement;
 use SimpleSAML\XSD\XML\xsd\Annotation;
-use SimpleSAML\XSD\XML\xsd\AnyAttribute;
 use SimpleSAML\XSD\XML\xsd\Appinfo;
 use SimpleSAML\XSD\XML\xsd\Documentation;
+use SimpleSAML\XSD\XML\xsd\FormChoiceEnum;
 use SimpleSAML\XSD\XML\xsd\LocalAttribute;
-use SimpleSAML\XSD\XML\xsd\LocalComplexType;
-use SimpleSAML\XSD\XML\xsd\ProcessContentsEnum;
-use SimpleSAML\XSD\XML\xsd\ReferencedAttributeGroup;
-use SimpleSAML\XSD\XML\xsd\ReferencedGroup;
+use SimpleSAML\XSD\XML\xsd\LocalSimpleType;
+use SimpleSAML\XSD\XML\xsd\Restriction;
+use SimpleSAML\XSD\XML\xsd\UseEnum;
 
 use function dirname;
 use function strval;
 
 /**
- * Tests for xs:complexType
+ * Tests for xs:attribute
  *
  * @package simplesamlphp/xml-xsd
  */
 #[Group('xs')]
-#[CoversClass(LocalComplexType::class)]
-#[CoversClass(AbstractLocalComplexType::class)]
-#[CoversClass(AbstractComplexType::class)]
+#[CoversClass(LocalAttribute::class)]
+#[CoversClass(AbstractAttribute::class)]
 #[CoversClass(AbstractAnnotated::class)]
 #[CoversClass(AbstractOpenAttrs::class)]
 #[CoversClass(AbstractXsdElement::class)]
-final class LocalComplexTypeTest extends TestCase
+final class LocalAttributeTest extends TestCase
 {
     use SerializableElementTestTrait;
 
@@ -62,10 +49,10 @@ final class LocalComplexTypeTest extends TestCase
      */
     public static function setUpBeforeClass(): void
     {
-        self::$testedClass = LocalComplexType::class;
+        self::$testedClass = LocalAttribute::class;
 
         self::$xmlRepresentation = DOMDocumentFactory::fromFile(
-            dirname(__FILE__, 3) . '/resources/xml/localComplexType.xml',
+            dirname(__FILE__, 3) . '/resources/xml/localAttribute.xml',
         );
     }
 
@@ -74,7 +61,7 @@ final class LocalComplexTypeTest extends TestCase
 
 
     /**
-     * Test creating a LocalComplexType object from scratch.
+     * Test creating an Attribute object from scratch.
      */
     public function testMarshalling(): void
     {
@@ -131,42 +118,36 @@ final class LocalComplexTypeTest extends TestCase
             [$attr3],
         );
 
-        $anyAttribute = new AnyAttribute(
-            NamespaceListValue::fromEnum(NS::ANY),
-            ProcessContentsValue::fromEnum(ProcessContentsEnum::Strict),
+        $restriction = new Restriction(
             null,
-            IDValue::fromString('phpunit_anyattribute'),
+            [],
+            QNameValue::fromString('{http://www.w3.org/2001/XMLSchema}xsd:nonNegativeInteger'),
         );
 
-        $referencedGroup = new ReferencedGroup(
-            QNameValue::fromString("{http://www.w3.org/2001/XMLSchema}xsd:nestedParticle"),
+        $simpleType = new LocalSimpleType(
+            $restriction,
             null,
-            IDValue::fromString('phpunit_group'),
+            IDValue::fromString('phpunit_simpleType'),
             [$attr4],
         );
 
-        $localComplexType = new LocalComplexType(
-            BooleanValue::fromBoolean(true),
-            null, // content
-            $referencedGroup,
-            [
-                new LocalAttribute(
-                    type: QNameValue::fromString('{http://www.w3.org/2001/XMLSchema}xsd:integer'),
-                    name: NCNameValue::fromString('phpunit'),
-                ),
-                new ReferencedAttributeGroup(
-                    QNameValue::fromString('{http://www.w3.org/2001/XMLSchema}xsd:defRef'),
-                ),
-            ],
-            $anyAttribute,
+        $attribute = new LocalAttribute(
+            null,
+            null,
+            QNameValue::fromString('{http://www.w3.org/XML/1998/namespace}xml:lang'),
+            UseValue::fromEnum(UseEnum::Required),
+            StringValue::fromString('en'),
+            StringValue::fromString('en'),
+            FormChoiceValue::fromEnum(FormChoiceEnum::Unqualified),
+            $simpleType,
             $annotation,
-            IDValue::fromString('phpunit_complexType'),
+            IDValue::fromString('phpunit_attribute'),
             [$attr4],
         );
 
         $this->assertEquals(
             self::$xmlRepresentation->saveXML(self::$xmlRepresentation->documentElement),
-            strval($localComplexType),
+            strval($attribute),
         );
     }
 }

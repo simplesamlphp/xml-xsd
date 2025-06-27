@@ -23,7 +23,6 @@ use SimpleSAML\XSD\Type\{
 use SimpleSAML\XSD\XML\xsd\AbstractOpenAttrs;
 use SimpleSAML\XSD\XML\xsd\AbstractXsdElement;
 use SimpleSAML\XSD\XML\xsd\Annotation;
-use SimpleSAML\XSD\XML\xsd\Attribute;
 use SimpleSAML\XSD\XML\xsd\DerivationControlEnum;
 use SimpleSAML\XSD\XML\xsd\Documentation;
 use SimpleSAML\XSD\XML\xsd\Field;
@@ -34,6 +33,7 @@ use SimpleSAML\XSD\XML\xsd\LocalSimpleType;
 use SimpleSAML\XSD\XML\xsd\Restriction;
 use SimpleSAML\XSD\XML\xsd\Schema;
 use SimpleSAML\XSD\XML\xsd\Selector;
+use SimpleSAML\XSD\XML\xsd\TopLevelAttribute;
 use SimpleSAML\XSD\XML\xsd\TopLevelElement;
 
 use function dirname;
@@ -198,9 +198,9 @@ final class SchemaTest extends TestCase
             [$attr4],
         );
 
-        $attribute = new Attribute(
-            QNameValue::fromString('{http://www.w3.org/2001/XMLSchema}xsd:integer'),
+        $attribute = new TopLevelAttribute(
             NCNameValue::fromString('number'),
+            QNameValue::fromString('{http://www.w3.org/2001/XMLSchema}xsd:integer'),
             StringValue::fromString('1'),
             StringValue::fromString('1'),
             $simpleType,

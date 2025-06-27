@@ -18,7 +18,7 @@ use function array_pop;
  *
  * @package simplesamlphp/xml-xsd
  */
-final class Attribute extends AbstractTopLevelAttribute implements
+final class TopLevelAttribute extends AbstractTopLevelAttribute implements
     SchemaTopInterface,
     SchemaValidatableElementInterface
 {
@@ -59,8 +59,8 @@ final class Attribute extends AbstractTopLevelAttribute implements
         Assert::maxCount($simpleType, 1, TooManyElementsException::class);
 
         return new static(
-            self::getAttribute($xml, 'type', QNameValue::class),
             self::getAttribute($xml, 'name', NCNameValue::class),
+            self::getOptionalAttribute($xml, 'type', QNameValue::class, null),
             self::getOptionalAttribute($xml, 'default', StringValue::class, null),
             self::getOptionalAttribute($xml, 'fixed', StringValue::class, null),
             array_pop($simpleType),

@@ -29,7 +29,7 @@ abstract class AbstractRestrictionType extends AbstractAnnotated
      * @param \SimpleSAML\XSD\XML\xsd\TypeDefParticleInterface|null $particle
      * @param \SimpleSAML\XSD\XML\xsd\LocalSimpleType|null $localSimpleType
      * @param array<\SimpleSAML\XSD\XML\xsd\FacetInterface> $facets
-     * @param array<\SimpleSAML\XSD\XML\xsd\Attribute|\SimpleSAML\XSD\XML\xsd\ReferencedAttributeGroup> $attributes
+     * @param array<\SimpleSAML\XSD\XML\xsd\LocalAttribute|\SimpleSAML\XSD\XML\xsd\ReferencedAttributeGroup> $attributes
      * @param \SimpleSAML\XSD\XML\xsd\AnyAttribute|null $anyAttribute
      * @param \SimpleSAML\XSD\XML\xsd\Annotation|null $annotation
      * @param \SimpleSAML\XML\Type\IDValue|null $id

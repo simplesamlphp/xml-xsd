@@ -31,11 +31,11 @@ use SimpleSAML\XSD\XML\xsd\AbstractXsdElement;
 use SimpleSAML\XSD\XML\xsd\Annotation;
 use SimpleSAML\XSD\XML\xsd\AnyAttribute;
 use SimpleSAML\XSD\XML\xsd\Appinfo;
-use SimpleSAML\XSD\XML\xsd\Attribute;
 use SimpleSAML\XSD\XML\xsd\Documentation;
 use SimpleSAML\XSD\XML\xsd\Enumeration;
 use SimpleSAML\XSD\XML\xsd\FractionDigits;
 use SimpleSAML\XSD\XML\xsd\Length;
+use SimpleSAML\XSD\XML\xsd\LocalAttribute;
 use SimpleSAML\XSD\XML\xsd\LocalSimpleType;
 use SimpleSAML\XSD\XML\xsd\MaxExclusive;
 use SimpleSAML\XSD\XML\xsd\MaxInclusive;
@@ -256,7 +256,7 @@ final class SimpleRestrictionTest extends TestCase
             $localSimpleType,
             $facets,
             [
-                new Attribute(
+                new LocalAttribute(
                     type: QNameValue::fromString('{http://www.w3.org/2001/XMLSchema}xsd:integer'),
                     name: NCNameValue::fromString('phpunit'),
                 ),

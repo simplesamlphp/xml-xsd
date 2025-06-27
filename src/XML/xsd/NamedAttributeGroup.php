@@ -49,9 +49,9 @@ final class NamedAttributeGroup extends AbstractNamedAttributeGroup implements
         $annotation = Annotation::getChildrenOfClass($xml);
         Assert::maxCount($annotation, 1, TooManyElementsException::class);
 
-        $attribute = Attribute::getChildrenOfClass($xml);
+        $localAttribute = LocalAttribute::getChildrenOfClass($xml);
         $attributeGroup = ReferencedAttributeGroup::getChildrenOfClass($xml);
-        $attributes = array_merge($attribute, $attributeGroup);
+        $attributes = array_merge($localAttribute, $attributeGroup);
 
         $anyAttribute = AnyAttribute::getChildrenOfClass($xml);
 

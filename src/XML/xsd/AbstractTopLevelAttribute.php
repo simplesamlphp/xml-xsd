@@ -23,8 +23,8 @@ abstract class AbstractTopLevelAttribute extends AbstractAttribute
     /**
      * TopLevelAttribute constructor
      *
-     * @param \SimpleSAML\XML\Type\QNameValue $type
      * @param \SimpleSAML\XML\Type\NCNameValue $name
+     * @param \SimpleSAML\XML\Type\QNameValue $type
      * @param \SimpleSAML\XML\Type\StringValue|null $default
      * @param \SimpleSAML\XML\Type\StringValue|null $fixed
      * @param \SimpleSAML\XSD\XML\xsd\LocalSimpleType|null $simpleType
@@ -33,8 +33,8 @@ abstract class AbstractTopLevelAttribute extends AbstractAttribute
      * @param array<\SimpleSAML\XML\Attribute> $namespacedAttributes
      */
     public function __construct(
-        QNameValue $type,
         NCNameValue $name,
+        ?QNameValue $type = null,
         ?StringValue $default = null,
         ?StringValue $fixed = null,
         ?LocalSimpleType $simpleType = null,

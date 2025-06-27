@@ -49,7 +49,7 @@ final class Schema extends AbstractOpenAttrs implements SchemaValidatableElement
      *     \SimpleSAML\XSD\XML\xsd\TopLevelComplexType|
      *     \SimpleSAML\XSD\XML\xsd\NamedGroup|
      *     \SimpleSAML\XSD\XML\xsd\NamedAttributeGroup|
-     *     \SimpleSAML\XSD\XML\xsd\Attribute|
+     *     \SimpleSAML\XSD\XML\xsd\TopLevelAttribute|
      *     \SimpleSAML\XSD\XML\xsd\TopLevelElement|
      *     \SimpleSAML\XSD\XML\xsd\Notation|
      *     \SimpleSAML\XSD\XML\xsd\Annotation
@@ -86,7 +86,7 @@ final class Schema extends AbstractOpenAttrs implements SchemaValidatableElement
             $schemaTopElements,
             [
                 RedefinableInterface::class,
-                Attribute::class,
+                TopLevelAttribute::class,
                 TopLevelElement::class,
                 Notation::class,
                 Annotation::class,
@@ -119,7 +119,7 @@ final class Schema extends AbstractOpenAttrs implements SchemaValidatableElement
      *
      * @return (
      *     \SimpleSAML\XSD\XML\xsd\RedefinableInterface|
-     *     \SimpleSAML\XSD\XML\xsd\Attribute|
+     *     \SimpleSAML\XSD\XML\xsd\TopLevelAttribute|
      *     \SimpleSAML\XSD\XML\xsd\TopLevelElement|
      *     \SimpleSAML\XSD\XML\xsd\Notation|
      *     \SimpleSAML\XSD\XML\xsd\Annotation
@@ -287,7 +287,7 @@ final class Schema extends AbstractOpenAttrs implements SchemaValidatableElement
 
         $afterAllowed = [
             'annotation' => Annotation::class,
-            'attribute' => Attribute::class,
+            'attribute' => TopLevelAttribute::class,
             'attributeGroup' => NamedAttributeGroup::class,
             'complexType' => TopLevelComplexType::class,
             'element' => TopLevelElement::class,

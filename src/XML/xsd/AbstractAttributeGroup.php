@@ -22,7 +22,7 @@ abstract class AbstractAttributeGroup extends AbstractAnnotated
     /**
      * AttributeGroup constructor
      *
-     * @param array<\SimpleSAML\XSD\XML\xsd\Attribute|\SimpleSAML\XSD\XML\xsd\ReferencedAttributeGroup> $attributes
+     * @param array<\SimpleSAML\XSD\XML\xsd\LocalAttribute|\SimpleSAML\XSD\XML\xsd\ReferencedAttributeGroup> $attributes
      * @param \SimpleSAML\XSD\XML\xsd\AnyAttribute|null $anyAttribute
      * @param \SimpleSAML\XML\Type\NCNameValue|null $name
      * @param \SimpleSAML\XML\Type\QNameValue|null $reference

@@ -80,6 +80,7 @@ abstract class AbstractElement extends AbstractAnnotated
          */
         Assert::true(is_null($type) || is_null($reference), ProtocolViolationException::class);
         Assert::true(is_null($name) || is_null($reference), ProtocolViolationException::class);
+        Assert::false(is_null($name) && is_null($reference), ProtocolViolationException::class);
 
         /**
          * default and fixed are mutually exclusive

@@ -20,8 +20,8 @@ use SimpleSAML\XSD\XML\xsd\AbstractXsdElement;
 use SimpleSAML\XSD\XML\xsd\Annotation;
 use SimpleSAML\XSD\XML\xsd\AnyAttribute;
 use SimpleSAML\XSD\XML\xsd\Appinfo;
-use SimpleSAML\XSD\XML\xsd\Attribute;
 use SimpleSAML\XSD\XML\xsd\Documentation;
+use SimpleSAML\XSD\XML\xsd\LocalAttribute;
 //use SimpleSAML\XSD\XML\xsd\NamespaceEnum;
 use SimpleSAML\XSD\XML\xsd\ProcessContentsEnum;
 use SimpleSAML\XSD\XML\xsd\ReferencedAttributeGroup;
@@ -130,7 +130,7 @@ final class SimpleContentTest extends TestCase
         $simpleExtension = new SimpleExtension(
             QNameValue::fromString('{http://www.w3.org/2001/XMLSchema}xsd:string'),
             [
-                new Attribute(
+                new LocalAttribute(
                     type: QNameValue::fromString('{http://www.w3.org/2001/XMLSchema}xsd:integer'),
                     name: NCNameValue::fromString('phpunit'),
                 ),
