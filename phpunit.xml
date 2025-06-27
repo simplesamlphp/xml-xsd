@@ -6,9 +6,12 @@
     </report>
   </coverage>
   <testsuites>
-    <testsuite name="Unit tests">
+    <testsuite name="unit">
       <directory>./tests/Type</directory>
       <directory>./tests/XML</directory>
+    </testsuite>
+    <testsuite name="interoperability">
+      <directory>./tests/InterOperability</directory>
     </testsuite>
   </testsuites>
   <logging/>
