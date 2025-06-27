@@ -168,5 +168,7 @@ final class LocalComplexTypeTest extends TestCase
             self::$xmlRepresentation->saveXML(self::$xmlRepresentation->documentElement),
             strval($localComplexType),
         );
+
+        $this->assertFalse($localComplexType->isEmptyElement());
     }
 }

@@ -62,5 +62,7 @@ final class AppinfoTest extends TestCase
             self::$xmlRepresentation->saveXML(self::$xmlRepresentation->documentElement),
             strval($appinfo),
         );
+
+        $this->assertFalse($appinfo->isEmptyElement());
     }
 }

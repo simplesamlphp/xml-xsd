@@ -112,5 +112,7 @@ final class AnnotationTest extends TestCase
             self::$xmlRepresentation->saveXML(self::$xmlRepresentation->documentElement),
             strval($annotation),
         );
+
+        $this->assertFalse($annotation->isEmptyElement());
     }
 }

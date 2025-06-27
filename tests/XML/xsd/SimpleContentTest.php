@@ -155,5 +155,7 @@ final class SimpleContentTest extends TestCase
             self::$xmlRepresentation->saveXML(self::$xmlRepresentation->documentElement),
             strval($simpleContent),
         );
+
+        $this->assertFalse($simpleContent->isEmptyElement());
     }
 }

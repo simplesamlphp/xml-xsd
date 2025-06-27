@@ -151,5 +151,7 @@ final class NamedAttributeGroupTest extends TestCase
             self::$xmlRepresentation->saveXML(self::$xmlRepresentation->documentElement),
             strval($attributeGroup),
         );
+
+        $this->assertFalse($attributeGroup->isEmptyElement());
     }
 }

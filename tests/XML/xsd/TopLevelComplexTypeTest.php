@@ -174,5 +174,7 @@ final class TopLevelComplexTypeTest extends TestCase
             self::$xmlRepresentation->saveXML(self::$xmlRepresentation->documentElement),
             strval($topLevelComplexType),
         );
+
+        $this->assertFalse($topLevelComplexType->isEmptyElement());
     }
 }

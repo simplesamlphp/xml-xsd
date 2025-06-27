@@ -179,5 +179,7 @@ final class LocalElementTest extends TestCase
             self::$xmlRepresentation->saveXML(self::$xmlRepresentation->documentElement),
             strval($localElement),
         );
+
+        $this->assertFalse($localElement->isEmptyElement());
     }
 }

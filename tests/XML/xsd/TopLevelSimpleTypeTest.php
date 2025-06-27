@@ -148,5 +148,7 @@ final class TopLevelSimpleTypeTest extends TestCase
             self::$xmlRepresentation->saveXML(self::$xmlRepresentation->documentElement),
             strval($topLevelSimpleType),
         );
+
+        $this->assertFalse($topLevelSimpleType->isEmptyElement());
     }
 }

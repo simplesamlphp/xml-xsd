@@ -235,5 +235,7 @@ final class SchemaTest extends TestCase
             self::$xmlRepresentation->saveXML(self::$xmlRepresentation->documentElement),
             strval($schema),
         );
+
+        $this->assertFalse($schema->isEmptyElement());
     }
 }

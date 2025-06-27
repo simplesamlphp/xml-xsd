@@ -133,5 +133,7 @@ final class LocalSimpleTypeTest extends TestCase
             self::$xmlRepresentation->saveXML(self::$xmlRepresentation->documentElement),
             strval($localSimpleType),
         );
+
+        $this->assertFalse($localSimpleType->isEmptyElement());
     }
 }
