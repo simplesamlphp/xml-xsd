@@ -8,7 +8,6 @@ use SimpleSAML\XML\Assert\Assert;
 use SimpleSAML\XML\Constants as C;
 use SimpleSAML\XML\Exception\SchemaViolationException;
 use SimpleSAML\XML\Type\NMTokenValue;
-// use SimpleSAML\XSD\XML\xsd\NameSpaceEnum;
 use SimpleSAML\XSD\XML\xsd\DerivationControlEnum;
 
 use function explode;
@@ -34,7 +33,6 @@ class BlockSetValue extends NMTokenValue
         $sanitized = $this->sanitizeValue($value);
 
         if ($sanitized !== '#all' && $sanitized !== '') {
-//        if ($sanitized !== NamespaceEnum::Any && $sanitized !== '') {
             $list = explode(' ', $sanitized, C::UNBOUNDED_LIMIT);
 
             // After filtering the allowed values, there should be nothing left
